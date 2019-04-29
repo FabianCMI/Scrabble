@@ -1,5 +1,5 @@
 /**
- * Jeu de Scrabble (Projet d'APO)
+ * Scrabble game (APO project)
  * Scrabble.java 
  * Main file
  * 

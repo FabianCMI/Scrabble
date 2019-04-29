@@ -1,5 +1,5 @@
 /**
- * Jeu de Scrabble (Projet d'APO)
+ * Scrabble game (APO project)
  * tilesBag.java 
  * this class represents the bag from where we randomly draw the tiles
  * 

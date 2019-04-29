@@ -1,5 +1,5 @@
 /**
- * Jeu de Scrabble (Projet d'APO)
+ * Scrabble game (APO project)
  * Tiles.java 
  * This class represents the different tiles of the game
  * 

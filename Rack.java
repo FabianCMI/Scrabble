@@ -1,5 +1,5 @@
 /**
- *	Jeu de Scrabble (Projet d'APO)
+ *	Scrabble game (APO project)
  *	tiles's rack.java 
  *	this class represents the tiles's rack of a player
  * 

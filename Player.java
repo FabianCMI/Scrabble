@@ -1,5 +1,5 @@
 /**
- * Jeu de Scrabble (Projet d'APO)
+ * Scrabble game (APO project)
  * Player.java 
  * This class represents a player, with his name, his score and his tiles's rack
  * 
