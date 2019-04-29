@@ -1,7 +1,7 @@
 /**
  * Jeu de Scrabble (Projet d'APO)
  * Scrabble.java 
- * fichier principal du jeu
+ * Main file
  * 
  * @author Fabian Devel, Valentin Perignon
  */
