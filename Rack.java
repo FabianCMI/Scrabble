@@ -10,7 +10,7 @@ public class Rack {
 	// ---------- Attributs ----------
 
 	/** Array of 7 tiles */
-	private Tiles[] rack = new tiles[7];
+	private Tiles[] rack = new Tiles[7];
 	
 	// ---------- Constructors ----------
 	

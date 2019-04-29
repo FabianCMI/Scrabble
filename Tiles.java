@@ -11,9 +11,47 @@
 
 	/** Letter */
 	private char letter;
+	private int value;
 	
 	// ---------- Constructors ----------
+
+	/**
+	 * Tiles constructor
+	 * @param letter The letter of the tile
+	 * @param value The value of the tile
+	 */
+	Tiles(char letter, int value) {
+		this.letter = letter;
+		this.value = value;
+	}
 	
+	// ---------- Getters ----------
+
+	/**
+	 * Get the letter
+	 * 
+	 * @return The letter of the tile
+	 */
+	public char getLetter() {
+		return this.letter;
+	}
+
+	/**
+	 * Get the value
+	 * 
+	 * @return The value of the tile
+	 */
+	public int getValue() {
+		return this.value;
+	}
+
 	// ---------- Methods ----------
+
+	/**
+	 * Tile to string
+	 */
+	public String toString() {
+		return String.valueOf(this.letter);
+	}
 	
 }
