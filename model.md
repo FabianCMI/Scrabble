@@ -27,7 +27,7 @@ toString()
 
 ## TilesBag
 ### Attributs
-char[100] letters
+Tiles[100] letters
 ### Constructors
 TilesBag()
 ### Methods
