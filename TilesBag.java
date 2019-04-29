@@ -5,13 +5,13 @@
  * @author Fabian Devel, Valentin Perignon
  */
 
- public class TilesBag {
-	
+public class TilesBag {
+
 	// ---------- Attributs ----------
 
 	/** Array of all letters present in the bag */
 	private Tiles[] letters = new Tiles[100];
-	
+
 	// ---------- Constructors ----------
 
 	TilesBag() {
@@ -79,7 +79,7 @@
 					letter = 'S';
 				else if(i>=82 && i<= 87)
 					letter = 'T';
-				else if(i>=88 && i<= 93)
+				else if(i>=88 && i<= )
 					letter = 'U';
 			}
 
@@ -87,7 +87,7 @@
 			letters[i] = new Tiles(letter, value);
 		}
 	}
-	
+
 	// ---------- Methods ----------
-	
+
 }
