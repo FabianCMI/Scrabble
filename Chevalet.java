@@ -7,7 +7,7 @@
  */
 public class Chevalet {
 	//  Attributs
-	private Lettre lettre1, lettre2, lettre3, lettre4, lettre5 lettre6, lettre7;
+	private Tiles[] rack = new tiles[7];
 	
 	//builders
 	
