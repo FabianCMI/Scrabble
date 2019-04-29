@@ -10,7 +10,7 @@
 	// ---------- Attributs ----------
 
 	/** Array of all letters present in the bag */
-	private char[] letter = new char[100];
+	private char[] letters = new char[100];
 	
 	// ---------- Constructors ----------
 	
