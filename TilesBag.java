@@ -13,6 +13,10 @@
 	private char[] letters = new char[100];
 	
 	// ---------- Constructors ----------
+
+	TilesBag() {
+		
+	}
 	
 	// ---------- Methods ----------
 	
