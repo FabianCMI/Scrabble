@@ -9,7 +9,7 @@ public class Player {
 	//  Attributs
 	private String name;
 	private int score;
-	private Chevalet rack;
+	private Rack rack;
 	
 	//builders
 	
