@@ -6,14 +6,18 @@
  */
 
 public class Player {
-	//  Attributs
+
+	// ---------- Attributs ----------
+
+	/** Player's name */
 	private String name;
+	/** Player's score */
 	private int score;
+	/** Player's rack (with 7 tiles) */
 	private Rack rack;
 	
-	//builders
+	// ---------- Constructors ----------
 	
-	// Methods
-	
+	// ---------- Methods ----------
 	
 }

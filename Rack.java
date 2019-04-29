@@ -6,12 +6,14 @@
  */
 
 public class Rack {
-	//  Attributs
+
+	// ---------- Attributs ----------
+
+	/** Array of 7 tiles */
 	private Tiles[] rack = new tiles[7];
 	
-	//builders
+	// ---------- Constructors ----------
 	
-	// Methods
-	
+	// ---------- Methods ----------
 	
 }

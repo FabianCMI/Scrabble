@@ -6,12 +6,14 @@
  */
 
  public class Tiles {
-	//  Attributs
+	
+	// ---------- Attributs ----------
+
+	/** Letter */
 	private char letter;
 	
-	//Builders
+	// ---------- Constructors ----------
 	
-	// Methods
-	
+	// ---------- Methods ----------
 	
 }

@@ -6,12 +6,14 @@
  */
 
  public class TilesBag {
-	//  Attributs
+	
+	// ---------- Attributs ----------
+
+	/** Array of all letters present in the bag */
 	private char[] letter = new char[100];
 	
-	//builders
+	// ---------- Constructors ----------
 	
-	// Methods
-	
+	// ---------- Methods ----------
 	
 }
