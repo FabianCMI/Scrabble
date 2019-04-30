@@ -38,9 +38,17 @@ drawLetter()
 
 ## Rack
 ### Attributs
-Tiles[7] letters
+Tiles[7] rack
 ### Constructors
 Rack()
 ### Methods
-...
+getRack()
 toString()
+
+## GameBoard
+### Attributs
+Tiles[15][15] gameBoardTab
+### Constructors
+GameBoard()
+### Methods
+...
