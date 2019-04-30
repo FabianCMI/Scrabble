@@ -1,6 +1,6 @@
 /**
- * Scrabble (APO Project - CMI L1) 
- * Tiles.java - Represents the different tiles of the game
+ * Scrabble (APO Project - CMI L1) Tiles.java - Represents the different tiles
+ * of the game
  * 
  * @author Fabian Devel, Valentin Perignon
  */
@@ -24,6 +24,15 @@ public class Tiles {
 	Tiles(char letter, int value) {
 		this.letter = letter;
 		this.value = value;
+	}
+
+	/**
+	 * Tiles constructor
+	 * 
+	 * @param otherTile Another tile
+	 */
+	Tiles(Tiles otherTile) {
+		this(otherTile.getLetter(), otherTile.getValue());
 	}
 
 	// ---------- Getters ----------
@@ -53,6 +62,13 @@ public class Tiles {
 	 */
 	public String toString() {
 		return String.valueOf(this.letter);
+	}
+
+	/**
+	 * Transform the tile into a null tile
+	 */
+	public void setNull() {
+		this.letter = Character.MIN_VALUE;
 	}
 
 }

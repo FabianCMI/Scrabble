@@ -20,6 +20,7 @@ char letter
 int value
 ### Constructors
 Tiles(char letter, int value)
+Tiles(Tiles otherTiles)
 ### Methods
 getLetter()
 getValue()
@@ -28,12 +29,12 @@ toString()
 ## TilesBag
 ### Attributs
 Tiles[100] letters
+int remainingLetters = 100
 ### Constructors
 TilesBag()
 ### Methods
-getNumberRemainingLetters()
+getRemainingLetters()
 drawLetter()
-toString()
 
 ## Rack
 ### Attributs
