@@ -14,6 +14,8 @@ public class TilesBag {
 
 	// ---------- Constructors ----------
 
+	// TODO: Vérifier s'il existe une méthode plus optimisée
+
 	TilesBag() {
 		char letter = 'A';
 		int value;
@@ -84,7 +86,7 @@ public class TilesBag {
 			}
 
 			// Put letter in the array
-			letters[i] = new Tiles(letter, value);
+			this.letters[i] = new Tiles(letter, value);
 		}
 	}
 
