@@ -14,6 +14,8 @@ public class Player {
 	//builders
 	
 	// Methods
-	
+	toString(){
+        Ecran.afficherln(name);
+    }
 	
 }
