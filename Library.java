@@ -1,3 +1,5 @@
+import java.security.interfaces.ECPrivateKey;
+
 /**
  * Scrabble (APO Project - CMI L1) Library.java - Library of useful functions
  * 
@@ -15,7 +17,7 @@ public class Library {
 	 * @return A random integer
 	 */
 	public static int getRandomInt(int low, int up) {
-		return low + (int) (Math.random() * (low - up));
+		return low + (int)(Math.random() * (up - low));
 	}
 
 	/**

@@ -19,13 +19,9 @@ public class Rack {
 	 * Rack constructor
 	 */
 	Rack(){
-		for(int i=0; i<7; i++){
+		for(int i=0; i<this.rack.length; i++){
 			rack[i] = new Tiles();
-			rack[i];
-
-			int num = Library.getRandomInt(bag.getTiles().length);
-			this.rack[i] = new Tiles();
-			this.bag.getTile(num);
+			rack[i] = bag.drawLetter();
 		}			
 	}
 	// ---------- Methods ----------

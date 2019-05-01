@@ -130,10 +130,12 @@ public class TilesBag {
 		int value;
 		Tiles letter;
 
-		// Get letters
+		// Get random letter
 		do {
 			value = Library.getRandomInt(this.letters.length);
 		} while (this.letters[value].getLetter() == Character.MIN_VALUE);
+
+		// Pick letter
 		letter = new Tiles(this.letters[value]);
 		this.remainingLetters -= 1;
 		this.letters[value].setNull();
