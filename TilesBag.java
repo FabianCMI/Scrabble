@@ -22,7 +22,7 @@ public class TilesBag {
 		int value;
 
 		// Letters and values
-		for(int i=0; i<letters.length; i++) {			
+		for(int i=0; i<this.letters.length; i++) {			
 			if(i>=95) { // K, W, X, Y, Z
 				value = 10;
 				if(i == 99)

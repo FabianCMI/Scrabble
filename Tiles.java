@@ -27,7 +27,7 @@ public class Tiles {
 	}
 
 	Tiles(){
-		this('\u0000', 0);
+		this(Character.MIN_VALUE, 0);
 	}
 
 	// ---------- Getters ----------
