@@ -58,7 +58,7 @@ public class Rack {
 	public String toString() {
 		String str = "";
 		for (int i = 0; i < 7; i++) {
-			str += this.rack[i] + " |";
+			str += this.rack[i] + "|";
 		}
 		return (str);
 	}
