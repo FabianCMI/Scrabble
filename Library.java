@@ -1,6 +1,5 @@
 /**
- * Scrabble (APO Project - CMI L1) 
- * Library.java - Library of useful functions
+ * Scrabble (APO Project - CMI L1) Library.java - Library of useful functions
  * 
  * @author Fabian Devel, Valentin Perignon
  */
@@ -22,7 +21,7 @@ public class Library {
 	/**
 	 * Get a random integer in [0, up[
 	 * 
-	 * @param up  Lower bound
+	 * @param up Lower bound
 	 * 
 	 * @return A random integer
 	 */

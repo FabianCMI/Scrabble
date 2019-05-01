@@ -1,6 +1,6 @@
 /**
- * Scrabble (APO Project - CMI L1) 
- * Rack.java - Represents the tiles's rack of a player
+ * Scrabble (APO Project - CMI L1) Rack.java - Represents the tiles's rack of a
+ * player
  * 
  * @author Fabian Devel, Valentin Perignon
  */
@@ -29,12 +29,14 @@ public class Rack {
 		}			
 	}
 	// ---------- Methods ----------
-	
-	/** Get the rack
+
+	/**
+	 * Get the rack
+	 * 
 	 * @return the rack of 7 tiles
 	 */
-	public Tiles[] getRack(){
-		return(this.rack);
+	public Tiles[] getRack() {
+		return (this.rack);
 	}
 
 	/**
@@ -42,10 +44,12 @@ public class Rack {
 	 * 
 	 * @param nbLetters the number of tiles you have to draw
 	 */
-	public void setRack(int nbLetters){
-		/*TODO : décaler les lettres restantes apres la pose d'un 
-		mot pour laisser la place au début du tableau pour les nouvelles lettres*/
-		
+	public void setRack(int nbLetters) {
+		/*
+		 * TODO : décaler les lettres restantes apres la pose d'un mot pour laisser la
+		 * place au début du tableau pour les nouvelles lettres
+		 */
+
 		for (int i = 0; i < nbLetters; i++) {
 			int n = Library.getRandomInt(bag.getTiles().length);
 			this.rack[i] = this.bag.getTile(n);
@@ -55,11 +59,11 @@ public class Rack {
 	/**
 	 * Rack to String
 	 */
-	public String toString(){
+	public String toString() {
 		String str = "";
 		for (int i = 0; i < 7; i++) {
-			str += this.rack[i] + " |"; 
+			str += this.rack[i] + " |";
 		}
-		return(str);
+		return (str);
 	}
 }

@@ -1,6 +1,5 @@
 /**
- * Scrabble (APO Project - CMI L1) 
- * Scrabble.java - Main file
+ * Scrabble (APO Project - CMI L1) Scrabble.java - Main file
  * 
  * @author Fabian Devel, Valentin Perignon
  */
@@ -12,5 +11,5 @@ public class Scrabble {
 		Player player2 = new Player("valentin");
 		System.out.println(player);
 		System.out.println(player2);
-	} 
+	}
 }
