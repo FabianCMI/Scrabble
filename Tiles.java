@@ -26,6 +26,15 @@ public class Tiles {
 		this.value = value;
 	}
 
+	/**
+	 * Tiles constructor
+	 * 
+	 * @param otherTile Another tile
+	 */
+	Tiles(Tiles otherTile) {
+		this(otherTile.getLetter(), otherTile.getValue());
+	}
+
 	Tiles(){
 		this(Character.MIN_VALUE, 0);
 	}
@@ -57,6 +66,13 @@ public class Tiles {
 	 */
 	public String toString() {
 		return String.valueOf(this.letter);
+	}
+
+	/**
+	 * Transform the tile into a null tile
+	 */
+	public void setNull() {
+		this.letter = Character.MIN_VALUE;
 	}
 
 }

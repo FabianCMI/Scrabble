@@ -20,12 +20,16 @@ public class Rack {
 	 */
 	Rack(){
 		for(int i=0; i<7; i++){
+			rack[i] = new Tiles();
+			rack[i];
+
 			int num = Library.getRandomInt(bag.getTiles().length);
 			this.rack[i] = new Tiles();
 			this.bag.getTile(num);
 		}			
 	}
 	// ---------- Methods ----------
+	
 	/** Get the rack
 	 * @return the rack of 7 tiles
 	 */
