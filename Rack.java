@@ -11,9 +11,50 @@ public class Rack {
 
 	/** Array of 7 tiles */
 	private Tiles[] rack = new Tiles[7];
+	private TilesBag bag = new TilesBag();
 
 	// ---------- Constructors ----------
-
+	/**
+	 * Rack constructor
+	 */
+	Rack(){
+		for(int i=0; i<7; i++){
+			int num = Library.getRandomInt(100);
+			this.rack[i] = new Tiles();
+			this.bag.getTile(num);
+		}			
+	}
 	// ---------- Methods ----------
+	/** Get the rack
+	 * @return the rack of 7 tiles
+	 */
+	public Tiles[] getRack(){
+		return(this.rack);
+	}
 
+	/**
+	 * Set the rack with new tiles from the tiles' bag
+	 * 
+	 * @param nbLetters the number of tiles you have to draw
+	 */
+	public void setRack(int nbLetters){
+		/*TODO : décaler les lettres restantes apres la pose d'un 
+		mot pour laisser la place au début du tableau pour les nouvelles lettres*/
+		
+		for (int i = 0; i < nbLetters; i++) {
+			int n = Library.getRandomInt(100);
+			this.rack[i] = this.bag.getTile(n);
+		}
+	}
+
+	/**
+	 * Rack to String
+	 */
+	public String toString(){
+		String str = "";
+		for (int i = 0; i < 7; i++) {
+			str += this.rack[i] + " |"; 
+		}
+		return(str);
+	}
 }
