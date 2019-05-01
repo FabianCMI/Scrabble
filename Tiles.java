@@ -36,6 +36,9 @@ public class Tiles {
 		this(otherTile.getLetter(), otherTile.getValue());
 	}
 
+	/**
+	 * Tiles constructor
+	 */
 	Tiles() {
 		this(Character.MIN_VALUE, 0);
 	}

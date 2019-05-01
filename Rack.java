@@ -32,7 +32,7 @@ public class Rack {
 	 * @return the rack of 7 tiles
 	 */
 	public Tiles[] getRack() {
-		return (this.rack);
+		return this.rack;
 	}
 
 	/**
@@ -40,15 +40,15 @@ public class Rack {
 	 * 
 	 * @param nbLetters the number of tiles you have to draw
 	 */
-	public void setRack(int nbLetters) {
+	public void refreshRack(int nbLetters) {
 		/*
-		 * TODO : décaler les lettres restantes apres la pose d'un mot pour laisser la
+		 * TODO: décaler les lettres restantes apres la pose d'un mot pour laisser la
 		 * place au début du tableau pour les nouvelles lettres
 		 */
 
 		for (int i = 0; i < nbLetters; i++) {
 			int n = Library.getRandomInt(bag.getTiles().length);
-			this.rack[i] = this.bag.getTile(n);
+			this.rack[i] = this.bag.getTiles()[n];
 		}
 	}
 

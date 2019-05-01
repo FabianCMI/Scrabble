@@ -1,5 +1,3 @@
-import java.security.interfaces.ECPrivateKey;
-
 /**
  * Scrabble (APO Project - CMI L1) Library.java - Library of useful functions
  * 

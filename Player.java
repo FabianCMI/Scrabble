@@ -28,6 +28,13 @@ public class Player {
 		this.rack = new Rack();
 	}
 
+	/**
+	 * Player constructor
+	 */
+	Player() {
+		this("Sans nom");
+	}
+
 	// ---------- Methods ----------
 	/**
 	 * Get the name of the player
@@ -35,7 +42,7 @@ public class Player {
 	 * @return the name
 	 */
 	public String getName() {
-		return (this.name);
+		return this.name;
 	}
 
 	/**
@@ -44,7 +51,7 @@ public class Player {
 	 * @return the score
 	 */
 	public int getScore() {
-		return (this.score);
+		return this.score;
 	}
 
 	/**
@@ -53,25 +60,16 @@ public class Player {
 	 * @return the rack
 	 */
 	public Rack getRack() {
-		return (this.rack);
+		return this.rack;
 	}
 
 	/**
 	 * Increase the player's score
 	 * 
-	 * @param addScore The number by which the score will be increase
+	 * @param  value The number by which the score will be increase
 	 */
-	public void setScore(int addScore) {
-		this.score += addScore;
-	}
-
-	/**
-	 * Draw new tiles from the bag
-	 * 
-	 * @param nbLetters The number of tiles you want to draw
-	 */
-	public void setRack(int nbLetters) {
-		rack.setRack(nbLetters);
+	public void increaseScore(int value) {
+		this.score += value;
 	}
 
 	/**

@@ -1,19 +1,6 @@
 Objects model
 ===================================
 
-## Player
-### Attributs
-String name
-int score
-Rack rack
-### Constructors
-Player(String name)
-### Methods
-getName()
-getScore()
-increaseScore()
-toString()
-
 ## Tiles
 ### Attributs
 char letter
@@ -21,9 +8,12 @@ int value
 ### Constructors
 Tiles(char letter, int value)
 Tiles(Tiles otherTiles)
-### Methods
+Tiles()
+### Getters
 getLetter()
 getValue()
+### Methods
+setNull()
 toString()
 
 ## TilesBag
@@ -32,17 +22,38 @@ Tiles[100] letters
 int remainingLetters = 100
 ### Constructors
 TilesBag()
-### Methods
+### Getters
+getTiles()
 getRemainingLetters()
+### Methods
 drawLetter()
 
 ## Rack
 ### Attributs
 Tiles[7] rack
+TilesBag bag
 ### Constructors
 Rack()
-### Methods
+### Getters
 getRack()
+### Methods
+toString()
+
+## Player
+### Attributs
+String name
+int score
+Rack rack
+### Constructors
+Player(String name)
+Player()
+### Getters
+getName()
+getScore()
+getRack()
+### Methods
+refreshRack()
+increaseScore()
 toString()
 
 ## GameBoard
@@ -52,3 +63,4 @@ Tiles[15][15] gameBoardTab
 GameBoard()
 ### Methods
 ...
+toString()

@@ -97,15 +97,6 @@ public class TilesBag {
 	// ---------- Getters ----------
 
 	/**
-	 * Get one tile of the bag
-	 * 
-	 * @return The tile
-	 */
-	public Tiles getTile(int numLetters) {
-		return this.letters[numLetters];
-	}
-
-	/**
 	 * Get the array of tiles of the bag
 	 * 
 	 * @return The array with all the tiles
