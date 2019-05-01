@@ -22,7 +22,6 @@ public class Library {
 	/**
 	 * Get a random integer in [0, up[
 	 * 
-	 * @param low Upper bound
 	 * @param up  Lower bound
 	 * 
 	 * @return A random integer
