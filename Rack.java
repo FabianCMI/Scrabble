@@ -11,6 +11,7 @@ public class Rack {
 
 	/** Array of 7 tiles */
 	private Tiles[] rack = new Tiles[7];
+	/** Bag of tiles */
 	private TilesBag bag = new TilesBag();
 
 	// ---------- Constructors ----------
@@ -19,7 +20,7 @@ public class Rack {
 	 */
 	Rack(){
 		for(int i=0; i<7; i++){
-			int num = Library.getRandomInt(100);
+			int num = Library.getRandomInt(bag.getTiles().length);
 			this.rack[i] = new Tiles();
 			this.bag.getTile(num);
 		}			
@@ -42,7 +43,7 @@ public class Rack {
 		mot pour laisser la place au début du tableau pour les nouvelles lettres*/
 		
 		for (int i = 0; i < nbLetters; i++) {
-			int n = Library.getRandomInt(100);
+			int n = Library.getRandomInt(bag.getTiles().length);
 			this.rack[i] = this.bag.getTile(n);
 		}
 	}

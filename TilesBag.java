@@ -17,7 +17,7 @@ public class TilesBag {
 	// TODO: Vérifier s'il existe une méthode plus optimisée
 
 	TilesBag() {
-		char letter = 'A';
+		char letter;
 		int value;
 		for(int i=0; i<letters.length; i++) {
 			// Letters and values
@@ -59,7 +59,7 @@ public class TilesBag {
 				value = 2;
 				if(i>=78)
 					letter = 'M';
-				else if(i>=76	)
+				else if(i>=76)
 					letter = 'G';
 				else
 					letter = 'D';
