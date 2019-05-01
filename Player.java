@@ -16,11 +16,12 @@ public class Player {
 	/** Player's rack (with 7 tiles) */
 	private Rack rack;
 	
-	//builders
+	// ---------- Constructors ----------
 	
-	// Methods
-	toString(){
-        Ecran.afficherln(name);
+	// ---------- Methods ----------
+	
+	public String toString(){
+        return name;
     }
 	
 }
