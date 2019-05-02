@@ -15,15 +15,17 @@ public class Rack {
 	private TilesBag bag = new TilesBag();
 
 	// ---------- Constructors ----------
+
 	/**
 	 * Rack constructor
 	 */
-	Rack(){
-		for(int i=0; i<this.rack.length; i++){
+	Rack() {
+		for (int i = 0; i < this.rack.length; i++) {
 			rack[i] = new Tiles();
 			rack[i] = bag.drawLetter();
-		}			
+		}
 	}
+
 	// ---------- Methods ----------
 
 	/**

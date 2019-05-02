@@ -64,3 +64,16 @@ GameBoard()
 ### Methods
 ...
 toString()
+
+## Game
+### Attributs
+Player player1
+Player player2
+Gameboard gameboard
+### Constructors
+Game(String namePlayer1, String namePlayer2)
+Game()
+### Getters
+getPlayer1()
+getPlayer2()
+getGameBoard()

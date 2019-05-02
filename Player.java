@@ -17,6 +17,7 @@ public class Player {
 	private Rack rack;
 
 	// ---------- Constructors ----------
+
 	/**
 	 * Player constructor
 	 * 
@@ -36,6 +37,7 @@ public class Player {
 	}
 
 	// ---------- Methods ----------
+
 	/**
 	 * Get the name of the player
 	 * 
@@ -66,7 +68,7 @@ public class Player {
 	/**
 	 * Increase the player's score
 	 * 
-	 * @param  value The number by which the score will be increase
+	 * @param value The number by which the score will be increase
 	 */
 	public void increaseScore(int value) {
 		this.score += value;

@@ -12,4 +12,10 @@ public class GameBoard {
 	/** Tab game board */
 	Tiles[][] gameBoardTab = new Tiles[15][15];
 
+	// ---------- Constructors ----------
+
+	GameBoard() {
+
+	}
+
 }
