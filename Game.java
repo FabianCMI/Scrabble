@@ -17,21 +17,11 @@ public class Game {
 
 	/**
 	 * Game constructor
-	 * 
-	 * @param namePlayer1 Name of the first player
-	 * @param namePlayer2 Name of the second player
-	 */
-	Game(String namePlayer1, String namePlayer2) {
-		this.player1 = new Player(namePlayer1);
-		this.player2 = new Player(namePlayer2);
-	}
-
-	/**
-	 * Game constructor
 	 */
 	Game() {
-		this.player1 = new Player("Player1");
-		this.player2 = new Player("Player2");
+		String[] names = initGame();
+		player1 = new Player(names[0]);
+		player2 = new Player(names[1]);
 	}
 
 	// ---------- Getters ----------
@@ -61,6 +51,26 @@ public class Game {
 	 */
 	public GameBoard getGameBoard() {
 		return this.gameboard;
+	}
+
+	// ---------- Methods ----------
+
+	/**
+	 * Ask players for their names
+	 * 
+	 * @return Array of names
+	 */
+	public String[] initGame() {
+		// Variables
+		String[] names = new String[2];
+
+		// Treatment
+		Ecran.afficher("Saisir le nom du premier joueur : ");
+		names[0] = Clavier.saisirString();
+		Ecran.afficher("Saisir le nom du second joueur : ");
+		names[1] = Clavier.saisirString();
+
+		return names;
 	}
 
 }

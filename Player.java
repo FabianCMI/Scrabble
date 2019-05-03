@@ -78,6 +78,6 @@ public class Player {
 	 * Player to String
 	 */
 	public String toString() {
-		return ("Joueur : " + this.name + "\n" + this.rack.toString());
+		return ("Joueur : " + this.name + "\nChevalet : " + this.rack.toString());
 	}
 }
