@@ -38,18 +38,15 @@ public class Rack {
 	}
 
 	/**
-	 * Set the rack with new tiles from the tiles' bag
+	 *  Change some tiles in a rack
 	 * 
 	 * @param nbLetters the number of tiles you have to draw
 	 */
-	public void refreshRack(int nbLetters) {
-		// Variables
-		int n;
-
-		// Treatment
-		for (int i = 0; i < nbLetters; i++) {
-			n = Library.getRandomInt(bag.getTiles().length);
-			this.rack[i] = this.bag.drawLetter();
+	public void refreshRack(int... indexLetter) {
+		if(indexLetter.length <= 7) {
+			for(int i=0; i<indexLetter.length; i++) {
+				this.rack[i] = this.bag.drawLetter();
+			}
 		}
 	}
 
