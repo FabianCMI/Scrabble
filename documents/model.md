@@ -7,24 +7,22 @@ char letter
 int value
 ### Constructors
 Tiles(char letter, int value)
-Tiles(Tiles otherTiles)
 Tiles()
 ### Getters
 getLetter()
 getValue()
 ### Methods
-setNull()
 toString()
 
 ## TilesBag
 ### Attributs
 Tiles[100] letters
-int remainingLetters = 100
+int lettersLength = 100
 ### Constructors
 TilesBag()
 ### Getters
 getTiles()
-getRemainingLetters()
+getLettersLength()
 ### Methods
 drawLetter()
 
@@ -52,18 +50,26 @@ getName()
 getScore()
 getRack()
 ### Methods
-refreshRack()
-increaseScore()
+refreshRack(int... indexLetters)
+increaseScore(int value)
 toString()
 
 ## GameBoard
 ### Attributs
-Tiles[15][15] gameBoardTab
+Tiles[15][15] grid
 ### Constructors
 GameBoard()
 ### Methods
 ...
 toString()
+
+## Square
+### Attributs
+...
+### Constructors
+...
+### Methods
+...
 
 ## Game
 ### Attributs
@@ -71,9 +77,10 @@ Player player1
 Player player2
 Gameboard gameboard
 ### Constructors
-Game(String namePlayer1, String namePlayer2)
 Game()
 ### Getters
 getPlayer1()
 getPlayer2()
 getGameBoard()
+### Methods
+initGame()

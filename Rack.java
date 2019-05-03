@@ -38,19 +38,15 @@ public class Rack {
 	}
 
 	/**
-	 * Set the rack with new tiles from the tiles' bag
+	 *  Change some tiles in a rack
 	 * 
 	 * @param nbLetters the number of tiles you have to draw
 	 */
-	public void refreshRack(int nbLetters) {
-		/*
-		 * TODO: décaler les lettres restantes apres la pose d'un mot pour laisser la
-		 * place au début du tableau pour les nouvelles lettres
-		 */
-
-		for (int i = 0; i < nbLetters; i++) {
-			int n = Library.getRandomInt(bag.getTiles().length);
-			this.rack[i] = this.bag.getTiles()[n];
+	public void refreshRack(int... indexLetter) {
+		if(indexLetter.length <= 7) {
+			for(int i=0; i<indexLetter.length; i++) {
+				this.rack[i] = this.bag.drawLetter();
+			}
 		}
 	}
 
@@ -58,9 +54,9 @@ public class Rack {
 	 * Rack to String
 	 */
 	public String toString() {
-		String str = "";
+		String str = "| ";
 		for (int i = 0; i < 7; i++) {
-			str += this.rack[i] + "|";
+			str += this.rack[i] + " | ";
 		}
 		return (str);
 	}
