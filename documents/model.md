@@ -56,12 +56,20 @@ toString()
 
 ## GameBoard
 ### Attributs
-Tiles[15][15] gameBoardTab
+Tiles[15][15] grid
 ### Constructors
 GameBoard()
 ### Methods
 ...
 toString()
+
+## Square
+### Attributs
+...
+### Constructors
+...
+### Methods
+...
 
 ## Game
 ### Attributs
