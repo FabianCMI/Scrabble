@@ -12,7 +12,7 @@ public class TilesBag {
 	/** Array of all letters present in the bag */
 	private Tiles[] letters = new Tiles[100];
 	/** Number of remaining letters in the bag */
-	private int remainingLetters = 100;
+	private int lettersLength = 100;
 
 	// ---------- Constructors ----------
 
@@ -110,26 +110,28 @@ public class TilesBag {
 	 * 
 	 * @return The value of remaining letters
 	 */
-	public int getRemainingLetters() {
-		return this.remainingLetters;
+	public int getLettersLength() {
+		return this.lettersLength;
 	}
 
 	// ---------- Methods ----------
 
 	public Tiles drawLetter() {
 		// Variables
-		int value;
 		Tiles letter;
+		int index;
 
-		// Get random letter
-		do {
-			value = Library.getRandomInt(this.letters.length);
-		} while (this.letters[value].getLetter() == Character.MIN_VALUE);
+		// Get a random tile from the bag
+		index = Library.getRandomInt(this.lettersLength);
+		letter = this.letters[index];
 
-		// Pick letter
-		letter = new Tiles(this.letters[value]);
-		this.remainingLetters -= 1;
-		this.letters[value].setNull();
+		// "Remove" it from the bag
+		lettersLength -= 1;
+		if(this.lettersLength > 0) {
+			Tiles tmpTile = this.letters[index];
+			this.letters[index] = this.letters[this.lettersLength - 1];
+			this.letters[this.lettersLength - 1] = tmpTile;
+		}
 
 		return letter;
 	}
