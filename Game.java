@@ -9,9 +9,9 @@ public class Game {
 
 	// ---------- Attributs ----------
 
-	Player player1;
-	Player player2;
-	GameBoard gameboard = new GameBoard();
+	private Player player1;
+	private Player player2;
+	private GameBoard gameboard = new GameBoard();
 
 	// ---------- Constructors ----------
 

@@ -21,7 +21,7 @@ public class GameBoard {
 		int multiplicator = 1;
 		boolean typeBonus = false;
 		int lastN = this.grid.length-1;
-		int midN = this.grid.length/2-1;
+		int midN = lastN/2;
 		for (int i = 0; i <= lastN; i++) {
 			for (int j = 0; j <= lastN; j++) {
 				/* ----Fill the square with the score multiplicator---- */
@@ -50,13 +50,15 @@ public class GameBoard {
 				|| testLetterMult(i, j, midN-1, midN-1, lastN) // case 4b, 5b
 				){
 					multiplicator = 2;
+					typeBonus = false;
 				}	
-					//letter x 3
+					// letter x 3
 				else if(testLetterMult(i, j, 1, midN-2, lastN)
 				|| testLetterMult(i, j, midN-2, 1, lastN)
 				|| testLetterMult(i, j, midN-2, midN-2, lastN)
 				){
 					multiplicator = 3;
+					typeBonus = false;
 				}
 				
 				this.grid[i][j] = new Square(new Tiles(), multiplicator, typeBonus, i, j);
@@ -64,7 +66,7 @@ public class GameBoard {
 		}
 	}
 
-	// ---------- Methods ----------
+	// ---------- Methods -----------
 
 	/**
 	 * test 2 columns(symetrics from the centered column) of the grid to 
@@ -123,5 +125,57 @@ public class GameBoard {
 			}
 		}
         return(score);
-    }
+	}
+	
+	/**
+	 * Get the grid
+	 */
+	public Square[][] getGrid(){
+		return this.grid;
+	}
+
+	public String toString(){
+		String str = "";
+		for (int i = 0; i <= this.grid.length+1; i++) {
+			for (int j = 0; j <= this.grid.length+1; j++) {
+				switch (i) {
+					case 0:
+					if (j<this.grid.length+1)
+						str += "~ ~ ";
+					else 
+						str += "\n";
+					break;
+					
+					case 16:
+						if (j<this.grid.length+1)
+							str += "~ ~ ";
+						else 
+							str += "\n";
+						break;
+
+					default:
+						switch (j) {
+							case 0:
+								str+="||";
+								break;
+							
+							case 16:
+								str += "|\n";
+								break;
+		
+							default:
+								if(this.grid[i-1][j-1].getTile().getLetter() == Character.MIN_VALUE){
+									str += " . |";
+								} else	
+								str += " " + this.grid[i-1][j-1].getTile().getLetter() + " |";
+								break;
+							
+						}
+						break;
+				}
+			}
+			
+		}
+		return(str);
+	}
 }
