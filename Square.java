@@ -49,6 +49,24 @@ public class Square {
     }
 
     /**
+	 * Get the score multiplicator
+	 * 
+	 * @return The value of the multiplicator
+	 */
+    public int getScoreMult(){
+        return(this.scoreMultiplicator);
+    }
+
+    /**
+	 * Get the type of the multiplicator
+	 * 
+	 * @return The type of the multiplicator
+	 */
+    public boolean getTypeScoreMult(){
+        return(this.typeScoreMult);
+    }
+
+    /**
 	 * Get the abscissa of the square 
 	 * 
 	 * @return The abscissa 
