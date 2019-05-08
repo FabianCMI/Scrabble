@@ -97,11 +97,12 @@ public class GameBoard {
 	 * @param firstLetter The square where the first letter of the word is
 	 * @param wordLength The number of letter in the word
 	 * @param horizontal The orientation of the word on the grid (true : horizontal, false : vertical)
+	 * @param scrabble True if the player made a 'scrabble' (7 letters posed in once)
 	 * @return The score of the word
 	 */
-    public int wordScoreCalcul(Square firstLetter, int wordLength, boolean horizontal){
-		int score = firstLetter.tileScoreCalcul();
-		int tempMult = 1;
+    public int wordScoreCalcul(Square firstLetter, int wordLength, boolean horizontal, boolean scrabble){
+		int score = 0;
+		int tempMult = 0;
 		int abs = firstLetter.getAbscissa();
 		int ord = firstLetter.getOrdinate();
 		int newAbs, newOrd;
@@ -109,22 +110,26 @@ public class GameBoard {
 			newAbs = abs+i;
 			newOrd = ord+i;
     	if(horizontal){
+				if(this.grid[abs][newOrd].getTypeScoreMult()){
+					score += this.grid[abs][newOrd].tileScoreCalcul();
+					tempMult = tempMult + this.grid[abs][newOrd].getScoreMult();
+				} else {
+					score += this.grid[abs][newOrd].tileScoreCalcul();
+				}
+      } else {
 				if(this.grid[newAbs][ord].getTypeScoreMult()){
 					score += this.grid[newAbs][ord].tileScoreCalcul();
 					tempMult = tempMult * this.grid[newAbs][ord].getScoreMult();
 				} else{
 					score += this.grid[newAbs][ord].tileScoreCalcul();
 				}
-      } else {
-				if(this.grid[abs][newOrd].getTypeScoreMult()){
-					score += this.grid[abs][newOrd].tileScoreCalcul();
-					tempMult = tempMult * this.grid[abs][newOrd].getScoreMult();
-				} else{
-					score += this.grid[abs][newOrd].tileScoreCalcul();
-				}
 			}
 		}
-        return(score);
+		score = score*tempMult;
+		if(scrabble){
+			score += 50;
+		}
+    return(score);
 	}
 	
 	/**
@@ -165,23 +170,17 @@ public class GameBoard {
 		
 							default:
 								if(this.grid[i][j].getTile().getLetter() == Character.MIN_VALUE){
-									if(this.grid[i][j].getScoreMult()==3){
+									if(this.grid[i][j].getScoreMult()>1)
 										str += " * |";
-									}else if (this.grid[i][j].getScoreMult()==2){
-										str += " + |";
-									} else {
+									else
 										str += " . |";
-									}
-
 								} else	
-								str += " " + this.grid[i-1][j-1].getTile().getLetter() + " |";
+								str += " " + this.grid[i][j].getTile().getLetter() + " |";
 								break;
-							
 						}
 						break;
 				}
 			}
-			
 		}
 		return(str);
 	}
