@@ -18,12 +18,14 @@ public class GameBoard {
 	 * gameboard's constructor
 	 */
 	GameBoard() {
-		int multiplicator = 1;
-		boolean typeBonus = false;
+		int multiplicator;
+		boolean typeBonus;
 		int lastN = this.grid.length-1;
 		int midN = lastN/2;
 		for (int i = 0; i <= lastN; i++) {
 			for (int j = 0; j <= lastN; j++) {
+				multiplicator = 1;
+				typeBonus = false;
 				/* ----Fill the square with the score multiplicator---- */
 					// word x 3
 				if(i == 0 || i == midN || i == lastN){
@@ -33,16 +35,13 @@ public class GameBoard {
 					}
 				}
 					// word x 2
-				if(i >= 1 && i < lastN && (j == i || j == lastN-i)){
-					multiplicator = 2;
-					typeBonus = true;
-				}
-					// letter x 2
-				if(i == 0 || i == lastN){
-					if(j == 3 || j == lastN-3){
+				if(i >= 1 && i < lastN){
+					if(j == i || j == lastN-i){
 						multiplicator = 2;
+						typeBonus = true;
 					}
 				}
+					// letter x 2
 				if(testLetterMult(i, j, 0, 3, lastN) //case 1, 8
 				|| testLetterMult(i, j, 3, 0, lastN) //case 3, 6
 				|| testLetterMult(i, j, 2, midN-1, lastN) // case 2, 7
@@ -53,7 +52,7 @@ public class GameBoard {
 					typeBonus = false;
 				}	
 					// letter x 3
-				else if(testLetterMult(i, j, 1, midN-2, lastN)
+				if(testLetterMult(i, j, 1, midN-2, lastN)
 				|| testLetterMult(i, j, midN-2, 1, lastN)
 				|| testLetterMult(i, j, midN-2, midN-2, lastN)
 				){
@@ -74,18 +73,18 @@ public class GameBoard {
 	 * 
 	 * @param x the abscissa of the grid's square
 	 * @param y the ordinate of the grid's square
-	 * @param m the number to add or substract from the columns to obtain
+	 * @param m the number to add or substract from the lines to obtain
 	 * 	the square's abscissa
-	 * @param n the number to add or substract from the lines to obtain 
+	 * @param n the number to add or substract from the columns to obtain 
 	 * 	the square's ordinate
 	 * @param lastN the last column or line of the grid 
 	 * @return true if the coordinate given by the parameters correspond 
 	 * 	to a score multiplicator's square
 	 */
-	private boolean testLetterMult(int x, int y, int m, int n, int lastN){
+	private boolean testLetterMult(int i, int j, int m, int n, int lastN){
 		boolean testOk = false;
-		if(x == m || x == lastN-m){
-			if(y == n || y == lastN-n){
+		if(i == m || i == lastN-m){
+			if(j == n || j == lastN-n){
 				testOk = true;
 			}
 		}
@@ -101,24 +100,25 @@ public class GameBoard {
 	 * @return The score of the word
 	 */
     public int wordScoreCalcul(Square firstLetter, int wordLength, boolean horizontal){
-		int score = 0;
+		int score = firstLetter.tileScoreCalcul();
+		int tempMult = 1;
 		int abs = firstLetter.getAbscissa();
 		int ord = firstLetter.getOrdinate();
 		int newAbs, newOrd;
 		for(int i = 0; i < wordLength; i++){
 			newAbs = abs+i;
 			newOrd = ord+i;
-        	if(horizontal){
+    	if(horizontal){
 				if(this.grid[newAbs][ord].getTypeScoreMult()){
-					score += this.grid[newAbs][ord].tileScoreCalcul()
-					*this.grid[newAbs][ord].getScoreMult();
+					score += this.grid[newAbs][ord].tileScoreCalcul();
+					tempMult = tempMult * this.grid[newAbs][ord].getScoreMult();
 				} else{
 					score += this.grid[newAbs][ord].tileScoreCalcul();
 				}
-        	} else {
+      } else {
 				if(this.grid[abs][newOrd].getTypeScoreMult()){
-					score += this.grid[abs][newOrd].tileScoreCalcul()
-					*this.grid[abs][newOrd].getScoreMult();
+					score += this.grid[abs][newOrd].tileScoreCalcul();
+					tempMult = tempMult * this.grid[abs][newOrd].getScoreMult();
 				} else{
 					score += this.grid[abs][newOrd].tileScoreCalcul();
 				}
@@ -136,18 +136,18 @@ public class GameBoard {
 
 	public String toString(){
 		String str = "";
-		for (int i = 0; i <= this.grid.length+1; i++) {
-			for (int j = 0; j <= this.grid.length+1; j++) {
+		for (int i = -1; i <= this.grid.length; i++) {
+			for (int j = -1; j <= this.grid.length; j++) {
 				switch (i) {
-					case 0:
-					if (j<this.grid.length+1)
+					case -1:
+					if (j<this.grid.length)
 						str += "~ ~ ";
 					else 
 						str += "\n";
 					break;
 					
-					case 16:
-						if (j<this.grid.length+1)
+					case 15:
+						if (j<this.grid.length)
 							str += "~ ~ ";
 						else 
 							str += "\n";
@@ -155,17 +155,24 @@ public class GameBoard {
 
 					default:
 						switch (j) {
-							case 0:
+							case -1:
 								str+="||";
 								break;
 							
-							case 16:
+							case 15:
 								str += "|\n";
 								break;
 		
 							default:
-								if(this.grid[i-1][j-1].getTile().getLetter() == Character.MIN_VALUE){
-									str += " . |";
+								if(this.grid[i][j].getTile().getLetter() == Character.MIN_VALUE){
+									if(this.grid[i][j].getScoreMult()==3){
+										str += " * |";
+									}else if (this.grid[i][j].getScoreMult()==2){
+										str += " + |";
+									} else {
+										str += " . |";
+									}
+
 								} else	
 								str += " " + this.grid[i-1][j-1].getTile().getLetter() + " |";
 								break;

@@ -104,4 +104,13 @@ public class Square {
         }
         return(this.tile.getValue()*this.scoreMultiplicator);
     }
+
+    public String toString(){
+        if(this.typeScoreMult){
+            return(this.tile + "\nMultiplicateur : " + this.scoreMultiplicator + 
+            "\n Type : mot\nx:" + this.x + "\ny:" + this.y);
+        }
+        return(this.tile + "\nMultiplicateur : " + this.scoreMultiplicator + 
+        "\nType : lettre\nx:" + this.x + "\ny:" + this.y);
+    }
 }
