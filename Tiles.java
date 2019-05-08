@@ -54,6 +54,9 @@ public class Tiles {
 		return this.value;
 	}
 
+	public void setLetter(char letter){
+		this.letter = letter;
+	}
 	// ---------- Methods ----------
 
 	/**

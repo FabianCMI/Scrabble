@@ -1,3 +1,5 @@
+import javax.swing.JOptionPane;
+
 /**
  * Scrabble (APO Project - CMI L1) Scrabble.java - Main file
  * 
@@ -9,7 +11,7 @@ public class Scrabble {
 	public static void main(String[] args) {
 		// Variables
 		Game game = new Game();
-		game.getGameBoard().grid[14][0].setTile(new Tiles('D', 2));
+		/*game.getGameBoard().grid[14][0].setTile(new Tiles('D', 2));
 		game.getGameBoard().grid[14][1].setTile(new Tiles('E', 1));
 		game.getGameBoard().grid[14][2].setTile(new Tiles('S', 1));
 		game.getGameBoard().grid[14][3].setTile(new Tiles('H', 4));
@@ -24,7 +26,13 @@ public class Scrabble {
 		game.getGameBoard().grid[14][12].setTile(new Tiles('I', 1));
 		game.getGameBoard().grid[14][13].setTile(new Tiles('E', 1));
 		game.getGameBoard().grid[14][14].setTile(new Tiles('Z', 10));
+		System.out.println("Score : " + game.getGameBoard().wordScoreCalcul(game.getGameBoard().grid[14][0], 15, true, true));*/
+		
+		// game execution
 		System.out.println(game.getGameBoard());
-		System.out.println("Score : " + game.getGameBoard().wordScoreCalcul(game.getGameBoard().grid[14][0], 15, true, true));
+		int firstPlayer = (int)(Math.random()*game.nbPlayer);		
+		JOptionPane.showMessageDialog(null, game.getPlayer(firstPlayer).getName() + " commence !\nVoici votre chevalet : " + game.getPlayer(firstPlayer).getRack(), "Tirage au sort", JOptionPane.INFORMATION_MESSAGE);
+		game.playerAction(game.getPlayer(firstPlayer));
+		System.out.println(game.getGameBoard());
 	}
 }
