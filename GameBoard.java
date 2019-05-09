@@ -102,7 +102,7 @@ public class GameBoard {
 	 */
     public int wordScoreCalcul(Square firstLetter, int wordLength, boolean horizontal, boolean scrabble){
 		int score = 0;
-		int tempMult = 0;
+		int tempMult = 1;
 		int abs = firstLetter.getAbscissa();
 		int ord = firstLetter.getOrdinate();
 		int newAbs, newOrd;
@@ -112,7 +112,7 @@ public class GameBoard {
     	if(horizontal){
 				if(this.grid[abs][newOrd].getTypeScoreMult()){
 					score += this.grid[abs][newOrd].tileScoreCalcul();
-					tempMult = tempMult + this.grid[abs][newOrd].getScoreMult();
+					tempMult = tempMult * this.grid[abs][newOrd].getScoreMult();
 				} else {
 					score += this.grid[abs][newOrd].tileScoreCalcul();
 				}
