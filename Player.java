@@ -65,6 +65,20 @@ public class Player {
 		return this.rack;
 	}
 
+	public boolean isRackNull() {
+		// Variable
+		boolean areAllNull = true;
+
+		// Treatement
+		for(int i=0; i<this.rack.getTiles().length) {
+			if(this.rack.getTiles()[i] == null) {
+				areAllNull = false;
+			}
+		}
+
+		return areAllNull;
+	}
+
 	/**
 	 * Increase the player's score
 	 * 
