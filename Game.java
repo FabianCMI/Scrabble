@@ -29,7 +29,7 @@ public class Game {
 			nbPlayerInput = Clavier.saisirInt();
 		}
 		this.nbPlayer = nbPlayerInput;
-		player = new Player[nbPlayer];
+		player = new Player[this.nbPlayer];
 
 		// Names
 		String[] names = initGame();
@@ -52,8 +52,8 @@ public class Game {
 	 * @param numPlayer The wanted player's numero
 	 * @return The player designed by the numero given in parameter
 	 */
-	public Player getPlayer(int numPlayer) {
-		return this.player[numPlayer];
+	public Player[] getPlayer() {
+		return this.player;
 	}
 
 	/**
@@ -94,19 +94,42 @@ public class Game {
 		this.nbTour += 1;
 
 		// Action entry
-		Ecran.afficherln("1 : Poser un mot\n2 : Piocher des tuiles\n3 : Passer son tour ");
-		numAction = correctCapture("l'action voulue", 1, 3);
+		Ecran.afficher("Que souhaitez-vous faire ?\n 1- Poser des lettres\n 2- Piocher des lettres\n 3- Passer votre tour\nQue souhaitez-vous faire : ");
+		numAction = Clavier.saisirInt();
+		while(numAction < 1 || numAction > 3) {
+			Ecran.afficher("Numéro non valide.\nQue souhaitez-vous faire : ");
+			numAction = Clavier.saisirInt();
+		}
+
 		switch (numAction) {
-			case 1:
+			// Put a word
+			case 0:
 				wordPose(player);
 				break;
-			
-			case 2:
-				
-				break;
+			// Change letters
+			case 1:
+				int nbLettersToChange;
+				int[] letters;
 
-			default:
+				// Number of letters
+				Ecran.afficher("Saisir le nombre de lettres que vous souhaitez changer : ");
+				nbLettersToChange = Clavier.saisirInt();
+				while(nbLettersToChange < 1 || nbLettersToChange > 7) {
+					Ecran.afficher("Nombre invalide.\nSaisir le nombre de lettres que vous souhaitez changer : ");
+					nbLettersToChange = Clavier.saisirInt();
+				}
+				letters = new int[nbLettersToChange];
 
+				// Letters
+				for(int i=0; i<nbLettersToChange; i++) {
+					Ecran.afficher("Saisir le numéro de la " + (i+1) + "e lettre à changer: ");
+					letters[i] = Clavier.saisirInt();
+					while(letters[i] < 1 || letters[i] > 7) {
+						Ecran.afficher("Nombre invalide.\nSaisir le numéro de la lettre à changer: ");
+						letters[i] = Clavier.saisirInt();
+					}
+				}
+				player.getRack().refreshRack(letters);
 				break;
 		}
 	}
