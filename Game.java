@@ -84,12 +84,18 @@ public class Game {
 	 * The player choose an action 
 	 */
 	public void playerAction(Player player){
+		// Variables
+		int numAction;
 		this.nbTour += 1;
-		String[] action = {"Poser des lettres", "Piocher des lettres", "Passer votre tour"};
-		int numAction = JOptionPane.showOptionDialog(null,
-		"Que voulez vous faire ?", 
-		"Actions possibles", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, 
-		null, action, action[2]);
+
+		// Action entry
+		Ecran.afficher("Que souhaitez-vous faire ?\n 1- Poser des lettres\n 2- Piocher des lettres\n 3- Passer votre tour\nQue souhaitez-vous faire : ");
+		numAction = Clavier.saisirString();
+		while(numAction < 1 || numAction > 3) {
+			Ecran.afficher("Numéro non valide.\nQue souhaitez-vous faire : ");
+			numAction = Clavier.saisirString();
+		}
+
 		switch (numAction) {
 			case 0:
 				wordPose(player);
@@ -105,7 +111,7 @@ public class Game {
 		}
 	}
 
-	private void wordPose (Player player){
+	private void wordPose(Player player){
 		// Variables
 		boolean isHorizontal = true;
 		String word = "";
