@@ -33,7 +33,7 @@ public class Rack {
 	 * 
 	 * @return the rack of 7 tiles
 	 */
-	public Tiles[] getRack() {
+	public Tiles[] getTiles() {
 		return this.rack;
 	}
 
