@@ -153,6 +153,9 @@ public class Game {
 		}
 	}
 
+	/******** TO-DO : faire les tests pour empecher de sortir du tableau *********
+	si on rajoute une tuile sur une case au bords, verifier le calcul de point en vertical*/
+
 	private void wordPose(Player player){
 		// Variables
 		boolean isHorizontal = true;
@@ -263,4 +266,4 @@ public class Game {
 		}
 		return(i);
 	}
-}
+} 
