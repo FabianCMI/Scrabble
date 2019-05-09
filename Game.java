@@ -1,13 +1,14 @@
 /**
  * Scrabble (APO Project - CMI L1) Rack.java - Represents the tiles's rack of a
  * player
- * 
+ * Excellent projet dont la plus-value principale est d'avoir été programmé à moitié sur un mac, ce qui est réellement formidable.
  * @author Fabian Devel, Valentin Perignon
  */
 import javax.swing.JOptionPane;
 public class Game {
 
 	// ---------- Attributs ----------
+
 	final int nbPlayer;
 	private int nbTour;
 	private Player[] player;
@@ -19,20 +20,22 @@ public class Game {
 	 * Game constructor
 	 */
 	Game() {
-		Integer[] numPlayer = {2, 3, 4};
-		this.nbPlayer = JOptionPane.showOptionDialog(null,
-		"Bonjour et bienvenue dans ce jeu de scrabble.\nCombien y'a t'il de joueurs ? ", 
-		"Nombre de joueurs", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, 
-		null, numPlayer, numPlayer[2]) + 2;
-		String[] names = initGame();
-		player = new Player[nbPlayer];
-		for (int i = 0; i < this.nbPlayer; i++) {
-			if(names[i].length() < 1 ){
-				player[i] = new Player();
-			} else {
-				player[i] = new Player(names[i]);
-			}
+		// First text
+		Ecran.afficher ("Bonjour et bienvenue dans ce jeu de scrabble.\nSaisir le nombre de joueurs : ");
+		this.nbPlayer = Clavier.saisirInt();
+		while(this.nbPlayer < 2 || this.nbPlayer > 4) {
+			Ecran.afficher("Vous devez qvoir entre 2 et 4 joueurs. Saisir le nombre de joueurs : ");
+			this.nbPlayer = Clavier.saisirInt();
 		}
+		player = new Player[nbPlayer];
+
+		// Names
+		String[] names = initGame();
+		for (int i = 0; i < this.nbPlayer; i++) {
+			player[i] = new Player(names[i]);
+		}
+
+		// Tour
 		this.nbTour = 1;
 	}
 
@@ -70,21 +73,29 @@ public class Game {
 
 		// Treatment
 		for (int i = 0; i < this.nbPlayer; i++) {
-			names[i] = JOptionPane.showInputDialog(null, "Saisir le nom du joueur " + (i+1) + " : ", "Nom joueur " + (i+1), JOptionPane.QUESTION_MESSAGE);
+			Ecran.afficher("Saisir le nom du joueur " + (i+1) + ": ");
+			names[i] = Clavier.saisirString();
 		}
+
 		return names;
 	}
 
 	/**
 	 * The player choose an action 
 	 */
-	public void playerAction (Player player){
+	public void playerAction(Player player){
+		// Variables
+		int numAction;
 		this.nbTour += 1;
-		String[] action = {"Poser des lettres", "Piocher des lettres", "Passer votre tour"};
-		int numAction = JOptionPane.showOptionDialog(null,
-		"Que voulez vous faire ?", 
-		"Actions possibles", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, 
-		null, action, action[2]);
+
+		// Action entry
+		Ecran.afficher("Que souhaitez-vous faire ?\n 1- Poser des lettres\n 2- Piocher des lettres\n 3- Passer votre tour\nQue souhaitez-vous faire : ");
+		numAction = Clavier.saisirString();
+		while(numAction < 1 || numAction > 3) {
+			Ecran.afficher("Numéro non valide.\nQue souhaitez-vous faire : ");
+			numAction = Clavier.saisirString();
+		}
+
 		switch (numAction) {
 			case 0:
 				wordPose(player);
@@ -100,7 +111,7 @@ public class Game {
 		}
 	}
 
-	private void wordPose (Player player){
+	private void wordPose(Player player){
 		// Variables
 		boolean isHorizontal = true;
 		String word = "";
