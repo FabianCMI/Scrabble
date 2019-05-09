@@ -1,7 +1,7 @@
 /**
  * Scrabble (APO Project - CMI L1) Rack.java - Represents the tiles's rack of a
  * player
- * 
+ * Excellent projet dont la plus-value principale est d'avoir été programmé à moitié sur un mac, ce qui est réellement formidable.
  * @author Fabian Devel, Valentin Perignon
  */
 import javax.swing.JOptionPane;
@@ -21,9 +21,12 @@ public class Game {
 	 */
 	Game() {
 		// First text
-		Ecran.afficherln("Bonjour et bienvenue dans ce jeu de scrabble.\nCombien y'a t'il de joueurs ? ", 
-		"Nombre de joueurs");
+		Ecran.afficher ("Bonjour et bienvenue dans ce jeu de scrabble.\nSaisir le nombre de joueurs : ");
 		this.nbPlayer = Clavier.saisirInt();
+		while(this.nbPlayer < 2 || this.nbPlayer > 4) {
+			Ecran.afficher("Vous devez qvoir entre 2 et 4 joueurs. Saisir le nombre de joueurs : ");
+			this.nbPlayer = Clavier.saisirInt();
+		}
 		player = new Player[nbPlayer];
 
 		// Names
