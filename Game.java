@@ -231,6 +231,25 @@ public class Game {
 	}
 
 	/**
+	 * Check if all the racks are 'null'
+	 * 
+	 * @return True if there are
+	 */
+	private boolean areAllRacksNull() {
+		// Variable
+		boolean areNull = true;
+
+		// Treatment
+		for(int i=0; i<this.nbPlayer; i++) {
+			if(!this.player[i].isRackNull()) {
+				areNull = false;
+			}
+		}
+
+		return areNull;
+	}
+
+	/**
 	 * Make sure the asked value is bewteen 0 and 14 
 	 * 
 	 * @param coord the name of the value asked

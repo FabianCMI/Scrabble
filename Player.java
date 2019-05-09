@@ -65,6 +65,11 @@ public class Player {
 		return this.rack;
 	}
 
+	/**
+	 * Check if there is at least one letter on the rack
+	 * 
+	 * @return True if there is no remaining letters
+	 */
 	public boolean isRackNull() {
 		// Variable
 		boolean areAllNull = true;

@@ -139,54 +139,9 @@ public class GameBoard {
 		return this.grid;
 	}
 
-	/*
-	public String toString(){
-		String str = "";
-		for (int i = -1; i <= this.grid.length; i++) {
-			for (int j = -1; j <= this.grid.length; j++) {
-				switch (i) {
-					case -1:
-					if (j<this.grid.length)
-						str += "====";
-					else 
-						str += "\n";
-					break;
-					
-					case 15:
-						if (j<this.grid.length)
-							str += "====";
-						else 
-							str += "\n";
-						break;
-
-					default:
-						switch (j) {
-							case -1:
-								str+="||";
-								break;
-							
-							case 15:
-								str += "|\n";
-								break;
-		
-							default:
-								if(this.grid[i][j].getTile().getLetter() == Character.MIN_VALUE){
-									if(this.grid[i][j].getScoreMult()>1)
-										str += " * |";
-									else
-										str += " . |";
-								} else	
-								str += " " + this.grid[i][j].getTile().getLetter() + " |";
-								break;
-						}
-						break;
-				}
-			}
-		}
-		return(str);
-	}
-	*/
-
+	/**
+	 * Game board to String
+	 */
 	public String toString() {
 		// Variables
 		String gameboard;
