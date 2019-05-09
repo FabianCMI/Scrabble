@@ -146,7 +146,6 @@ public class Game {
 							column = correctCapture("colonne");
 						}
 					}
-					getGameBoard().getGrid()[line][column].setTile(player.getRack().getTiles()[1]);
 				} else {
 					line = correctCapture("ligne");
 					while(getGameBoard().getGrid()[line-1][column].getTile().getValue() == 0 
@@ -154,10 +153,10 @@ public class Game {
 						JOptionPane.showMessageDialog(null, "Erreur - La tuile doit être posée avant ou après une tuile déjà posée", "Erreur - pose de tuile", JOptionPane.ERROR_MESSAGE);
 						line = correctCapture("ligne");
 					}
-					getGameBoard().getGrid()[line][column].setTile(player.getRack().getTiles()[1]);
 				}
-				
-			} System.out.println(getGameBoard());
+			} 
+			setTileOnGrid(line, column, player, indexOnTheRack(player, word.charAt(i)));
+			System.out.println(getGameBoard());
 		}
 		
 		if (isHorizontal){
@@ -190,5 +189,26 @@ public class Game {
 			n = Integer.parseInt(JOptionPane.showInputDialog(null, "Erreur : La valeur doit être comprise entre 0 et 14.\nVeuillez recommencer", coord + " - ERREUR", JOptionPane.ERROR_MESSAGE));
 		}
 		return n;
+	}
+
+	private void setTileOnGrid(int numLine, int numColumn, Player player, int numTileInRack){
+		Square tile = this.getGameBoard().getGrid()[numLine][numColumn];
+		tile.setTile(player.getRack().getTiles()[numTileInRack]);
+	}
+
+	private int indexOnTheRack (Player player, char letter){
+		boolean isOn = false;
+		int i = -1;
+		while(!isOn){
+			i++;
+			if(player.getRack().getTiles()[i].getLetter() == letter){
+				isOn = true;
+			}
+			
+		}
+		if(!isOn){ //not found
+			i = -1;
+		}
+		return(i);
 	}
 }
