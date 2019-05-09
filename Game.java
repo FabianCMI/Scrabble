@@ -22,7 +22,7 @@ public class Game {
 	Game() {
 		// First text
 		int nbPlayerInput;
-		Ecran.afficher ("Bonjour et bienvenue dans ce jeu de scrabble.\nSaisir le nombre de joueurs : ");
+		Ecran.afficher ("========== SCRABBLE ==========\nBonjour et bienvenue dans ce jeu de scrabble.\n\nSaisir le nombre de joueurs : ");
 		nbPlayerInput = Clavier.saisirInt();
 		while(nbPlayerInput < 2 || nbPlayerInput > 4) {
 			Ecran.afficher("Vous devez avoir entre 2 et 4 joueurs. Saisir le nombre de joueurs : ");
@@ -39,6 +39,7 @@ public class Game {
 			else 
 				player[i] = new Player(names[i]);
 		}
+		Ecran.sautDeLigne();
 
 		// Tour
 		this.nbTour = 1;
@@ -85,6 +86,18 @@ public class Game {
 		return names;
 	}
 
+	public void playGame() {
+		for(int i=0; i<this.nbPlayer; i++) {
+			// Display
+			Ecran.afficherln("C'est au tour de " + this.player[i].getName() + " de jouer..."); // first message
+			Ecran.afficherln("\n" + this.gameboard + "\n"); // game board
+			Ecran.afficherln(this.player[i] + "\n"); // informations about the player (name, score and rack)
+
+			// Action from the player
+			playerAction(this.player[i]);
+		}
+	}
+
 	/**
 	 * The player choose an action 
 	 */
@@ -103,11 +116,12 @@ public class Game {
 
 		switch (numAction) {
 			// Put a word
-			case 0:
+			case 1:
 				wordPose(player);
 				break;
+
 			// Change letters
-			case 1:
+			case 2:
 				int nbLettersToChange;
 				int[] letters;
 
@@ -130,6 +144,11 @@ public class Game {
 					}
 				}
 				player.getRack().refreshRack(letters);
+				break;
+
+			// Don't want to play
+			case 3:
+				Ecran.afficherln("Vous passez votre tour.");
 				break;
 		}
 	}

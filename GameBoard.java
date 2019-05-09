@@ -139,6 +139,7 @@ public class GameBoard {
 		return this.grid;
 	}
 
+	/*
 	public String toString(){
 		String str = "";
 		for (int i = -1; i <= this.grid.length; i++) {
@@ -146,14 +147,14 @@ public class GameBoard {
 				switch (i) {
 					case -1:
 					if (j<this.grid.length)
-						str += "~ ~ ";
+						str += "====";
 					else 
 						str += "\n";
 					break;
 					
 					case 15:
 						if (j<this.grid.length)
-							str += "~ ~ ";
+							str += "====";
 						else 
 							str += "\n";
 						break;
@@ -183,5 +184,46 @@ public class GameBoard {
 			}
 		}
 		return(str);
+	}
+	*/
+
+	public String toString() {
+		// Variables
+		String gameboard;
+		char[] firstLetter = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'};
+		
+		// Top
+		gameboard = "   ===============================================================\n";
+
+		// Middle
+		for(int i=0; i<15; i++) {
+			// Beginning of the line
+			gameboard += " " + firstLetter[i] + " ||";
+
+			// Letters
+			for(int j=0; j<15; j++) {
+				if(this.grid[i][j].getTile().getLetter() == Character.MIN_VALUE){
+					if(this.grid[i][j].getScoreMult()>1)
+					gameboard += " * ";
+					else
+					gameboard += " . ";
+				} else	{
+					gameboard += " " + this.grid[i][j].getTile().getLetter() + " ";
+				}
+				if(j != 14)
+					gameboard += '|';
+			}
+
+			// End of the line
+			gameboard += "||\n";
+			if(i != 14)
+				gameboard += "   ||---|---|---|---|---|---|---|---|---|---|---|---|---|---|---||\n";
+		}
+
+		// Bottom
+		gameboard += "   ===============================================================\n";
+		gameboard += "      1   2   3   4   5   6   7   8   9   10  11  12  13  14  15";
+
+		return gameboard;
 	}
 }
