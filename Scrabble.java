@@ -11,6 +11,7 @@ public class Scrabble {
 	public static void main(String[] args) {
 		// Variables
 		Game game = new Game();
+		ggame.playerAction(game.getPlayer()[0]);
 
 		/*
 		game.getGameBoard().grid[14][0].setTile(new Tiles('D', 2));

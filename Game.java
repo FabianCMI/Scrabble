@@ -21,13 +21,15 @@ public class Game {
 	 */
 	Game() {
 		// First text
+		int nbPlayerInput;
 		Ecran.afficher ("Bonjour et bienvenue dans ce jeu de scrabble.\nSaisir le nombre de joueurs : ");
-		this.nbPlayer = Clavier.saisirInt();
-		while(this.nbPlayer < 2 || this.nbPlayer > 4) {
-			Ecran.afficher("Vous devez qvoir entre 2 et 4 joueurs. Saisir le nombre de joueurs : ");
-			this.nbPlayer = Clavier.saisirInt();
+		nbPlayerInput = Clavier.saisirInt();
+		while(nbPlayerInput < 2 || nbPlayerInput > 4) {
+			Ecran.afficher("Vous devez avoir entre 2 et 4 joueurs. Saisir le nombre de joueurs : ");
+			nbPlayerInput = Clavier.saisirInt();
 		}
-		player = new Player[nbPlayer];
+		this.nbPlayer = nbPlayerInput;
+		player = new Player[this.nbPlayer];
 
 		// Names
 		String[] names = initGame();
@@ -47,8 +49,8 @@ public class Game {
 	 * @param numPlayer The wanted player's numero
 	 * @return The player designed by the numero given in parameter
 	 */
-	public Player getPlayer(int numPlayer) {
-		return this.player[numPlayer];
+	public Player[] getPlayer() {
+		return this.player;
 	}
 
 	/**
@@ -90,23 +92,41 @@ public class Game {
 
 		// Action entry
 		Ecran.afficher("Que souhaitez-vous faire ?\n 1- Poser des lettres\n 2- Piocher des lettres\n 3- Passer votre tour\nQue souhaitez-vous faire : ");
-		numAction = Clavier.saisirString();
+		numAction = Clavier.saisirInt();
 		while(numAction < 1 || numAction > 3) {
 			Ecran.afficher("Numéro non valide.\nQue souhaitez-vous faire : ");
-			numAction = Clavier.saisirString();
+			numAction = Clavier.saisirInt();
 		}
 
 		switch (numAction) {
+			// Put a word
 			case 0:
 				wordPose(player);
 				break;
-			
+			// Change letters
 			case 1:
-				
-				break;
+				int nbLettersToChange;
+				int[] letters;
 
-			default:
+				// Number of letters
+				Ecran.afficher("Saisir le nombre de lettres que vous souhaitez changer : ");
+				nbLettersToChange = Clavier.saisirInt();
+				while(nbLettersToChange < 1 || nbLettersToChange > 7) {
+					Ecran.afficher("Nombre invalide.\nSaisir le nombre de lettres que vous souhaitez changer : ");
+					nbLettersToChange = Clavier.saisirInt();
+				}
+				letters = new int[nbLettersToChange];
 
+				// Letters
+				for(int i=0; i<nbLettersToChange; i++) {
+					Ecran.afficher("Saisir le numéro de la " + (i+1) + "e lettre à changer: ");
+					letters[i] = Clavier.saisirInt();
+					while(letters[i] < 1 || letters[i] > 7) {
+						Ecran.afficher("Nombre invalide.\nSaisir le numéro de la lettre à changer: ");
+						letters[i] = Clavier.saisirInt();
+					}
+				}
+				player.getRack().refreshRack(letters);
 				break;
 		}
 	}

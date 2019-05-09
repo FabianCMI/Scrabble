@@ -42,7 +42,7 @@ public class Rack {
 	 * 
 	 * @param nbLetters the number of tiles you have to draw
 	 */
-	public void refreshRack(int... indexLetter) {
+	public void refreshRack(int[] indexLetter) {
 		if(indexLetter.length <= 7) {
 			for(int i=0; i<indexLetter.length; i++) {
 				this.rack[i] = this.bag.drawLetter();
