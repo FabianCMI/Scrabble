@@ -75,8 +75,8 @@ public class Player {
 		boolean areAllNull = true;
 
 		// Treatement
-		for(int i=0; i<this.rack.getTiles().length) {
-			if(this.rack.getTiles()[i] == null) {
+		for(int i=0; i<this.rack.getTiles().length; i++) {
+			if(this.rack.getTiles()[i] != null) {
 				areAllNull = false;
 			}
 		}

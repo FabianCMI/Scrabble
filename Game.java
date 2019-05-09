@@ -87,15 +87,23 @@ public class Game {
 	}
 
 	public void playGame() {
-		for(int i=0; i<this.nbPlayer; i++) {
-			// Display
-			Ecran.afficherln("C'est au tour de " + this.player[i].getName() + " de jouer..."); // first message
-			Ecran.afficherln("\n" + this.gameboard + "\n"); // game board
-			Ecran.afficherln(this.player[i] + "\n"); // informations about the player (name, score and rack)
+		// Variable
+		boolean runLoop = true;
 
-			// Action from the player
-			playerAction(this.player[i]);
-		}
+		do {
+			for(int i=0; i<this.nbPlayer; i++) {
+				// Display
+				Ecran.afficherln("C'est au tour de " + this.player[i].getName() + " de jouer..."); // first message
+				Ecran.afficherln("\n" + this.gameboard + "\n"); // game board
+				Ecran.afficherln(this.player[i] + "\n"); // informations about the player (name, score and rack)
+	
+				// Action from the player
+				playerAction(this.player[i]);
+	
+				// Check all the racks
+				runLoop = !areAllRacksNull();
+			}
+		} while(runLoop);
 	}
 
 	/**
