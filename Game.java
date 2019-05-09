@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 public class Game {
 
 	// ---------- Attributs ----------
+
 	final int nbPlayer;
 	private int nbTour;
 	private Player[] player;
@@ -19,20 +20,19 @@ public class Game {
 	 * Game constructor
 	 */
 	Game() {
-		Integer[] numPlayer = {2, 3, 4};
-		this.nbPlayer = JOptionPane.showOptionDialog(null,
-		"Bonjour et bienvenue dans ce jeu de scrabble.\nCombien y'a t'il de joueurs ? ", 
-		"Nombre de joueurs", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, 
-		null, numPlayer, numPlayer[2]) + 2;
-		String[] names = initGame();
+		// First text
+		Ecran.afficherln("Bonjour et bienvenue dans ce jeu de scrabble.\nCombien y'a t'il de joueurs ? ", 
+		"Nombre de joueurs");
+		this.nbPlayer = Clavier.saisirInt();
 		player = new Player[nbPlayer];
+
+		// Names
+		String[] names = initGame();
 		for (int i = 0; i < this.nbPlayer; i++) {
-			if(names[i].length() < 1 ){
-				player[i] = new Player();
-			} else {
-				player[i] = new Player(names[i]);
-			}
+			player[i] = new Player(names[i]);
 		}
+
+		// Tour
 		this.nbTour = 1;
 	}
 
@@ -70,15 +70,17 @@ public class Game {
 
 		// Treatment
 		for (int i = 0; i < this.nbPlayer; i++) {
-			names[i] = JOptionPane.showInputDialog(null, "Saisir le nom du joueur " + (i+1) + " : ", "Nom joueur " + (i+1), JOptionPane.QUESTION_MESSAGE);
+			Ecran.afficher("Saisir le nom du joueur " + (i+1) + ": ");
+			names[i] = Clavier.saisirString();
 		}
+
 		return names;
 	}
 
 	/**
 	 * The player choose an action 
 	 */
-	public void playerAction (Player player){
+	public void playerAction(Player player){
 		this.nbTour += 1;
 		String[] action = {"Poser des lettres", "Piocher des lettres", "Passer votre tour"};
 		int numAction = JOptionPane.showOptionDialog(null,
