@@ -22,7 +22,7 @@ public class Game {
 	Game() {
 		// First text
 		int nbPlayerInput;
-		Ecran.afficher ("========== SCRABBLE ==========\nBonjour et bienvenue dans ce jeu de scrabble.\n\nSaisir le nombre de joueurs : ");
+		Ecran.afficher ("\n========== SCRABBLE ==========\nBonjour et bienvenue dans ce jeu de scrabble.\n\nSaisir le nombre de joueurs : ");
 		nbPlayerInput = Clavier.saisirInt();
 		while(nbPlayerInput < 2 || nbPlayerInput > 4) {
 			Ecran.afficher("Vous devez avoir entre 2 et 4 joueurs. Saisir le nombre de joueurs : ");
@@ -192,34 +192,50 @@ public class Game {
 				word += Clavier.saisirString(); // replace it by a new one
 			}
 			if(i == 0){
-				line = correctCapture("le numéro de la ligne", 0, 14);
-				column = correctCapture("le numéro de la colonne", 0, 14);
+				line = correctCapture("le numéro de la ligne", 1, 15);
+				column = correctCapture("le numéro de la colonne", 1, 15);
 			} else {
 				if(isHorizontal){
-					column = correctCapture("le numéro de la colonne", 0, 14);
+					column = correctCapture("le numéro de la colonne", 1, 15);
 					while(getGameBoard().getGrid()[line][column].getTile().getValue() != 0){
 						Ecran.afficherln("Erreur - Il y a déjà une tuile posée sur cette case ");
-						column = correctCapture("le numéro de la colonne", 0, 14);
+						column = correctCapture("le numéro de la colonne", 1, 15);
 					}
-					while(getGameBoard().getGrid()[line][column-1].getTile().getValue() == 0 
-					&& getGameBoard().getGrid()[line][column+1].getTile().getValue() == 0){
-						Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
-						column = correctCapture("le numéro de la colonne", 0, 14);
+					while(column > 1 && column < 15){
+						while(getGameBoard().getGrid()[line][column-1].getTile().getValue() == 0 
+						&& getGameBoard().getGrid()[line][column+1].getTile().getValue() == 0){
+							Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
+							column = correctCapture("le numéro de la colonne", 1, 15);
+						}
 					}
 				} else {
-					line = correctCapture("le numéro de la ligne", 0, 14);
+					line = correctCapture("le numéro de la ligne", 1, 15);
 					while(getGameBoard().getGrid()[line][column].getTile().getValue() != 0){
 						Ecran.afficherln("Erreur - Il y a déjà une tuile posée sur cette case ");
-						line = correctCapture("le numéro de la ligne", 0, 14);
+						line = correctCapture("le numéro de la ligne", 1, 15);
 					}
-					while(getGameBoard().getGrid()[line-1][column].getTile().getValue() == 0 
-					&& getGameBoard().getGrid()[line+1][column].getTile().getValue() == 0){
-						Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
-						line = correctCapture("le numéro de la ligne", 0, 14);
+					while(line > 1 && line < 15){
+						while(getGameBoard().getGrid()[line-1][column].getTile().getValue() == 0 
+						&& getGameBoard().getGrid()[line+1][column].getTile().getValue() == 0){
+							Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
+							line = correctCapture("le numéro de la ligne", 1, 15);
+						}
+					}
+					while(line == 1){
+						while(getGameBoard().getGrid()[line+1][column].getTile().getValue() == 0){
+							Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
+							line = correctCapture("le numéro de la ligne", 1, 15);
+						}
+					}
+					while(line == 15){
+						while(getGameBoard().getGrid()[line-1][column].getTile().getValue() == 0){
+							Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
+							line = correctCapture("le numéro de la ligne", 1, 15);
+						}
 					}
 				}
 			} 
-			setTileOnGrid(line, column, player, indexOnTheRack(player, word.charAt(i)));
+			setTileOnGrid(line-1, column-1, player, indexOnTheRack(player, word.charAt(i)));
 			System.out.println(getGameBoard());
 		}
 		
@@ -294,5 +310,37 @@ public class Game {
 			i = -1;
 		}
 		return(i);
+	}
+
+	private int correctCoord(String msg, int value, boolean isHorizontal){
+		int n;
+		while(value == 0){
+			if(isHorizontal){
+				while(getGameBoard().getGrid()[value][value+1].getTile().getValue() == 0){
+					Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
+					value = correctCapture("le numéro de " + msg, 1, 15);
+				}
+			} else {
+				while(getGameBoard().getGrid()[value+1][value].getTile().getValue() == 0){
+					Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
+					value = correctCapture("le numéro de " + msg, 1, 15);
+				}
+			}
+		}
+		while(value == 15){
+			if(isHorizontal){
+				while(getGameBoard().getGrid()[value][value-1].getTile().getValue() == 0){
+					Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
+					value = correctCapture("le numéro de " + msg, 1, 15);
+				}
+			} else {
+				while(getGameBoard().getGrid()[value-1][value].getTile().getValue() == 0){
+					Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
+					value = correctCapture("le numéro de " + msg, 1, 15);
+				}
+			}
+		}
+		
+		return (n);
 	}
 } 
