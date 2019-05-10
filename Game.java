@@ -103,11 +103,11 @@ public class Game {
 
 		switch (numAction) {
 			// Put a word
-			case 0:
+			case 1:
 				wordPose(player);
 				break;
 			// Change letters
-			case 1:
+			case 2:
 				int nbLettersToChange;
 				int[] letters;
 
@@ -130,6 +130,10 @@ public class Game {
 					}
 				}
 				player.getRack().refreshRack(letters);
+				break;
+
+			//Pass the turn
+			case 3:
 				break;
 		}
 	}
@@ -212,9 +216,11 @@ public class Game {
 	}
 
 	/**
-	 * Make sure the asked value is bewteen 0 and 14 
+	 * Make sure the asked value is bewteen the parameters min and max 
 	 * 
-	 * @param coord the name of the value asked
+	 * @param min 
+	 * @param max 
+	 * @param msg the name of the value asked
 	 * @return the value
 	 */
 	private int correctCapture (String msg, int min, int max){
