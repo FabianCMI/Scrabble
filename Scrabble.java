@@ -12,11 +12,7 @@ public class Scrabble {
 		// Variables
 		Game game = new Game();
 		
-		// game execution
-		System.out.println(game.getGameBoard());
-		int firstPlayer = (int)(Math.random()*game.nbPlayer);		
-		Ecran.afficherln(game.getPlayer()[firstPlayer].getName() + " commence !\nVoici votre chevalet : " + game.getPlayer()[firstPlayer].getRack());
-		game.playerAction(game.getPlayer()[firstPlayer]);
-		System.out.println(game.getGameBoard());
+		// Main part of the game
+		game.playGame();
 	}
 }

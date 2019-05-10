@@ -22,7 +22,7 @@ public class Game {
 	Game() {
 		// First text
 		int nbPlayerInput;
-		Ecran.afficher ("Bonjour et bienvenue dans ce jeu de scrabble.\nSaisir le nombre de joueurs : ");
+		Ecran.afficher ("========== SCRABBLE ==========\nBonjour et bienvenue dans ce jeu de scrabble.\n\nSaisir le nombre de joueurs : ");
 		nbPlayerInput = Clavier.saisirInt();
 		while(nbPlayerInput < 2 || nbPlayerInput > 4) {
 			Ecran.afficher("Vous devez avoir entre 2 et 4 joueurs. Saisir le nombre de joueurs : ");
@@ -39,6 +39,7 @@ public class Game {
 			else 
 				player[i] = new Player(names[i]);
 		}
+		Ecran.sautDeLigne();
 
 		// Tour
 		this.nbTour = 1;
@@ -85,6 +86,26 @@ public class Game {
 		return names;
 	}
 
+	public void playGame() {
+		// Variable
+		boolean runLoop = true;
+
+		do {
+			for(int i=0; i<this.nbPlayer; i++) {
+				// Display
+				Ecran.afficherln("C'est au tour de " + this.player[i].getName() + " de jouer..."); // first message
+				Ecran.afficherln("\n" + this.gameboard + "\n"); // game board
+				Ecran.afficherln(this.player[i] + "\n"); // informations about the player (name, score and rack)
+	
+				// Action from the player
+				playerAction(this.player[i]);
+	
+				// Check all the racks
+				runLoop = !areAllRacksNull();
+			}
+		} while(runLoop);
+	}
+
 	/**
 	 * The player choose an action 
 	 */
@@ -106,6 +127,7 @@ public class Game {
 			case 1:
 				wordPose(player);
 				break;
+
 			// Change letters
 			case 2:
 				int nbLettersToChange;
@@ -132,8 +154,9 @@ public class Game {
 				player.getRack().refreshRack(letters);
 				break;
 
-			//Pass the turn
+			// Don't want to play
 			case 3:
+				Ecran.afficherln("Vous passez votre tour.");
 				break;
 		}
 	}
@@ -216,7 +239,26 @@ public class Game {
 	}
 
 	/**
-	 * Make sure the asked value is bewteen the parameters min and max 
+	 * Check if all the racks are 'null'
+	 * 
+	 * @return True if there are
+	 */
+	private boolean areAllRacksNull() {
+		// Variable
+		boolean areNull = true;
+
+		// Treatment
+		for(int i=0; i<this.nbPlayer; i++) {
+			if(!this.player[i].isRackNull()) {
+				areNull = false;
+			}
+		}
+
+		return areNull;
+	}
+
+	/**
+	 * Make sure the asked value is bewteen 0 and 14 
 	 * 
 	 * @param min 
 	 * @param max 

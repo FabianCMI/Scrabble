@@ -37,15 +37,30 @@ public class Rack {
 		return this.rack;
 	}
 
+	public int getNullTiles() {
+		int nbNullTiles = 0;
+
+		for(int i=0; i<this.rack.length; i++) {
+			if(this.rack[0] == null)
+				nbNullTiles++;
+		}
+
+		return nbNullTiles;
+	}
+
 	/**
 	 *  Change some tiles in a rack
 	 * 
 	 * @param nbLetters the number of tiles you have to draw
 	 */
 	public void refreshRack(int[] indexLetter) {
-		if(indexLetter.length <= 7) {
+		if(indexLetter.length <= 7 && bag.getLettersLength() > 0) {
 			for(int i=0; i<indexLetter.length; i++) {
 				this.rack[i] = this.bag.drawLetter();
+			}
+		} else {
+			for(int i=0; i<indexLetter.length; i++) {
+				this.rack[i] = null;
 			}
 		}
 	}
@@ -54,10 +69,11 @@ public class Rack {
 	 * Rack to String
 	 */
 	public String toString() {
-		String str = "| ";
+		String str = "-----------------------------\n| ";
 		for (int i = 0; i < 7; i++) {
 			str += this.rack[i] + " | ";
 		}
+		str += "\n-----------------------------\n  1   2   3   4   5   6   7";
 		return (str);
 	}
 }
