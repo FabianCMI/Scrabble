@@ -14,6 +14,7 @@ public class Game {
 	private int nextPlayer = 0;
 	private Player[] player;
 	private GameBoard gameboard = new GameBoard();
+	private boolean playGame = true;
 
 	// ---------- Constructors ----------
 
@@ -121,7 +122,7 @@ public class Game {
 		this.nbTour += 1;
 
 		// Action entry
-		Ecran.afficher("Que souhaitez-vous faire ?\n 1- Poser des lettres\n 2- Piocher des lettres\n 3- Passer votre tour\n 0- Arrêter de jouer\nQue souhaitez-vous faire : ");
+		Ecran.afficher("Que souhaitez-vous faire ?\n 1- Poser des lettres\n 2- Piocher des lettres\n 3- Passer votre tour\n");
 		numAction = Clavier.saisirInt();
 		while(numAction < 1 || numAction > 3) {
 			Ecran.afficher("Numéro non valide.\nQue souhaitez-vous faire : ");
@@ -201,50 +202,43 @@ public class Game {
 				word += Clavier.saisirString(); // replace it by a new one
 			}
 			if(i == 0){
-				line = correctCapture("le numéro de la ligne", 1, 15);
-				column = correctCapture("le numéro de la colonne", 1, 15);
+				line = correctCapture("le numéro de la ligne", 1, 15) - 1;
+				column = correctCapture("le numéro de la colonne", 1, 15) - 1;
 			} else {
 				if(isHorizontal){
-					column = correctCapture("le numéro de la colonne", 1, 15);
+					column = correctCapture("le numéro de la colonne", 1, 15) - 1;
 					while(getGameBoard().getGrid()[line][column].getTile().getValue() != 0){
 						Ecran.afficherln("Erreur - Il y a déjà une tuile posée sur cette case ");
-						column = correctCapture("le numéro de la colonne", 1, 15);
+						column = correctCapture("le numéro de la colonne", 1, 15) - 1;
 					}
-					while(column > 1 && column < 15){
+					if(column > 1 && column < 15){
 						while(getGameBoard().getGrid()[line][column-1].getTile().getValue() == 0 
 						&& getGameBoard().getGrid()[line][column+1].getTile().getValue() == 0){
 							Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
-							column = correctCapture("le numéro de la colonne", 1, 15);
+							column = correctCapture("le numéro de la colonne", 1, 15) - 1;
 						}
 					}
+					else {
+						column = correctCoord("la colonne", line, column, true);
+					}
 				} else {
-					line = correctCapture("le numéro de la ligne", 1, 15);
+					line = correctCapture("le numéro de la ligne", 1, 15) - 1;
 					while(getGameBoard().getGrid()[line][column].getTile().getValue() != 0){
 						Ecran.afficherln("Erreur - Il y a déjà une tuile posée sur cette case ");
-						line = correctCapture("le numéro de la ligne", 1, 15);
+						line = correctCapture("le numéro de la ligne", 1, 15) - 1;
 					}
-					while(line > 1 && line < 15){
+					if(line > 1 && line < 15){
 						while(getGameBoard().getGrid()[line-1][column].getTile().getValue() == 0 
 						&& getGameBoard().getGrid()[line+1][column].getTile().getValue() == 0){
 							Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
-							line = correctCapture("le numéro de la ligne", 1, 15);
+							line = correctCapture("le numéro de la ligne", 1, 15) - 1;
 						}
-					}
-					while(line == 1){
-						while(getGameBoard().getGrid()[line+1][column].getTile().getValue() == 0){
-							Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
-							line = correctCapture("le numéro de la ligne", 1, 15);
-						}
-					}
-					while(line == 15){
-						while(getGameBoard().getGrid()[line-1][column].getTile().getValue() == 0){
-							Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
-							line = correctCapture("le numéro de la ligne", 1, 15);
-						}
+					} else {
+						line = correctCoord("la ligne", line, column, false);
 					}
 				}
 			} 
-			setTileOnGrid(line-1, column-1, player, indexOnTheRack(player, word.charAt(i)));
+			setTileOnGrid(line, column, player, indexOnTheRack(player, word.charAt(i)));
 			System.out.println(getGameBoard());
 		}
 		
@@ -283,7 +277,7 @@ public class Game {
 	}
 
 	/**
-	 * Make sure the asked value is bewteen 0 and 14 
+	 * Make sure the asked value is bewteen min and max 
 	 * 
 	 * @param min 
 	 * @param max 
@@ -321,35 +315,38 @@ public class Game {
 		return(i);
 	}
 
-	private int correctCoord(String msg, int value, boolean isHorizontal){
-		int n;
-		while(value == 0){
+	private int correctCoord(String msg, int valueL, int valueC, boolean isHorizontal){
+		int n = 0;
+		while(valueL == 1 || valueC == 1){
 			if(isHorizontal){
-				while(getGameBoard().getGrid()[value][value+1].getTile().getValue() == 0){
+				while(getGameBoard().getGrid()[valueL][valueC+1].getTile().getValue() == 0){
 					Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
-					value = correctCapture("le numéro de " + msg, 1, 15);
+					valueC = correctCapture("le numéro de " + msg, 1, 15);
 				}
+				n = valueC;
 			} else {
-				while(getGameBoard().getGrid()[value+1][value].getTile().getValue() == 0){
+				while(getGameBoard().getGrid()[valueL+1][valueC].getTile().getValue() == 0){
 					Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
-					value = correctCapture("le numéro de " + msg, 1, 15);
+					valueL = correctCapture("le numéro de " + msg, 1, 15);
 				}
+				n = valueL;
 			}
 		}
-		while(value == 15){
+		while(valueL == 15 || valueC == 15){
 			if(isHorizontal){
-				while(getGameBoard().getGrid()[value][value-1].getTile().getValue() == 0){
+				while(getGameBoard().getGrid()[valueL][valueC-1].getTile().getValue() == 0){
 					Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
-					value = correctCapture("le numéro de " + msg, 1, 15);
+					valueC = correctCapture("le numéro de " + msg, 1, 15);
 				}
+				n = valueC;
 			} else {
-				while(getGameBoard().getGrid()[value-1][value].getTile().getValue() == 0){
+				while(getGameBoard().getGrid()[valueL-1][valueC].getTile().getValue() == 0){
 					Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
-					value = correctCapture("le numéro de " + msg, 1, 15);
+					valueL = correctCapture("le numéro de " + msg, 1, 15);
 				}
+				n = valueL;
 			}
 		}
-		
-		return (n);
+		return (n-1);
 	}
 } 
