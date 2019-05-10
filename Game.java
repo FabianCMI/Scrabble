@@ -10,6 +10,7 @@ public class Game {
 	// ---------- Attributs ----------
 
 	final int nbPlayer;
+	private boolean playGame = true;
 	private int nbTour;
 	private int nextPlayer = 0;
 	private Player[] player;
@@ -105,7 +106,7 @@ public class Game {
 				// Check all the racks
 				if(this.playGame)
 					this.playGame = !areAllRacksNull();
-				if(this.nextPlayer < this.nbPlayer)
+				if(this.nextPlayer >= this.nbPlayer)
 					this.playGame = false;
 
 			}
@@ -121,7 +122,7 @@ public class Game {
 		this.nbTour += 1;
 
 		// Action entry
-		Ecran.afficher("Que souhaitez-vous faire ?\n 1- Poser des lettres\n 2- Piocher des lettres\n 3- Passer votre tour\n 0- Arrêter de jouer\nQue souhaitez-vous faire : ");
+		Ecran.afficher("Que souhaitez-vous faire ?\n 1- Poser des lettres\n 2- Piocher des lettres\n 3- Passer votre tour\nQue souhaitez-vous faire : ");
 		numAction = Clavier.saisirInt();
 		while(numAction < 1 || numAction > 3) {
 			Ecran.afficher("Numéro non valide.\nQue souhaitez-vous faire : ");
