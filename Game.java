@@ -264,7 +264,9 @@ public class Game {
 	/**
 	 * Make sure the asked value is bewteen 0 and 14 
 	 * 
-	 * @param coord the name of the value asked
+	 * @param min 
+	 * @param max 
+	 * @param msg the name of the value asked
 	 * @return the value
 	 */
 	private int correctCapture (String msg, int min, int max){
