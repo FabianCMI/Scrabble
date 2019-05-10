@@ -11,6 +11,7 @@ public class Game {
 
 	final int nbPlayer;
 	private int nbTour;
+	private int nextPlayer = 0;
 	private Player[] player;
 	private GameBoard gameboard = new GameBoard();
 
@@ -126,6 +127,7 @@ public class Game {
 			// Put a word
 			case 1:
 				wordPose(player);
+				nextPlayer = 0;
 				break;
 
 			// Change letters
@@ -152,11 +154,13 @@ public class Game {
 					}
 				}
 				player.getRack().refreshRack(letters);
+				nextPlayer = 0;
 				break;
 
 			// Don't want to play
 			case 3:
 				Ecran.afficherln("Vous passez votre tour.");
+				nextPlayer++;
 				break;
 		}
 	}
