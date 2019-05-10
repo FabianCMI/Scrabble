@@ -121,5 +121,5 @@ public class Player {
 		aboutPlayer += "\n" + this.rack;
 		
 		return aboutPlayer;
-	}
+}
 }
