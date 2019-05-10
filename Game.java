@@ -128,12 +128,16 @@ public class Game {
 			Ecran.afficher("Numéro non valide.\nQue souhaitez-vous faire : ");
 			numAction = Clavier.saisirInt();
 		}
+		Ecran.sautDeLigne();
 
 		switch (numAction) {
 			// Put a word
 			case 1:
 				wordPose(player);
 				nextPlayer = 0;
+
+				// Last display
+				Ecran.afficherln("Votre mot a été placé.");
 				break;
 
 			// Change letters
@@ -161,10 +165,14 @@ public class Game {
 				}
 				player.getRack().refreshRack(letters);
 				nextPlayer = 0;
+
+				// Last display
+				Ecran.afficherln("Votre chevalet a été rafrachî.");
 				break;
 
 			// Don't want to play
 			case 3:
+				// Last display
 				Ecran.afficherln("Vous passez votre tour.");
 				nextPlayer++;
 				break;
@@ -323,7 +331,8 @@ public class Game {
 	}
 
 	private int correctCoord(String msg, int value, boolean isHorizontal){
-		int n;
+		int n = 0;
+
 		while(value == 0){
 			if(isHorizontal){
 				while(getGameBoard().getGrid()[value][value+1].getTile().getValue() == 0){
@@ -351,6 +360,6 @@ public class Game {
 			}
 		}
 		
-		return (n);
+		return n;
 	}
 } 
