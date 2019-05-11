@@ -10,6 +10,7 @@ public class Game {
 	// ---------- Attributs ----------
 
 	final int nbPlayer;
+	private boolean playGame = true;
 	private int nbTour;
 	private int nextPlayer = 0;
 	private Player[] player;
@@ -106,7 +107,7 @@ public class Game {
 				// Check all the racks
 				if(this.playGame)
 					this.playGame = !areAllRacksNull();
-				if(this.nextPlayer < this.nbPlayer)
+				if(this.nextPlayer >= this.nbPlayer)
 					this.playGame = false;
 
 			}
@@ -122,18 +123,22 @@ public class Game {
 		this.nbTour += 1;
 
 		// Action entry
-		Ecran.afficher("Que souhaitez-vous faire ?\n 1- Poser des lettres\n 2- Piocher des lettres\n 3- Passer votre tour\n");
+		Ecran.afficher("Que souhaitez-vous faire ?\n 1- Poser des lettres\n 2- Piocher des lettres\n 3- Passer votre tour\nQue souhaitez-vous faire : ");
 		numAction = Clavier.saisirInt();
 		while(numAction < 1 || numAction > 3) {
 			Ecran.afficher("Numéro non valide.\nQue souhaitez-vous faire : ");
 			numAction = Clavier.saisirInt();
 		}
+		Ecran.sautDeLigne();
 
 		switch (numAction) {
 			// Put a word
 			case 1:
 				wordPose(player);
 				nextPlayer = 0;
+
+				// Last display
+				Ecran.afficherln("Votre mot a été placé.");
 				break;
 
 			// Change letters
@@ -161,10 +166,14 @@ public class Game {
 				}
 				player.getRack().refreshRack(letters);
 				nextPlayer = 0;
+
+				// Last display
+				Ecran.afficherln("Votre chevalet a été rafrachî.");
 				break;
 
 			// Don't want to play
 			case 3:
+				// Last display
 				Ecran.afficherln("Vous passez votre tour.");
 				nextPlayer++;
 				break;
