@@ -12,7 +12,7 @@ public class Game {
 	// ---------- Attributs ----------
 
 	final int nbPlayer;
-	private boolean playGame = true;
+	private boolean stateGame = true;
 	private int nbTour;
 	private int nextPlayer = 0;
 	private Player[] player;
@@ -73,8 +73,12 @@ public class Game {
 
 	// ---------- Methods ----------
 
+	// --------------------------------------------------
+	// ###################### Game ######################
+	// --------------------------------------------------
+
 	/**
-	 * Ask players for their names
+	 * Ask players for their names and initialize the game
 	 * 
 	 * @return Array of names
 	 */
@@ -93,34 +97,36 @@ public class Game {
 
 	public void playGame() {
 		// Variable
-		boolean playGame = true;
+		boolean stateGame = true;
 		int i;
 
 		// Main loop
 		do {
 			for (i = Library.getRandomInt(this.nbPlayer); i < this.nbPlayer; i++) {
-				// Display
+				// Informations display
 				Ecran.afficherln("C'est au tour de " + this.player[i].getName() + " de jouer..."); // first message
 				Ecran.afficherln("\n" + this.gameboard + "\n"); // game board
 				Ecran.afficherln(this.player[i] + "\n"); // informations about the player (name, score and rack)
 
-				// Menu of all possible actions
+				// Menu of actions
 				selectAction(this.player[i]);
 
 				// Check if the game can continue
-				if (this.playGame)
-					this.playGame = !areAllRacksNull();
-				if (this.nextPlayer >= this.nbPlayer)
-					this.playGame = false;
+				if(areAllRacksNull()) // check if all racks all racks are empty
+					this.stateGame = false;
+				if (this.nextPlayer >= this.nbPlayer) // check if all players have passed their turn
+					this.stateGame = false;
 
-				// One more
+				// One more tour
 				this.nbTour += 1;
 			}
-		} while (this.playGame);
+		} while (this.stateGame);
 	}
 
 	/**
 	 * The player choose an action
+	 * 
+	 * @param player The player who is currently player
 	 */
 	public void selectAction(Player player) {
 		// Variables
@@ -139,6 +145,7 @@ public class Game {
 		switch (numAction) {
 		// Put a word
 		case 1:
+			// Putting the word
 			wordPose(player);
 			nextPlayer = 0;
 
@@ -185,8 +192,12 @@ public class Game {
 		}
 	}
 
+	// --------------------------------------------------
+	// ##################### Actions ####################
+	// --------------------------------------------------
+
 	/********
-	 * TO-DO : faire les tests pour empecher de sortir du tableau ********* si on
+	 * TODO: faire les tests pour empecher de sortir du tableau ********* si on
 	 * rajoute une tuile sur une case au bords, verifier le calcul de point en
 	 * vertical
 	 */
@@ -285,24 +296,14 @@ public class Game {
 		Ecran.afficherln(player.getName() + " a maintenant " + player.getScore() + " points");
 	}
 
-	/**
-	 * Check if all the racks are 'null'
-	 * 
-	 * @return True if there are
-	 */
-	private boolean areAllRacksNull() {
-		// Variable
-		boolean areNull = true;
-
-		// Treatment
-		for (int i = 0; i < this.nbPlayer; i++) {
-			if (!this.player[i].isRackNull()) {
-				areNull = false;
-			}
-		}
-
-		return areNull;
+	private void setTileOnGrid(int numLine, int numColumn, Player player, int numTileInRack) {
+		Square tile = this.getGameBoard().getGrid()[numLine][numColumn];
+		tile.setTile(player.getRack().getTiles()[numTileInRack]);
 	}
+	
+	// --------------------------------------------------
+	// ###################### Other #####################
+	// --------------------------------------------------
 
 	/**
 	 * Make sure the asked value is bewteen 0 and 14
@@ -320,11 +321,6 @@ public class Game {
 			n = Clavier.saisirInt();
 		}
 		return n;
-	}
-
-	private void setTileOnGrid(int numLine, int numColumn, Player player, int numTileInRack) {
-		Square tile = this.getGameBoard().getGrid()[numLine][numColumn];
-		tile.setTile(player.getRack().getTiles()[numTileInRack]);
 	}
 
 	private int indexOnTheRack(Player player, char letter) {
@@ -374,5 +370,24 @@ public class Game {
 		}
 
 		return n;
+	}
+
+	/**
+	 * Check if all the racks are 'null'
+	 * 
+	 * @return True if there are
+	 */
+	private boolean areAllRacksNull() {
+		// Variable
+		boolean areNull = true;
+
+		// Treatment
+		for (int i = 0; i < this.nbPlayer; i++) {
+			if (!this.player[i].isRackNull()) {
+				areNull = false;
+			}
+		}
+
+		return areNull;
 	}
 }
