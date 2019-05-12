@@ -15,9 +15,9 @@ public class Square {
     /** The score multiplicator's type */
     private boolean typeScoreMult;
     /** the abscissa of the square */
-    private int x;
+    private int line;
     /** the ordinate of the square */
-    private int y;
+    private int column;
      
 
 	// ---------- Constructors ----------
@@ -29,12 +29,12 @@ public class Square {
 	 * @param scoreMultiplicator  The score multiplicator of the square (values 1, 2 or 3)
      * @param typeScoreMult The score multiplicator's type (false for letter, true for entire word)
 	 */
-	Square(Tiles tile, int scoreMultiplicator, boolean typeScoreMult, int x, int y) {
+	Square(Tiles tile, int scoreMultiplicator, boolean typeScoreMult, int line, int column) {
         this.tile = tile;
         this.scoreMultiplicator = scoreMultiplicator;
         this.typeScoreMult = typeScoreMult;
-        this.x = x;
-        this.y = y;
+        this.line = line;
+        this.column = column;
     }
     
     // ---------- Methods ----------
@@ -67,21 +67,21 @@ public class Square {
     }
 
     /**
-	 * Get the abscissa of the square 
+	 * Get the line's numero of the square 
 	 * 
-	 * @return The abscissa 
+	 * @return The numero of the line 
 	 */
-    public int getAbscissa(){
-        return(this.x);
+    public int getLine(){
+        return(this.line);
     }
 
     /**
-	 * Get the ordinate of the square 
+	 * Get the column's numero of the square 
 	 * 
-	 * @return The ordinate
+	 * @return The numero of the column
 	 */
-    public int getOrdinate(){
-        return(this.y);
+    public int getColumn(){
+        return(this.column);
     }
 
     /**
@@ -91,6 +91,24 @@ public class Square {
 	 */
     public void setTile(Tiles tile){
         this.tile = tile;
+    }
+
+    /**
+     * Set the line on which is placed the square
+     * 
+     * @param n the number by which you want to increase the line's numero
+     */
+    public void setLine(int n){
+        this.line += n;
+    }
+
+    /**
+     * Set the column on which is placed the square
+     * 
+     * @param n the number by which you want to increase the column's numero
+     */
+    public void setColumn(int n){
+        this.column += n;
     }
 
     /**
@@ -108,9 +126,9 @@ public class Square {
     public String toString(){
         if(this.typeScoreMult){
             return(this.tile + "\nMultiplicateur : " + this.scoreMultiplicator + 
-            "\n Type : mot\nx:" + this.x + "\ny:" + this.y);
+            "\n Type : mot\nx:" + this.line + "\ny:" + this.column);
         }
         return(this.tile + "\nMultiplicateur : " + this.scoreMultiplicator + 
-        "\nType : lettre\nx:" + this.x + "\ny:" + this.y);
+        "\nType : lettre\nx:" + this.line + "\ny:" + this.column);
     }
 }

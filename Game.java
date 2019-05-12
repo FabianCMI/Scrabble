@@ -10,7 +10,6 @@ public class Game {
 	// ---------- Attributs ----------
 
 	final int nbPlayer;
-	private boolean playGame = true;
 	private int nbTour;
 	private int nextPlayer = 0;
 	private Player[] player;
@@ -180,9 +179,6 @@ public class Game {
 		}
 	}
 
-	/******** TO-DO : faire les tests pour empecher de sortir du tableau *********
-	si on rajoute une tuile sur une case au bords, verifier le calcul de point en vertical*/
-
 	private void wordPose(Player player){
 		// Variables
 		boolean isHorizontal = true;
@@ -220,14 +216,13 @@ public class Game {
 						Ecran.afficherln("Erreur - Il y a déjà une tuile posée sur cette case ");
 						column = correctCapture("le numéro de la colonne", 1, 15) - 1;
 					}
-					if(column > 1 && column < 15){
+					if(column > 0 && column < 14){
 						while(getGameBoard().getGrid()[line][column-1].getTile().getValue() == 0 
 						&& getGameBoard().getGrid()[line][column+1].getTile().getValue() == 0){
 							Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
 							column = correctCapture("le numéro de la colonne", 1, 15) - 1;
 						}
-					}
-					else {
+					} else {
 						column = correctCoord("la colonne", line, column, true);
 					}
 				} else {
@@ -236,31 +231,44 @@ public class Game {
 						Ecran.afficherln("Erreur - Il y a déjà une tuile posée sur cette case ");
 						line = correctCapture("le numéro de la ligne", 1, 15) - 1;
 					}
-					while(line > 1 && line < 15){
+					if(line > 0 && line < 14){
 						while(getGameBoard().getGrid()[line-1][column].getTile().getValue() == 0 
 						&& getGameBoard().getGrid()[line+1][column].getTile().getValue() == 0){
 							Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
 							line = correctCapture("le numéro de la ligne", 1, 15) - 1;
 						}
+					} else {
+						line = correctCoord("la ligne", line, column, false);
 					}
-					line = correctCoord("la ligne", line, column, false);
 				}
 			} 
 			setTileOnGrid(line, column, player, indexOnTheRack(player, word.charAt(i)));
 			System.out.println(getGameBoard());
 		}
 		
+		// score calcul
+		Square firstSquare = this.getGameBoard().getGrid()[line][column];
 		if (isHorizontal){
+			if(column > 0){
+				while(firstSquare.getTile().getValue() != 0 && firstSquare.getColumn() > 0){
+					firstSquare.setColumn(-1);
+				}
+			}
 			if(nbTiles == 7)
-				player.increaseScore(getGameBoard().wordScoreCalcul(getGameBoard().grid[line][column-(nbTiles-1)], nbTiles, true, true));
+				player.increaseScore(getGameBoard().wordScoreCalcul(firstSquare, nbTiles, true, true));
 			else 
-				player.increaseScore(getGameBoard().wordScoreCalcul(getGameBoard().grid[line][column-(nbTiles-1)], nbTiles, true, false));
+				player.increaseScore(getGameBoard().wordScoreCalcul(firstSquare, nbTiles, true, false));
 
 		} else {
+			if(line > 0){
+				while(getGameBoard().getGrid()[firstSquare.getLine()-1][firstSquare.getColumn()].getTile().getValue() != 0){
+					firstSquare.setLine(-1);
+				}
+			}
 			if(nbTiles == 7)
-				player.increaseScore(getGameBoard().wordScoreCalcul(getGameBoard().grid[line-(nbTiles-1)][column], nbTiles, false, true));
+				player.increaseScore(getGameBoard().wordScoreCalcul(firstSquare, nbTiles, false, true));
 			else 
-				player.increaseScore(getGameBoard().wordScoreCalcul(getGameBoard().grid[line-(nbTiles-1)][column], nbTiles, false, false));
+				player.increaseScore(getGameBoard().wordScoreCalcul(firstSquare, nbTiles, false, false));
 		}
 		Ecran.afficherln(player.getName() + " a maintenant " + player.getScore() + " points");
 	}
