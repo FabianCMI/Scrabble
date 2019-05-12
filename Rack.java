@@ -40,8 +40,8 @@ public class Rack {
 	public int getNullTiles() {
 		int nbNullTiles = 0;
 
-		for(int i=0; i<this.rack.length; i++) {
-			if(this.rack[0] == null)
+		for (int i = 0; i < this.rack.length; i++) {
+			if (this.rack[0] == null)
 				nbNullTiles++;
 		}
 
@@ -49,17 +49,17 @@ public class Rack {
 	}
 
 	/**
-	 *  Change some tiles in a rack
+	 * Change some tiles in a rack
 	 * 
 	 * @param nbLetters the number of tiles you have to draw
 	 */
 	public void refreshRack(int[] indexLetter) {
-		if(indexLetter.length <= 7 && bag.getLettersLength() > 0) {
-			for(int i=0; i<indexLetter.length; i++) {
+		if (indexLetter.length <= 7 && bag.getLettersLength() > 0) {
+			for (int i = 0; i < indexLetter.length; i++) {
 				this.rack[i] = this.bag.drawLetter();
 			}
 		} else {
-			for(int i=0; i<indexLetter.length; i++) {
+			for (int i = 0; i < indexLetter.length; i++) {
 				this.rack[i] = null;
 			}
 		}

@@ -1,3 +1,4 @@
+
 /**
  * Scrabble (APO Project - CMI L1) Rack.java - Represents the tiles's rack of a
  * player
@@ -5,6 +6,7 @@
  * @author Fabian Devel, Valentin Perignon
  */
 import javax.swing.JOptionPane;
+
 public class Game {
 
 	// ---------- Attributs ----------
@@ -24,9 +26,10 @@ public class Game {
 	Game() {
 		// First text
 		int nbPlayerInput;
-		Ecran.afficher ("\n========== SCRABBLE ==========\nBonjour et bienvenue dans ce jeu de scrabble.\n\nSaisir le nombre de joueurs : ");
+		Ecran.afficher(
+				"\n========== SCRABBLE ==========\nBonjour et bienvenue dans ce jeu de scrabble.\n\nSaisir le nombre de joueurs : ");
 		nbPlayerInput = Clavier.saisirInt();
-		while(nbPlayerInput < 2 || nbPlayerInput > 4) {
+		while (nbPlayerInput < 2 || nbPlayerInput > 4) {
 			Ecran.afficher("Vous devez avoir entre 2 et 4 joueurs. Saisir le nombre de joueurs : ");
 			nbPlayerInput = Clavier.saisirInt();
 		}
@@ -36,9 +39,9 @@ public class Game {
 		// Names
 		String[] names = initGame();
 		for (int i = 0; i < this.nbPlayer; i++) {
-			if(names[i].length() < 1)
+			if (names[i].length() < 1)
 				player[i] = new Player();
-			else 
+			else
 				player[i] = new Player(names[i]);
 		}
 		Ecran.sautDeLigne();
@@ -81,7 +84,7 @@ public class Game {
 
 		// Treatment
 		for (int i = 0; i < this.nbPlayer; i++) {
-			Ecran.afficher("Saisir le nom du joueur " + (i+1) + ": ");
+			Ecran.afficher("Saisir le nom du joueur " + (i + 1) + ": ");
 			names[i] = Clavier.saisirString();
 		}
 
@@ -95,181 +98,189 @@ public class Game {
 
 		// Main loop
 		do {
-			for(i=Library.getRandomInt(this.nbPlayer); i<this.nbPlayer; i++) {
+			for (i = Library.getRandomInt(this.nbPlayer); i < this.nbPlayer; i++) {
 				// Display
 				Ecran.afficherln("C'est au tour de " + this.player[i].getName() + " de jouer..."); // first message
 				Ecran.afficherln("\n" + this.gameboard + "\n"); // game board
 				Ecran.afficherln(this.player[i] + "\n"); // informations about the player (name, score and rack)
-	
+
 				// Menu of all possible actions
 				selectAction(this.player[i]);
-	
-				// Check all the racks
-				if(this.playGame)
+
+				// Check if the game can continue
+				if (this.playGame)
 					this.playGame = !areAllRacksNull();
-				if(this.nextPlayer >= this.nbPlayer)
+				if (this.nextPlayer >= this.nbPlayer)
 					this.playGame = false;
 
 				// One more
 				this.nbTour += 1;
 			}
-		} while(this.playGame);
+		} while (this.playGame);
 	}
 
 	/**
-	 * The player choose an action 
+	 * The player choose an action
 	 */
-	public void selectAction(Player player){
+	public void selectAction(Player player) {
 		// Variables
 		int numAction;
 
 		// Action entry
-		Ecran.afficher("Que souhaitez-vous faire ?\n 1- Poser des lettres\n 2- Piocher des lettres\n 3- Passer votre tour\nQue souhaitez-vous faire : ");
+		Ecran.afficher(
+				"Que souhaitez-vous faire ?\n 1- Poser des lettres\n 2- Piocher des lettres\n 3- Passer votre tour\nQue souhaitez-vous faire : ");
 		numAction = Clavier.saisirInt();
-		while(numAction < 1 || numAction > 3) {
+		while (numAction < 1 || numAction > 3) {
 			Ecran.afficher("Numéro non valide.\nQue souhaitez-vous faire : ");
 			numAction = Clavier.saisirInt();
 		}
 		Ecran.sautDeLigne();
 
 		switch (numAction) {
-			// Put a word
-			case 1:
-				wordPose(player);
-				nextPlayer = 0;
+		// Put a word
+		case 1:
+			wordPose(player);
+			nextPlayer = 0;
 
-				// Last display
-				Ecran.afficherln("Votre mot a été placé.");
-				break;
+			// Last display
+			Ecran.afficherln("Votre mot a été placé.");
+			break;
 
-			// Change letters
-			case 2:
-				int nbLettersToChange;
-				int[] letters;
+		// Change letters
+		case 2:
+			int nbLettersToChange;
+			int[] letters;
 
-				// Number of letters
-				Ecran.afficher("Saisir le nombre de lettres que vous souhaitez changer : ");
+			// Number of letters
+			Ecran.afficher("Saisir le nombre de lettres que vous souhaitez changer : ");
+			nbLettersToChange = Clavier.saisirInt();
+			while (nbLettersToChange < 1 || nbLettersToChange > 7) {
+				Ecran.afficher("Nombre invalide.\nSaisir le nombre de lettres que vous souhaitez changer : ");
 				nbLettersToChange = Clavier.saisirInt();
-				while(nbLettersToChange < 1 || nbLettersToChange > 7) {
-					Ecran.afficher("Nombre invalide.\nSaisir le nombre de lettres que vous souhaitez changer : ");
-					nbLettersToChange = Clavier.saisirInt();
-				}
-				letters = new int[nbLettersToChange];
+			}
+			letters = new int[nbLettersToChange];
 
-				// Letters
-				for(int i=0; i<nbLettersToChange; i++) {
-					Ecran.afficher("Saisir le numéro de la " + (i+1) + "e lettre à changer: ");
+			// Letters
+			for (int i = 0; i < nbLettersToChange; i++) {
+				Ecran.afficher("Saisir le numéro de la " + (i + 1) + "e lettre à changer: ");
+				letters[i] = Clavier.saisirInt();
+				while (letters[i] < 1 || letters[i] > 7) {
+					Ecran.afficher("Nombre invalide.\nSaisir le numéro de la lettre à changer: ");
 					letters[i] = Clavier.saisirInt();
-					while(letters[i] < 1 || letters[i] > 7) {
-						Ecran.afficher("Nombre invalide.\nSaisir le numéro de la lettre à changer: ");
-						letters[i] = Clavier.saisirInt();
-					}
 				}
-				player.getRack().refreshRack(letters);
-				nextPlayer = 0;
+			}
+			player.getRack().refreshRack(letters);
+			nextPlayer = 0;
 
-				// Last display
-				Ecran.afficherln("Votre chevalet a été rafrachî.");
-				break;
+			// Last display
+			Ecran.afficherln("Votre chevalet a été rafrachî.");
+			break;
 
-			// Don't want to play
-			case 3:
-				// Last display
-				Ecran.afficherln("Vous passez votre tour.");
-				nextPlayer++;
-				break;
+		// Don't want to play
+		case 3:
+			// Last display
+			Ecran.afficherln("Vous passez votre tour.");
+			nextPlayer++;
+			break;
 		}
 	}
 
-	/******** TO-DO : faire les tests pour empecher de sortir du tableau *********
-	si on rajoute une tuile sur une case au bords, verifier le calcul de point en vertical*/
+	/********
+	 * TO-DO : faire les tests pour empecher de sortir du tableau ********* si on
+	 * rajoute une tuile sur une case au bords, verifier le calcul de point en
+	 * vertical
+	 */
 
-	private void wordPose(Player player){
+	private void wordPose(Player player) {
 		// Variables
 		boolean isHorizontal = true;
 		String word = "";
-		int line = 0; 
+		int line = 0;
 		int column = 0;
-		int[] nbTile = {1, 2, 3, 4, 5, 6, 7};
+		int[] nbTile = { 1, 2, 3, 4, 5, 6, 7 };
 
 		// Treatment
 		int nbTiles = correctCapture("le nombre de tuiles à posées", 1, 7);
-		while(this.nbTour == 1 && nbTiles == 1){
+		while (this.nbTour == 1 && nbTiles == 1) {
 			Ecran.afficher("Erreur - Vous devez obligatoirement poser un mot d'au moins 2 lettres en premier ");
 			nbTiles = correctCapture("le nombre de tuiles à posées", 1, 7);
 		}
 		Ecran.afficher("Quelle est l'orientation du mot ?\n0 : horizontal\n1 : vertical\n > ");
 		int n = correctCapture("l'orientation", 0, 1);
-		if(n == 1){
+		if (n == 1) {
 			isHorizontal = false;
 		}
-		for(int i=0; i < nbTiles; i++){
+		for (int i = 0; i < nbTiles; i++) {
 			Ecran.afficherln("Voici votre chevalet :\n" + player.getRack() + "\nQuelle lettre voulez vous poser ?");
 			word += Clavier.saisirString();
-			while(indexOnTheRack(player, word.charAt(i)) == -1){
+			while (indexOnTheRack(player, word.charAt(i)) == -1) {
 				Ecran.afficherln("Cette tuile n'est pas dans votre chevalet, veuillez en choisir une autre : ");
-				word = word.substring(0, word.length()-1); // delete the last char of the string for the next test
+				word = word.substring(0, word.length() - 1); // delete the last char of the string for the next test
 				word += Clavier.saisirString(); // replace it by a new one
 			}
-			if(i == 0){
+			if (i == 0) {
 				line = correctCapture("le numéro de la ligne", 1, 15);
 				column = correctCapture("le numéro de la colonne", 1, 15);
 			} else {
-				if(isHorizontal){
+				if (isHorizontal) {
 					column = correctCapture("le numéro de la colonne", 1, 15);
-					while(getGameBoard().getGrid()[line][column].getTile().getValue() != 0){
+					while (getGameBoard().getGrid()[line][column].getTile().getValue() != 0) {
 						Ecran.afficherln("Erreur - Il y a déjà une tuile posée sur cette case ");
 						column = correctCapture("le numéro de la colonne", 1, 15);
 					}
-					while(column > 1 && column < 15){
-						while(getGameBoard().getGrid()[line][column-1].getTile().getValue() == 0 
-						&& getGameBoard().getGrid()[line][column+1].getTile().getValue() == 0){
+					while (column > 1 && column < 15) {
+						while (getGameBoard().getGrid()[line][column - 1].getTile().getValue() == 0
+								&& getGameBoard().getGrid()[line][column + 1].getTile().getValue() == 0) {
 							Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
 							column = correctCapture("le numéro de la colonne", 1, 15);
 						}
 					}
 				} else {
 					line = correctCapture("le numéro de la ligne", 1, 15);
-					while(getGameBoard().getGrid()[line][column].getTile().getValue() != 0){
+					while (getGameBoard().getGrid()[line][column].getTile().getValue() != 0) {
 						Ecran.afficherln("Erreur - Il y a déjà une tuile posée sur cette case ");
 						line = correctCapture("le numéro de la ligne", 1, 15);
 					}
-					while(line > 1 && line < 15){
-						while(getGameBoard().getGrid()[line-1][column].getTile().getValue() == 0 
-						&& getGameBoard().getGrid()[line+1][column].getTile().getValue() == 0){
+					while (line > 1 && line < 15) {
+						while (getGameBoard().getGrid()[line - 1][column].getTile().getValue() == 0
+								&& getGameBoard().getGrid()[line + 1][column].getTile().getValue() == 0) {
 							Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
 							line = correctCapture("le numéro de la ligne", 1, 15);
 						}
 					}
-					while(line == 1){
-						while(getGameBoard().getGrid()[line+1][column].getTile().getValue() == 0){
+					while (line == 1) {
+						while (getGameBoard().getGrid()[line + 1][column].getTile().getValue() == 0) {
 							Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
 							line = correctCapture("le numéro de la ligne", 1, 15);
 						}
 					}
-					while(line == 15){
-						while(getGameBoard().getGrid()[line-1][column].getTile().getValue() == 0){
+					while (line == 15) {
+						while (getGameBoard().getGrid()[line - 1][column].getTile().getValue() == 0) {
 							Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
 							line = correctCapture("le numéro de la ligne", 1, 15);
 						}
 					}
 				}
-			} 
-			setTileOnGrid(line-1, column-1, player, indexOnTheRack(player, word.charAt(i)));
+			}
+			setTileOnGrid(line - 1, column - 1, player, indexOnTheRack(player, word.charAt(i)));
 			System.out.println(getGameBoard());
 		}
-		
-		if (isHorizontal){
-			if(nbTiles == 7)
-				player.increaseScore(getGameBoard().wordScoreCalcul(getGameBoard().grid[line][column-(nbTiles-1)], nbTiles, true, true));
-			else 
-				player.increaseScore(getGameBoard().wordScoreCalcul(getGameBoard().grid[line][column-(nbTiles-1)], nbTiles, true, false));
+
+		if (isHorizontal) {
+			if (nbTiles == 7)
+				player.increaseScore(getGameBoard().wordScoreCalcul(getGameBoard().grid[line][column - (nbTiles - 1)],
+						nbTiles, true, true));
+			else
+				player.increaseScore(getGameBoard().wordScoreCalcul(getGameBoard().grid[line][column - (nbTiles - 1)],
+						nbTiles, true, false));
 
 		} else {
-			if(nbTiles == 7)
-				player.increaseScore(getGameBoard().wordScoreCalcul(getGameBoard().grid[line-(nbTiles-1)][column], nbTiles, false, true));
-			else 
-				player.increaseScore(getGameBoard().wordScoreCalcul(getGameBoard().grid[line-(nbTiles-1)][column], nbTiles, false, false));
+			if (nbTiles == 7)
+				player.increaseScore(getGameBoard().wordScoreCalcul(getGameBoard().grid[line - (nbTiles - 1)][column],
+						nbTiles, false, true));
+			else
+				player.increaseScore(getGameBoard().wordScoreCalcul(getGameBoard().grid[line - (nbTiles - 1)][column],
+						nbTiles, false, false));
 		}
 		Ecran.afficherln(player.getName() + " a maintenant " + player.getScore() + " points");
 	}
@@ -284,8 +295,8 @@ public class Game {
 		boolean areNull = true;
 
 		// Treatment
-		for(int i=0; i<this.nbPlayer; i++) {
-			if(!this.player[i].isRackNull()) {
+		for (int i = 0; i < this.nbPlayer; i++) {
+			if (!this.player[i].isRackNull()) {
 				areNull = false;
 			}
 		}
@@ -294,74 +305,74 @@ public class Game {
 	}
 
 	/**
-	 * Make sure the asked value is bewteen 0 and 14 
+	 * Make sure the asked value is bewteen 0 and 14
 	 * 
-	 * @param min 
-	 * @param max 
+	 * @param min
+	 * @param max
 	 * @param msg the name of the value asked
 	 * @return the value
 	 */
-	private int correctCapture (String msg, int min, int max){
+	private int correctCapture(String msg, int min, int max) {
 		Ecran.afficherln("Veuillez saisir " + msg + " : ");
 		int n = Clavier.saisirInt();
-		while(n < min || n > max){
+		while (n < min || n > max) {
 			Ecran.afficherln("Le nombre saisi doit être compris entre " + min + " et " + max + " (compris)");
 			n = Clavier.saisirInt();
 		}
 		return n;
 	}
 
-	private void setTileOnGrid(int numLine, int numColumn, Player player, int numTileInRack){
+	private void setTileOnGrid(int numLine, int numColumn, Player player, int numTileInRack) {
 		Square tile = this.getGameBoard().getGrid()[numLine][numColumn];
 		tile.setTile(player.getRack().getTiles()[numTileInRack]);
 	}
 
-	private int indexOnTheRack (Player player, char letter){
+	private int indexOnTheRack(Player player, char letter) {
 		boolean isOn = false;
 		int i = -1;
-		while(!isOn && i < 6){
+		while (!isOn && i < 6) {
 			i++;
-			if(player.getRack().getTiles()[i].getLetter() == letter){
+			if (player.getRack().getTiles()[i].getLetter() == letter) {
 				isOn = true;
 			}
-			
+
 		}
-		if(!isOn){ //not found
+		if (!isOn) { // not found
 			i = -1;
 		}
-		return(i);
+		return (i);
 	}
 
-	private int correctCoord(String msg, int value, boolean isHorizontal){
+	private int correctCoord(String msg, int value, boolean isHorizontal) {
 		int n = 0;
 
-		while(value == 0){
-			if(isHorizontal){
-				while(getGameBoard().getGrid()[value][value+1].getTile().getValue() == 0){
+		while (value == 0) {
+			if (isHorizontal) {
+				while (getGameBoard().getGrid()[value][value + 1].getTile().getValue() == 0) {
 					Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
 					value = correctCapture("le numéro de " + msg, 1, 15);
 				}
 			} else {
-				while(getGameBoard().getGrid()[value+1][value].getTile().getValue() == 0){
+				while (getGameBoard().getGrid()[value + 1][value].getTile().getValue() == 0) {
 					Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
 					value = correctCapture("le numéro de " + msg, 1, 15);
 				}
 			}
 		}
-		while(value == 15){
-			if(isHorizontal){
-				while(getGameBoard().getGrid()[value][value-1].getTile().getValue() == 0){
+		while (value == 15) {
+			if (isHorizontal) {
+				while (getGameBoard().getGrid()[value][value - 1].getTile().getValue() == 0) {
 					Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
 					value = correctCapture("le numéro de " + msg, 1, 15);
 				}
 			} else {
-				while(getGameBoard().getGrid()[value-1][value].getTile().getValue() == 0){
+				while (getGameBoard().getGrid()[value - 1][value].getTile().getValue() == 0) {
 					Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
 					value = correctCapture("le numéro de " + msg, 1, 15);
 				}
 			}
 		}
-		
+
 		return n;
 	}
-} 
+}

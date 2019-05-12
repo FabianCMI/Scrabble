@@ -127,7 +127,7 @@ public class TilesBag {
 
 		// "Remove" it from the bag
 		lettersLength -= 1;
-		if(this.lettersLength > 0) {
+		if (this.lettersLength > 0) {
 			Tiles tmpTile = this.letters[index];
 			this.letters[index] = this.letters[this.lettersLength - 1];
 			this.letters[this.lettersLength - 1] = tmpTile;
