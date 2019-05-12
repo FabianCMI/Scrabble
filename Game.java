@@ -91,17 +91,18 @@ public class Game {
 	public void playGame() {
 		// Variable
 		boolean playGame = true;
+		int i;
 
 		// Main loop
 		do {
-			for(int i=0; i<this.nbPlayer; i++) {
+			for(i=Library.getRandomInt(this.nbPlayer); i<this.nbPlayer; i++) {
 				// Display
 				Ecran.afficherln("C'est au tour de " + this.player[i].getName() + " de jouer..."); // first message
 				Ecran.afficherln("\n" + this.gameboard + "\n"); // game board
 				Ecran.afficherln(this.player[i] + "\n"); // informations about the player (name, score and rack)
 	
-				// Action from the player
-				playerAction(this.player[i]);
+				// Menu of all possible actions
+				selectAction(this.player[i]);
 	
 				// Check all the racks
 				if(this.playGame)
@@ -118,7 +119,7 @@ public class Game {
 	/**
 	 * The player choose an action 
 	 */
-	public void playerAction(Player player){
+	public void selectAction(Player player){
 		// Variables
 		int numAction;
 

@@ -12,7 +12,6 @@ Tiles()
 char getLetter()
 int getValue()
 ### Methods
-void setLetter(char letter)
 String toString()
 
 ## TilesBag
