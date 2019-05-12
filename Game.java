@@ -109,6 +109,8 @@ public class Game {
 				if(this.nextPlayer >= this.nbPlayer)
 					this.playGame = false;
 
+				// One more
+				this.nbTour += 1;
 			}
 		} while(this.playGame);
 	}
@@ -119,7 +121,6 @@ public class Game {
 	public void playerAction(Player player){
 		// Variables
 		int numAction;
-		this.nbTour += 1;
 
 		// Action entry
 		Ecran.afficher("Que souhaitez-vous faire ?\n 1- Poser des lettres\n 2- Piocher des lettres\n 3- Passer votre tour\nQue souhaitez-vous faire : ");
@@ -188,7 +189,7 @@ public class Game {
 		String word = "";
 		int line = 0; 
 		int column = 0;
-		Integer[] nbTile = {1, 2, 3, 4, 5, 6, 7};
+		int[] nbTile = {1, 2, 3, 4, 5, 6, 7};
 
 		// Treatment
 		int nbTiles = correctCapture("le nombre de tuiles à posées", 1, 7);
@@ -196,7 +197,7 @@ public class Game {
 			Ecran.afficher("Erreur - Vous devez obligatoirement poser un mot d'au moins 2 lettres en premier ");
 			nbTiles = correctCapture("le nombre de tuiles à posées", 1, 7);
 		}
-		Ecran.afficherln("Quelle est l'orientation du mot ?\n0 : horizontal\n1 : vertical");
+		Ecran.afficher("Quelle est l'orientation du mot ?\n0 : horizontal\n1 : vertical\n > ");
 		int n = correctCapture("l'orientation", 0, 1);
 		if(n == 1){
 			isHorizontal = false;

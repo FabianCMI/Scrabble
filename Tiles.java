@@ -53,10 +53,6 @@ public class Tiles {
 	public int getValue() {
 		return this.value;
 	}
-
-	public void setLetter(char letter){
-		this.letter = letter;
-	}
 	// ---------- Methods ----------
 
 	/**

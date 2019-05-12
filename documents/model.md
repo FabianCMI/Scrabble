@@ -9,10 +9,11 @@ int value
 Tiles(char letter, int value)
 Tiles()
 ### Getters
-getLetter()
-getValue()
+char getLetter()
+int getValue()
 ### Methods
-toString()
+void setLetter(char letter)
+String toString()
 
 ## TilesBag
 ### Attributs
@@ -21,10 +22,10 @@ int lettersLength = 100
 ### Constructors
 TilesBag()
 ### Getters
-getTiles()
-getLettersLength()
+Tiles[] getTiles()
+int getLettersLength()
 ### Methods
-drawLetter()
+Tiles drawLetter()
 
 ## Rack
 ### Attributs
@@ -33,9 +34,11 @@ TilesBag bag
 ### Constructors
 Rack()
 ### Getters
-getRack()
+Tiles[] getTiles()
 ### Methods
-toString()
+int getNullTiles()
+void refreshRack(int[] indexLetter)
+String toString()
 
 ## Player
 ### Attributs
@@ -46,30 +49,45 @@ Rack rack
 Player(String name)
 Player()
 ### Getters
-getName()
-getScore()
-getRack()
+String getName()
+int getScore()
+Rack getRack()
 ### Methods
-refreshRack(int... indexLetters)
-increaseScore(int value)
-toString()
+boolean isRackNull()
+void increaseScore(int value)
+String toString()
 
 ## GameBoard
 ### Attributs
-Tiles[15][15] grid
+Square[15][15] grid
 ### Constructors
 GameBoard()
+### Getters
+Square[][] getGrid()
 ### Methods
-...
+boolean testLetterMult(int i, int j, int m, int n, int lastN)
+int wordScoreCalcul(Square firstLetter, int wordLength, boolean horizontal, boolean scrabble)
 toString()
 
 ## Square
 ### Attributs
-...
+Tiles tile
+int scoreMultiplicator
+boolean typeScoreMult
+int x
+int y
 ### Constructors
-...
+Square(Tiles tile, int scoreMultiplicator, boolean typeScoreMult, int x, int y)
+### Getters
+Tiles getTile()
+int getScoreMult()
+boolean getTypeScoreMult()
+int getAbscissa()
+int getOrdinate()
 ### Methods
-...
+void setTile(Tiles tile)
+int tileScoreCalcul()
+String toString()
 
 ## Game
 ### Attributs
