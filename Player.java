@@ -75,8 +75,8 @@ public class Player {
 		boolean areAllNull = true;
 
 		// Treatement
-		for(int i=0; i<this.rack.getTiles().length; i++) {
-			if(this.rack.getTiles()[i] != null) {
+		for (int i = 0; i < this.rack.getTiles().length; i++) {
+			if (this.rack.getTiles()[i] != null) {
 				areAllNull = false;
 			}
 		}
@@ -104,22 +104,22 @@ public class Player {
 
 		// Score
 		int value;
-		if(this.score < 10) {
+		if (this.score < 10) {
 			value = 20;
 		} else {
-			if(this.score < 100)
+			if (this.score < 100)
 				value = 19;
 			else
 				value = 18;
 		}
-		for(int i=0; i<20-this.name.length(); i++) {
+		for (int i = 0; i < 20 - this.name.length(); i++) {
 			aboutPlayer += " ";
 		}
 		aboutPlayer += "Score : " + this.score;
 
 		// Rack
 		aboutPlayer += "\n" + this.rack;
-		
+
 		return aboutPlayer;
-}
+	}
 }

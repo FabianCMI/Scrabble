@@ -1,14 +1,14 @@
 /**
- * Scrabble (APO Project - CMI L1) GameBoard.java - Represents the squares of the gameboard's
- * grid
+ * Scrabble (APO Project - CMI L1) GameBoard.java - Represents the squares of
+ * the gameboard's grid
  * 
  * @author Fabian Devel, Valentin Perignon
  */
 
 public class Square {
-// ---------- Attributs ----------
+    // ---------- Attributs ----------
 
-	/** The tile on the square */
+    /** The tile on the square */
     private Tiles tile;
     /** The score multiplicator of the square */
     private int scoreMultiplicator;
@@ -20,7 +20,7 @@ public class Square {
     private int column;
      
 
-	// ---------- Constructors ----------
+    // ---------- Constructors ----------
 
     /**
 	 * Square constructor
@@ -36,34 +36,34 @@ public class Square {
         this.line = line;
         this.column = column;
     }
-    
+
     // ---------- Methods ----------
 
     /**
-	 * Get the tile
-	 * 
-	 * @return The tile on the square
-	 */
-    public Tiles getTile(){
-        return(this.tile);
+     * Get the tile
+     * 
+     * @return The tile on the square
+     */
+    public Tiles getTile() {
+        return (this.tile);
     }
 
     /**
-	 * Get the score multiplicator
-	 * 
-	 * @return The value of the multiplicator
-	 */
-    public int getScoreMult(){
-        return(this.scoreMultiplicator);
+     * Get the score multiplicator
+     * 
+     * @return The value of the multiplicator
+     */
+    public int getScoreMult() {
+        return (this.scoreMultiplicator);
     }
 
     /**
-	 * Get the type of the multiplicator
-	 * 
-	 * @return The type of the multiplicator
-	 */
-    public boolean getTypeScoreMult(){
-        return(this.typeScoreMult);
+     * Get the type of the multiplicator
+     * 
+     * @return The type of the multiplicator
+     */
+    public boolean getTypeScoreMult() {
+        return (this.typeScoreMult);
     }
 
     /**
@@ -85,11 +85,11 @@ public class Square {
     }
 
     /**
-	 * Set the tile
-	 * 
-	 * @param tile The tile to put on the square
-	 */
-    public void setTile(Tiles tile){
+     * Set the tile
+     * 
+     * @param tile The tile to put on the square
+     */
+    public void setTile(Tiles tile) {
         this.tile = tile;
     }
 
@@ -120,7 +120,7 @@ public class Square {
         if(this.typeScoreMult){
             return(this.tile.getValue());
         }
-        return(this.tile.getValue()*this.scoreMultiplicator);
+        return (this.tile.getValue() * this.scoreMultiplicator);
     }
 
     public String toString(){
