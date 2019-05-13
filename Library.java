@@ -48,6 +48,9 @@ public class Library {
 			tabInt[i] = Integer.parseInt(tabStr[i]);
 	}
 
+	/**
+	 * Check if the values of an array are in [min, max]
+	 */
 	public static boolean checkValuesOfArray(int[] tab, int min, int max) {
 		// Variables
 		boolean isOk = true;

@@ -100,6 +100,9 @@ public class Game {
 		return names;
 	}
 
+	/**
+	 * Main part of the game
+	 */
 	public void playGame() {
 		// Variable
 		boolean stateGame = true;
