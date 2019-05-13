@@ -18,6 +18,7 @@ public class Game {
 	private int nextPlayer = 0;
 	private Player[] player;
 	private GameBoard gameboard = new GameBoard();
+	private boolean playGame = true;
 
 	// ---------- Constructors ----------
 

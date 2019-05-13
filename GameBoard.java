@@ -69,15 +69,15 @@ public class GameBoard {
 	 * test 2 columns(symetrics from the centered column) of the grid to know if
 	 * there are letter's score multiplicator on 2 of their squares
 	 * 
-	 * @param x     the abscissa of the grid's square
-	 * @param y     the ordinate of the grid's square
-	 * @param m     the number to add or substract from the lines to obtain the
-	 *              square's abscissa
-	 * @param n     the number to add or substract from the columns to obtain the
-	 *              square's ordinate
-	 * @param lastN the last column or line of the grid
-	 * @return true if the coordinate given by the parameters correspond to a score
-	 *         multiplicator's square
+	 * @param x the Line of the grid's square
+	 * @param y the Column of the grid's square
+	 * @param m the number to add or substract from the lines to obtain
+	 * 	the square's Linecissa
+	 * @param n the number to add or substract from the columns to obtain 
+	 * 	the square's Columninate
+	 * @param lastN the last column or line of the grid 
+	 * @return true if the coColumninate given by the parameters correspond 
+	 * 	to a score multiplicator's square
 	 */
 	private boolean testLetterMult(int i, int j, int m, int n, int lastN) {
 		boolean testOk = false;
@@ -103,25 +103,25 @@ public class GameBoard {
 	public int wordScoreCalcul(Square firstLetter, int wordLength, boolean horizontal, boolean scrabble) {
 		int score = 0;
 		int tempMult = 1;
-		int abs = firstLetter.getAbscissa();
-		int ord = firstLetter.getOrdinate();
-		int newAbs, newOrd;
-		for (int i = 0; i < wordLength; i++) {
-			newAbs = abs + i;
-			newOrd = ord + i;
-			if (horizontal) {
-				if (this.grid[abs][newOrd].getTypeScoreMult()) {
-					score += this.grid[abs][newOrd].tileScoreCalcul();
-					tempMult = tempMult * this.grid[abs][newOrd].getScoreMult();
+		int line = firstLetter.getLine();
+		int column = firstLetter.getColumn();
+		int newLine, newColumn;
+		for(int i = 0; i < wordLength; i++){
+			newLine = line+i;
+			newColumn = column+i;
+    	if(horizontal){
+				if(this.grid[line][newColumn].getTypeScoreMult()){
+					score += this.grid[line][newColumn].tileScoreCalcul();
+					tempMult = tempMult * this.grid[line][newColumn].getScoreMult();
 				} else {
-					score += this.grid[abs][newOrd].tileScoreCalcul();
+					score += this.grid[line][newColumn].tileScoreCalcul();
 				}
-			} else {
-				if (this.grid[newAbs][ord].getTypeScoreMult()) {
-					score += this.grid[newAbs][ord].tileScoreCalcul();
-					tempMult = tempMult * this.grid[newAbs][ord].getScoreMult();
-				} else {
-					score += this.grid[newAbs][ord].tileScoreCalcul();
+      } else {
+				if(this.grid[newLine][column].getTypeScoreMult()){
+					score += this.grid[newLine][column].tileScoreCalcul();
+					tempMult = tempMult * this.grid[newLine][column].getScoreMult();
+				} else{
+					score += this.grid[newLine][column].tileScoreCalcul();
 				}
 			}
 		}
