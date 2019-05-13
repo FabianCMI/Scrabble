@@ -113,6 +113,7 @@ public class GameBoard {
 				if (this.grid[line][newColumn].getTypeScoreMult()) {
 					score += this.grid[line][newColumn].tileScoreCalcul();
 					tempMult = tempMult * this.grid[line][newColumn].getScoreMult();
+					this.grid[line][newColumn].setScoreMult(1);
 				} else {
 					score += this.grid[line][newColumn].tileScoreCalcul();
 				}
@@ -120,6 +121,7 @@ public class GameBoard {
 				if (this.grid[newLine][column].getTypeScoreMult()) {
 					score += this.grid[newLine][column].tileScoreCalcul();
 					tempMult = tempMult * this.grid[newLine][column].getScoreMult();
+					this.grid[newLine][column].setScoreMult(1);
 				} else {
 					score += this.grid[newLine][column].tileScoreCalcul();
 				}

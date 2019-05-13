@@ -113,15 +113,26 @@ public class Square {
     }
 
     /**
+     * Set the score multiplicator of the tile
+     * 
+     * @param n the new value of the score multiplicator
+     */
+    public void setScoreMult(int n){
+        this.scoreMultiplicator = n;
+    }
+
+    /**
      * Calcul the score of the square
      * 
      * @return The score of the square
      */
     public int tileScoreCalcul() {
-        if (this.typeScoreMult) {
-            return (this.tile.getValue());
+        int score = this.tile.getValue();
+        if (this.typeScoreMult == false) {
+            score = this.tile.getValue() * this.scoreMultiplicator;
+            this.setScoreMult(1);
         }
-        return (this.tile.getValue() * this.scoreMultiplicator);
+        return (score);
     }
 
     public String toString() {

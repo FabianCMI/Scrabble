@@ -57,7 +57,7 @@ public class Rack {
 		if (indexLetter.length <= 7 && bag.getLettersLength() > 0) {
 			for (int i = 0; i < indexLetter.length; i++) {
 				if (indexLetter[i] >= 0) {
-					this.rack[indexLetter[i]] = this.bag.drawLetter();
+					this.rack[indexLetter[i]-1] = this.bag.drawLetter();
 				}
 			}
 		} else {

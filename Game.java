@@ -18,7 +18,6 @@ public class Game {
 	private int nextPlayer = 0;
 	private Player[] player;
 	private GameBoard gameboard = new GameBoard();
-	private boolean playGame = true;
 
 	// ---------- Constructors ----------
 
@@ -106,19 +105,20 @@ public class Game {
 	public void playGame() {
 		// Variable
 		boolean stateGame = true;
-		int i;
+		int firstPlayer = Library.getRandomInt(this.nbPlayer);
+		int currentPlayer = firstPlayer;
 
 		// Main loop
+
 		do {
-			for (i = Library.getRandomInt(this.nbPlayer); i < this.nbPlayer; i++) {
 				if (this.stateGame) {
 					// Informations display
-					Ecran.afficherln("C'est au tour de " + this.player[i].getName() + " de jouer..."); // first message
+					Ecran.afficherln("C'est au tour de " + this.player[currentPlayer].getName() + " de jouer..."); // first message
 					Ecran.afficherln("\n" + this.gameboard + "\n"); // game board
-					Ecran.afficherln(this.player[i] + "\n"); // informations about the player (name, score and rack)
+					Ecran.afficherln(this.player[currentPlayer] + "\n"); // informations about the player (name, score and rack)
 
 					// Menu of actions
-					selectAction(this.player[i]);
+					selectAction(this.player[currentPlayer]);
 
 					// Check if the game can continue
 					if (areAllRacksNull()) // check if all racks all racks are empty
@@ -129,7 +129,11 @@ public class Game {
 					// One more tour
 					this.nbTour += 1;
 				}
-			}
+			if(currentPlayer == this.nbPlayer-1)
+				currentPlayer = 0;
+			else
+				currentPlayer += 1; 
+
 		} while (this.stateGame);
 
 		// End of the game
@@ -148,7 +152,7 @@ public class Game {
 	/**
 	 * The player choose an action
 	 * 
-	 * @param player The player who is currently player
+	 * @param player The player who is currently playing
 	 */
 	public void selectAction(Player player) {
 		// Variables
@@ -249,7 +253,7 @@ public class Game {
 		// Check the word
 		indexLetters = new int[word.length()];
 		for (int i = 0; i < word.length(); i++) {
-			// Index onf the letter
+			// Index of the letter
 			indexLetters[i] = indexOnTheRack(player, word.charAt(i));
 
 			// Check if the letter is already on the grid
@@ -291,6 +295,13 @@ public class Game {
 				}
 			}
 		}
+		
+		//score calcul
+		int score = gameboard.wordScoreCalcul(this.gameboard.getGrid()[coordinate[1]][coordinate[0]], indexLetters.length, isHorizontal, isScrabble(indexLetters));
+		player.increaseScore(score);
+		Ecran.afficherln(player.getName() + " a marqué " + score + " points");
+
+		// refreshing the rack
 		player.getRack().refreshRack(indexLetters);
 	}
 
@@ -410,5 +421,19 @@ public class Game {
 		letter = Character.toUpperCase(letter);
 
 		return (int)letter - 64;
+	}
+	
+	private boolean isScrabble (int[] indexLetters){
+		int nbLetter = 0;
+		boolean isScrabble = false;
+		for (int i=0; i<indexLetters.length; i++) {
+			if(indexLetters[i] >= 0){
+				nbLetter += 1;
+			}
+		}
+		if(nbLetter == 7)
+			isScrabble = true;
+
+		return (isScrabble);
 	}
 }
