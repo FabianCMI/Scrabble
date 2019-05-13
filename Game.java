@@ -28,8 +28,8 @@ public class Game {
 	Game() {
 		// First text
 		int nbPlayerInput;
-		Ecran.afficher(
-				"\n========== SCRABBLE ==========\nBonjour et bienvenue dans ce jeu de scrabble.\n\nSaisir le nombre de joueurs : ");
+		Ecran.afficherln("\n============================ SCRABBLE ============================");
+		Ecran.afficher("Bonjour et bienvenue dans ce jeu de scrabble.\n\nSaisir le nombre de joueurs : ");
 		nbPlayerInput = Clavier.saisirInt();
 		while (nbPlayerInput < 2 || nbPlayerInput > 4) {
 			Ecran.afficher("Vous devez avoir entre 2 et 4 joueurs. Saisir le nombre de joueurs : ");
@@ -94,6 +94,9 @@ public class Game {
 			names[i] = Clavier.saisirString();
 		}
 
+		// Beginning of the game
+		Ecran.afficherln("\n----------------------- Début de la partie -----------------------");
+
 		return names;
 	}
 
@@ -127,7 +130,12 @@ public class Game {
 		} while (this.stateGame);
 
 		// End of the game
-		Ecran.afficherln("Vous avez terminé la partie !");
+		Ecran.afficherln("\n------------------------ Fin de la partie ------------------------");
+		Ecran.afficherln("\nVous avez terminé la partie !\nVoilà les informations sur les joueurs :");
+		for(Player aPlayer : this.player) {
+			Ecran.sautDeLigne();
+			Ecran.afficherln(aPlayer);
+		}
 	}
 
 	// --------------------------------------------------
