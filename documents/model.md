@@ -90,14 +90,20 @@ String toString()
 
 ## Game
 ### Attributs
-Player player1
-Player player2
-Gameboard gameboard
+final int nbPlayer;
+boolean stateGame = true;
+int nbTour;
+int nextPlayer = 0;
+Player[] player;
+GameBoard gameboard = new GameBoard();
+boolean playGame = true;
 ### Constructors
 Game()
 ### Getters
-getPlayer1()
-getPlayer2()
-getGameBoard()
+Player[] getPlayer()
+Gameboard getGameBoard()
 ### Methods
-initGame()
+String[] initGame()
+void playGame()
+void selectAction()
+void putWord(Player player)
