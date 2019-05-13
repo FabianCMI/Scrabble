@@ -105,24 +105,29 @@ public class Game {
 		// Main loop
 		do {
 			for (i = Library.getRandomInt(this.nbPlayer); i < this.nbPlayer; i++) {
-				// Informations display
-				Ecran.afficherln("C'est au tour de " + this.player[i].getName() + " de jouer..."); // first message
-				Ecran.afficherln("\n" + this.gameboard + "\n"); // game board
-				Ecran.afficherln(this.player[i] + "\n"); // informations about the player (name, score and rack)
+				if(this.stateGame) {
+					// Informations display
+					Ecran.afficherln("C'est au tour de " + this.player[i].getName() + " de jouer..."); // first message
+					Ecran.afficherln("\n" + this.gameboard + "\n"); // game board
+					Ecran.afficherln(this.player[i] + "\n"); // informations about the player (name, score and rack)
 
-				// Menu of actions
-				selectAction(this.player[i]);
+					// Menu of actions
+					selectAction(this.player[i]);
 
-				// Check if the game can continue
-				if(areAllRacksNull()) // check if all racks all racks are empty
-					this.stateGame = false;
-				if (this.nextPlayer >= this.nbPlayer) // check if all players have passed their turn
-					this.stateGame = false;
+					// Check if the game can continue
+					if(areAllRacksNull()) // check if all racks all racks are empty
+						this.stateGame = false;
+					if (this.nextPlayer >= this.nbPlayer) // check if all players have passed their turn
+						this.stateGame = false;
 
-				// One more tour
-				this.nbTour += 1;
+					// One more tour
+					this.nbTour += 1;
+				}
 			}
 		} while (this.stateGame);
+
+		// End of the game
+		Ecran.afficherln("Vous avez terminé la partie !");
 	}
 
 	// --------------------------------------------------
