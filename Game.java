@@ -18,7 +18,6 @@ public class Game {
 	private int nextPlayer = 0;
 	private Player[] player;
 	private GameBoard gameboard = new GameBoard();
-	private boolean playGame = true;
 
 	// ---------- Constructors ----------
 
@@ -103,19 +102,20 @@ public class Game {
 	public void playGame() {
 		// Variable
 		boolean stateGame = true;
-		int i;
+		int firstPlayer = Library.getRandomInt(this.nbPlayer);
+		int currentPlayer = firstPlayer;
 
 		// Main loop
+
 		do {
-			for (i = Library.getRandomInt(this.nbPlayer); i < this.nbPlayer; i++) {
 				if (this.stateGame) {
 					// Informations display
-					Ecran.afficherln("C'est au tour de " + this.player[i].getName() + " de jouer..."); // first message
+					Ecran.afficherln("C'est au tour de " + this.player[currentPlayer].getName() + " de jouer..."); // first message
 					Ecran.afficherln("\n" + this.gameboard + "\n"); // game board
-					Ecran.afficherln(this.player[i] + "\n"); // informations about the player (name, score and rack)
+					Ecran.afficherln(this.player[currentPlayer] + "\n"); // informations about the player (name, score and rack)
 
 					// Menu of actions
-					selectAction(this.player[i]);
+					selectAction(this.player[currentPlayer]);
 
 					// Check if the game can continue
 					if (areAllRacksNull()) // check if all racks all racks are empty
@@ -126,7 +126,11 @@ public class Game {
 					// One more tour
 					this.nbTour += 1;
 				}
-			}
+			if(currentPlayer == this.nbPlayer-1)
+				currentPlayer = 0;
+			else
+				currentPlayer += 1; 
+
 		} while (this.stateGame);
 
 		// End of the game
@@ -288,6 +292,7 @@ public class Game {
 		int score = gameboard.wordScoreCalcul(this.gameboard.getGrid()[coordinate[1]][coordinate[0]], indexLetters.length, isHorizontal, isScrabble(indexLetters));
 		player.increaseScore(score);
 		Ecran.afficherln(player.getName() + " a marqué " + score + " points");
+
 		// refreshing the rack
 		player.getRack().refreshRack(indexLetters);
 	}
