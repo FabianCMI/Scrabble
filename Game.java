@@ -145,7 +145,7 @@ public class Game {
 	/**
 	 * The player choose an action
 	 * 
-	 * @param player The player who is currently player
+	 * @param player The player who is currently playing
 	 */
 	public void selectAction(Player player) {
 		// Variables
@@ -177,32 +177,6 @@ public class Game {
 			case 2:
 				changeSomeLetters(player);
 				break;
-
-				/*
-				int nbLettersToChange;
-				int[] letters;
-
-				// Number of letters
-				Ecran.afficher("Saisir le nombre de lettres que vous souhaitez changer : ");
-				nbLettersToChange = Clavier.saisirInt();
-				while (nbLettersToChange < 1 || nbLettersToChange > 7) {
-					Ecran.afficher("Nombre invalide.\nSaisir le nombre de lettres que vous souhaitez changer : ");
-					nbLettersToChange = Clavier.saisirInt();
-				}
-				letters = new int[nbLettersToChange];
-
-				// Letters
-				for (int i = 0; i < nbLettersToChange; i++) {
-					Ecran.afficher("Saisir le numéro de la " + (i + 1) + "e lettre à changer: ");
-					letters[i] = Clavier.saisirInt();
-					while (letters[i] < 1 || letters[i] > 7) {
-						Ecran.afficher("Nombre invalide.\nSaisir le numéro de la lettre à changer: ");
-						letters[i] = Clavier.saisirInt();
-					}
-				}
-				player.getRack().refreshRack(letters);
-				nextPlayer = 0;
-				*/
 
 			// Don't want to play
 			case 3:
@@ -267,7 +241,7 @@ public class Game {
 		// Check the word
 		indexLetters = new int[word.length()];
 		for (int i = 0; i < word.length(); i++) {
-			// Index onf the letter
+			// Index of the letter
 			indexLetters[i] = indexOnTheRack(player, word.charAt(i));
 
 			// Check if the letter is already on the grid
@@ -309,6 +283,12 @@ public class Game {
 				}
 			}
 		}
+		
+		//score calcul
+		int score = gameboard.wordScoreCalcul(this.gameboard.getGrid()[coordinate[1]][coordinate[0]], indexLetters.length, isHorizontal, isScrabble(indexLetters));
+		player.increaseScore(score);
+		Ecran.afficherln(player.getName() + " a marqué " + score + " points");
+		// refreshing the rack
 		player.getRack().refreshRack(indexLetters);
 	}
 
@@ -411,5 +391,19 @@ public class Game {
 		}
 
 		return areNull;
+	}
+
+	private boolean isScrabble (int[] indexLetters){
+		int nbLetter = 0;
+		boolean isScrabble = false;
+		for (int i=0; i<indexLetters.length; i++) {
+			if(indexLetters[i] >= 0){
+				nbLetter += 1;
+			}
+		}
+		if(nbLetter == 7)
+			isScrabble = true;
+
+		return (isScrabble);
 	}
 }
