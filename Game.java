@@ -323,7 +323,7 @@ public class Game {
 	 * 
 	 * @return True if the word is too long
 	 */
-	public boolean checkLengthWord(String word, int[] coordinate, boolean isHorizontal) {
+	private boolean checkLengthWord(String word, int[] coordinate, boolean isHorizontal) {
 		// Variable
 		boolean isTooLong = false;
 		int i = 1;
