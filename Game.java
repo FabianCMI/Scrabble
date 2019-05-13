@@ -178,32 +178,6 @@ public class Game {
 				changeSomeLetters(player);
 				break;
 
-				/*
-				int nbLettersToChange;
-				int[] letters;
-
-				// Number of letters
-				Ecran.afficher("Saisir le nombre de lettres que vous souhaitez changer : ");
-				nbLettersToChange = Clavier.saisirInt();
-				while (nbLettersToChange < 1 || nbLettersToChange > 7) {
-					Ecran.afficher("Nombre invalide.\nSaisir le nombre de lettres que vous souhaitez changer : ");
-					nbLettersToChange = Clavier.saisirInt();
-				}
-				letters = new int[nbLettersToChange];
-
-				// Letters
-				for (int i = 0; i < nbLettersToChange; i++) {
-					Ecran.afficher("Saisir le numéro de la " + (i + 1) + "e lettre à changer: ");
-					letters[i] = Clavier.saisirInt();
-					while (letters[i] < 1 || letters[i] > 7) {
-						Ecran.afficher("Nombre invalide.\nSaisir le numéro de la lettre à changer: ");
-						letters[i] = Clavier.saisirInt();
-					}
-				}
-				player.getRack().refreshRack(letters);
-				nextPlayer = 0;
-				*/
-
 			// Don't want to play
 			case 3:
 				// Last display
