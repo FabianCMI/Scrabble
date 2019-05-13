@@ -236,14 +236,19 @@ public class Game {
 		String answerStr;
 		if (this.nbTour > 1) {
 			// Enter of coordinates
-			Ecran.afficher("\nSaisir les coordonnées de la première lettre (sous la forme \"x,y\"): ");
+			String[] splitStr;
+			Ecran.afficher("\nSaisir les coordonnées de la première lettre (ex: \"2,C\"): ");
 			answerStr = Clavier.saisirString();
+			splitStr = answerStr.split("");
+			answerStr = splitStr[0] + letterCoordtoInt(splitStr[1].charAt(0));
 
 			// Check the entry
-			Library.StringtoArray(coordinate, answerStr, ",");
+			Library.StringtoArray(coordinate, answerStr, "");
 			while (coordinate[0] < 1 || coordinate[0] > 15 || coordinate[1] < 1 || coordinate[1] > 15) {
-				Ecran.afficher("Valeurs incorrectes.\nSaisir les coordonnées de la première lettre : ");
+				Ecran.afficher("\nSaisir les coordonnées de la première lettre (ex: \"2C\"): ");
 				answerStr = Clavier.saisirString();
+				splitStr = answerStr.split("");
+				answerStr = splitStr[0] + letterCoordtoInt(splitStr[1].charAt(0));
 
 				// Check the entry
 				Library.StringtoArray(coordinate, answerStr, ",");
@@ -312,6 +317,11 @@ public class Game {
 		player.getRack().refreshRack(indexLetters);
 	}
 
+	/**
+	 * To change some letters in a rack
+	 * 
+	 * @param player The player
+	 */
 	public void changeSomeLetters(Player player) {
 		// Variables
 		int[] indexLetters;
@@ -344,7 +354,7 @@ public class Game {
 	}
 
 	// --------------------------------------------------
-	// ###################### Other #####################
+	// ############# Manger des carottes ################
 	// --------------------------------------------------
 
 	/**
@@ -411,5 +421,17 @@ public class Game {
 		}
 
 		return areNull;
+	}
+
+	/**
+	 * Transform a letter (char) into a integer
+	 * @param letter
+	 * @return
+	 */
+	private int letterCoordtoInt(char letter) {
+		// Variable
+		letter = Character.toUpperCase(letter);
+
+		return (int)letter - 64;
 	}
 }
