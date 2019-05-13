@@ -48,4 +48,20 @@ public class Library {
 			tabInt[i] = Integer.parseInt(tabStr[i]);
 	}
 
+	public static boolean checkValuesOfArray(int[] tab, int min, int max) {
+		// Variables
+		boolean isOk = true;
+		int i=0;
+
+		// Treatment
+		while(i<tab.length && isOk) {
+			if(tab[i] < min || tab[i] > max)
+				isOk = false;
+			else 
+				i++;
+		}
+
+		return isOk;
+	}
+
 }

@@ -161,53 +161,55 @@ public class Game {
 		}
 		Ecran.sautDeLigne();
 
+		// Action
 		switch (numAction) {
-		// Put a word
-		case 1:
-			// Putting the word
-			putWord(player);
-			nextPlayer = 0;
+			// Put a word
+			case 1:
+				// Putting the word
+				putWord(player);
+				nextPlayer = 0;
 
-			// Last display
-			Ecran.afficherln("Votre mot a été placé.");
-			break;
+				// Last display
+				Ecran.afficherln("Votre mot a été placé.");
+				break;
 
-		// Change letters
-		case 2:
-			int nbLettersToChange;
-			int[] letters;
+			// Change letters
+			case 2:
+				changeSomeLetters(player);
+				break;
 
-			// Number of letters
-			Ecran.afficher("Saisir le nombre de lettres que vous souhaitez changer : ");
-			nbLettersToChange = Clavier.saisirInt();
-			while (nbLettersToChange < 1 || nbLettersToChange > 7) {
-				Ecran.afficher("Nombre invalide.\nSaisir le nombre de lettres que vous souhaitez changer : ");
+				/*
+				int nbLettersToChange;
+				int[] letters;
+
+				// Number of letters
+				Ecran.afficher("Saisir le nombre de lettres que vous souhaitez changer : ");
 				nbLettersToChange = Clavier.saisirInt();
-			}
-			letters = new int[nbLettersToChange];
-
-			// Letters
-			for (int i = 0; i < nbLettersToChange; i++) {
-				Ecran.afficher("Saisir le numéro de la " + (i + 1) + "e lettre à changer: ");
-				letters[i] = Clavier.saisirInt();
-				while (letters[i] < 1 || letters[i] > 7) {
-					Ecran.afficher("Nombre invalide.\nSaisir le numéro de la lettre à changer: ");
-					letters[i] = Clavier.saisirInt();
+				while (nbLettersToChange < 1 || nbLettersToChange > 7) {
+					Ecran.afficher("Nombre invalide.\nSaisir le nombre de lettres que vous souhaitez changer : ");
+					nbLettersToChange = Clavier.saisirInt();
 				}
-			}
-			player.getRack().refreshRack(letters);
-			nextPlayer = 0;
+				letters = new int[nbLettersToChange];
 
-			// Last display
-			Ecran.afficherln("Votre chevalet a été rafrachî.");
-			break;
+				// Letters
+				for (int i = 0; i < nbLettersToChange; i++) {
+					Ecran.afficher("Saisir le numéro de la " + (i + 1) + "e lettre à changer: ");
+					letters[i] = Clavier.saisirInt();
+					while (letters[i] < 1 || letters[i] > 7) {
+						Ecran.afficher("Nombre invalide.\nSaisir le numéro de la lettre à changer: ");
+						letters[i] = Clavier.saisirInt();
+					}
+				}
+				player.getRack().refreshRack(letters);
+				nextPlayer = 0;
+				*/
 
-		// Don't want to play
-		case 3:
-			// Last display
-			Ecran.afficherln("Vous passez votre tour.");
-			nextPlayer++;
-			break;
+			// Don't want to play
+			case 3:
+				// Last display
+				Ecran.afficherln("Vous passez votre tour.");
+				nextPlayer++;
+				break;
 		}
 	}
 
@@ -308,6 +310,37 @@ public class Game {
 			}
 		}
 		player.getRack().refreshRack(indexLetters);
+	}
+
+	public void changeSomeLetters(Player player) {
+		// Variables
+		int[] indexLetters;
+
+		// Entry of indexes in a String
+		String answerStr;
+		Ecran.afficher("Saisir l'index des lettres que vous voulez changer (ex: 123) : ");
+		answerStr = Clavier.saisirString();
+
+		// Check length of the String
+		while(answerStr.length() > 7) {
+			Ecran.afficherln("Vous ne pouvez changer que 7 lettres maximum.");
+			Ecran.afficher("Saisir l'index des lettres que vous voulez changer (ex: 123) : ");
+			answerStr = Clavier.saisirString();
+		}
+		indexLetters = new int[answerStr.length()];
+		Library.StringtoArray(indexLetters, answerStr, "");
+
+		// Check values of the array of integers
+		if(!Library.checkValuesOfArray(indexLetters, 1, 7)) {
+			Ecran.afficherln("Vous avez saisi un ou plusieurs index incorrectes.");
+			changeSomeLetters(player);
+		} else {
+			// Refresh the rack
+			player.getRack().refreshRack(indexLetters);
+
+			// Last display
+			Ecran.afficherln("Votre chevalet a été rafrachî.");
+		}
 	}
 
 	// --------------------------------------------------
