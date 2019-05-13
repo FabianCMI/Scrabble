@@ -15,7 +15,7 @@ public class Library {
 	 * @return A random integer
 	 */
 	public static int getRandomInt(int low, int up) {
-		return low + (int)(Math.random() * (up - low));
+		return low + (int) (Math.random() * (up - low));
 	}
 
 	/**
@@ -32,8 +32,8 @@ public class Library {
 	/**
 	 * Put a String into an array of int
 	 * 
-	 * @param tabInt The array of integers
-	 * @param str The String
+	 * @param tabInt   The array of integers
+	 * @param str      The String
 	 * @param splitter The splitter (e.g. ",", "", ...)
 	 */
 	public static void StringtoArray(int[] tabInt, String str, String splitter) {
@@ -44,7 +44,7 @@ public class Library {
 		tabStr = str.split(splitter);
 
 		// String to int
-		for(int i=0; i<tabInt.length; i++)
+		for (int i = 0; i < tabInt.length; i++)
 			tabInt[i] = Integer.parseInt(tabStr[i]);
 	}
 

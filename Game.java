@@ -105,7 +105,7 @@ public class Game {
 		// Main loop
 		do {
 			for (i = Library.getRandomInt(this.nbPlayer); i < this.nbPlayer; i++) {
-				if(this.stateGame) {
+				if (this.stateGame) {
 					// Informations display
 					Ecran.afficherln("C'est au tour de " + this.player[i].getName() + " de jouer..."); // first message
 					Ecran.afficherln("\n" + this.gameboard + "\n"); // game board
@@ -115,7 +115,7 @@ public class Game {
 					selectAction(this.player[i]);
 
 					// Check if the game can continue
-					if(areAllRacksNull()) // check if all racks all racks are empty
+					if (areAllRacksNull()) // check if all racks all racks are empty
 						this.stateGame = false;
 					if (this.nextPlayer >= this.nbPlayer) // check if all players have passed their turn
 						this.stateGame = false;
@@ -211,27 +211,27 @@ public class Game {
 	public void putWord(Player player) {
 		// Variables
 		boolean isHorizontal = true;
-		int[] coordinate = {7, 7};
+		int[] coordinate = { 7, 7 };
 		int[] indexLetters;
 		String word;
 
 		// About the orientation
-		int answerInt;	
+		int answerInt;
 		Ecran.afficher("Souhaitez-vous poser un mot vertical ou horitonzal ?\n 1- Horizontal\n 2- Vertical\n > ");
 		answerInt = Clavier.saisirInt();
-		if(answerInt != 1)
+		if (answerInt != 1)
 			isHorizontal = false;
 
 		// About the coordinates
 		String answerStr;
-		if(this.nbTour > 1) {
+		if (this.nbTour > 1) {
 			// Enter of coordinates
 			Ecran.afficher("\nSaisir les coordonnées de la première lettre (sous la forme \"x,y\"): ");
 			answerStr = Clavier.saisirString();
 
 			// Check the entry
 			Library.StringtoArray(coordinate, answerStr, ",");
-			while(coordinate[0] < 1 || coordinate[0] > 15 || coordinate[1] < 1 || coordinate[1] > 15) {
+			while (coordinate[0] < 1 || coordinate[0] > 15 || coordinate[1] < 1 || coordinate[1] > 15) {
 				Ecran.afficher("Valeurs incorrectes.\nSaisir les coordonnées de la première lettre : ");
 				answerStr = Clavier.saisirString();
 
@@ -247,7 +247,7 @@ public class Game {
 		word = Clavier.saisirString().toUpperCase();
 
 		// Check the length
-		while(checkLengthWord(word, coordinate, isHorizontal)) {
+		while (checkLengthWord(word, coordinate, isHorizontal)) {
 			Ecran.afficherln("\nLe mot est trop long.");
 
 			Ecran.afficherln("Saisir le mot que vous souhaitez placer: ");
@@ -256,25 +256,27 @@ public class Game {
 
 		// Check the word
 		indexLetters = new int[word.length()];
-		for(int i=0; i<word.length(); i++) {
+		for (int i = 0; i < word.length(); i++) {
 			// Index onf the letter
 			indexLetters[i] = indexOnTheRack(player, word.charAt(i));
-			
+
 			// Check if the letter is already on the grid
-			if(indexLetters[i] == -1) {
+			if (indexLetters[i] == -1) {
 				boolean isOn = false;
-				if(isHorizontal) {
-					if(this.gameboard.getGrid()[coordinate[1]][coordinate[0] + i].getTile().getLetter() == word.charAt(i)) {
+				if (isHorizontal) {
+					if (this.gameboard.getGrid()[coordinate[1]][coordinate[0] + i].getTile().getLetter() == word
+							.charAt(i)) {
 						isOn = true;
 					}
 				} else {
-					if(this.gameboard.getGrid()[coordinate[1] + i][coordinate[0]].getTile().getLetter() == word.charAt(i)) {
+					if (this.gameboard.getGrid()[coordinate[1] + i][coordinate[0]].getTile().getLetter() == word
+							.charAt(i)) {
 						isOn = true;
 					}
 				}
 
 				// If the letter isn't on the grid
-				if(!isOn) {
+				if (!isOn) {
 					int answer;
 					Ecran.afficherln("Vous ne pouvez pas placer ce mot...");
 					putWord(player);
@@ -284,24 +286,22 @@ public class Game {
 		}
 
 		// Put the word onto the grid
-		for(int i=0; i<indexLetters.length; i++) {
-			if(isHorizontal) {
-				if(indexLetters[i] != -1) {
-					this.gameboard.getGrid()[coordinate[1]][coordinate[0] + i].setTile(
-						player.getRack().getTiles()[indexLetters[i]]
-					);
+		for (int i = 0; i < indexLetters.length; i++) {
+			if (isHorizontal) {
+				if (indexLetters[i] != -1) {
+					this.gameboard.getGrid()[coordinate[1]][coordinate[0] + i]
+							.setTile(player.getRack().getTiles()[indexLetters[i]]);
 				}
 			} else {
-				if(indexLetters[i] != -1) {
-					this.gameboard.getGrid()[coordinate[1] + i][coordinate[0]].setTile(
-						player.getRack().getTiles()[indexLetters[i]]
-					);
+				if (indexLetters[i] != -1) {
+					this.gameboard.getGrid()[coordinate[1] + i][coordinate[0]]
+							.setTile(player.getRack().getTiles()[indexLetters[i]]);
 				}
 			}
 		}
 		player.getRack().refreshRack(indexLetters);
 	}
-	
+
 	// --------------------------------------------------
 	// ###################### Other #####################
 	// --------------------------------------------------
@@ -309,8 +309,8 @@ public class Game {
 	/**
 	 * Check if a word is too long the be on the grid
 	 * 
-	 * @param word The word
-	 * @param coordinate Coordinate of the word
+	 * @param word         The word
+	 * @param coordinate   Coordinate of the word
 	 * @param isHorizontal The orientation f the word
 	 * 
 	 * @return True if the word is too long
@@ -321,9 +321,9 @@ public class Game {
 		int i = 1;
 
 		// treatment
-		if(isHorizontal) // check the orientation
+		if (isHorizontal) // check the orientation
 			i = 0;
-		if(coordinate[i] + word.length() - 1 > 14) // check if the word is too long
+		if (coordinate[i] + word.length() - 1 > 14) // check if the word is too long
 			isTooLong = true;
 
 		return isTooLong;
