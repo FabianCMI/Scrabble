@@ -5,6 +5,7 @@
  * Excellent projet dont la plus-value principale est d'avoir été programmé à moitié sur un mac, ce qui est réellement formidable.
  * @author Fabian Devel, Valentin Perignon
  */
+import javax.lang.model.util.ElementScanner6;
 import javax.swing.JOptionPane;
 
 public class Game {
@@ -123,6 +124,10 @@ public class Game {
 		} while (this.stateGame);
 	}
 
+	// --------------------------------------------------
+	// ##################### Actions ####################
+	// --------------------------------------------------
+
 	/**
 	 * The player choose an action
 	 * 
@@ -134,7 +139,7 @@ public class Game {
 
 		// Action entry
 		Ecran.afficher(
-				"Que souhaitez-vous faire ?\n 1- Poser des lettres\n 2- Piocher des lettres\n 3- Passer votre tour\nQue souhaitez-vous faire : ");
+				"Que souhaitez-vous faire ?\n 1- Poser un mot\n 2- Piocher des lettres\n 3- Passer son tour\nQue souhaitez-vous faire : ");
 		numAction = Clavier.saisirInt();
 		while (numAction < 1 || numAction > 3) {
 			Ecran.afficher("Numéro non valide.\nQue souhaitez-vous faire : ");
@@ -146,7 +151,7 @@ public class Game {
 		// Put a word
 		case 1:
 			// Putting the word
-			wordPose(player);
+			putWord(player);
 			nextPlayer = 0;
 
 			// Last display
@@ -192,113 +197,103 @@ public class Game {
 		}
 	}
 
-	// --------------------------------------------------
-	// ##################### Actions ####################
-	// --------------------------------------------------
-
-	/********
-	 * TODO: faire les tests pour empecher de sortir du tableau ********* si on
-	 * rajoute une tuile sur une case au bords, verifier le calcul de point en
-	 * vertical
+	/**
+	 * Put a word on the grid
+	 * 
+	 * @param player Player who is currently working
 	 */
-
-	private void wordPose(Player player) {
+	public void putWord(Player player) {
 		// Variables
 		boolean isHorizontal = true;
-		String word = "";
-		int line = 0;
-		int column = 0;
-		int[] nbTile = { 1, 2, 3, 4, 5, 6, 7 };
+		int[] coordinate = {7, 7};
+		int[] indexLetters;
+		String word;
 
-		// Treatment
-		int nbTiles = correctCapture("le nombre de tuiles à posées", 1, 7);
-		while (this.nbTour == 1 && nbTiles == 1) {
-			Ecran.afficher("Erreur - Vous devez obligatoirement poser un mot d'au moins 2 lettres en premier ");
-			nbTiles = correctCapture("le nombre de tuiles à posées", 1, 7);
-		}
-		Ecran.afficher("Quelle est l'orientation du mot ?\n0 : horizontal\n1 : vertical\n > ");
-		int n = correctCapture("l'orientation", 0, 1);
-		if (n == 1) {
+		// About the orientation
+		int answerInt;	
+		Ecran.afficher("Souhaitez-vous poser un mot vertical ou horitonzal ?\n 1- Horizontal\n 2- Vertical\n > ");
+		answerInt = Clavier.saisirInt();
+		if(answerInt != 1)
 			isHorizontal = false;
-		}
-		for (int i = 0; i < nbTiles; i++) {
-			Ecran.afficherln("Voici votre chevalet :\n" + player.getRack() + "\nQuelle lettre voulez vous poser ?");
-			word += Clavier.saisirString();
-			while (indexOnTheRack(player, word.charAt(i)) == -1) {
-				Ecran.afficherln("Cette tuile n'est pas dans votre chevalet, veuillez en choisir une autre : ");
-				word = word.substring(0, word.length() - 1); // delete the last char of the string for the next test
-				word += Clavier.saisirString(); // replace it by a new one
+
+		// About the coordinates
+		String answerStr;
+		if(this.nbTour > 1) {
+			// Enter of coordinates
+			Ecran.afficher("\nSaisir les coordonnées de la première lettre (sous la forme \"x,y\"): ");
+			answerStr = Clavier.saisirString();
+
+			// Check the entry
+			Library.StringtoArray(coordinate, answerStr, ",");
+			while(coordinate[0] < 1 || coordinate[0] > 15 || coordinate[1] < 1 || coordinate[1] > 15) {
+				Ecran.afficher("Valeurs incorrectes.\nSaisir les coordonnées de la première lettre : ");
+				answerStr = Clavier.saisirString();
+
+				// Check the entry
+				Library.StringtoArray(coordinate, answerStr, ",");
 			}
-			if (i == 0) {
-				line = correctCapture("le numéro de la ligne", 1, 15);
-				column = correctCapture("le numéro de la colonne", 1, 15);
-			} else {
-				if (isHorizontal) {
-					column = correctCapture("le numéro de la colonne", 1, 15);
-					while (getGameBoard().getGrid()[line][column].getTile().getValue() != 0) {
-						Ecran.afficherln("Erreur - Il y a déjà une tuile posée sur cette case ");
-						column = correctCapture("le numéro de la colonne", 1, 15);
-					}
-					while (column > 1 && column < 15) {
-						while (getGameBoard().getGrid()[line][column - 1].getTile().getValue() == 0
-								&& getGameBoard().getGrid()[line][column + 1].getTile().getValue() == 0) {
-							Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
-							column = correctCapture("le numéro de la colonne", 1, 15);
-						}
+			coordinate[0] -= 1;
+			coordinate[1] -= 1;
+		}
+
+		// About the word
+		Ecran.afficherln("\nSaisir le mot que vous souhaitez placer: ");
+		word = Clavier.saisirString().toUpperCase();
+
+		// Check the length
+		while(checkLengthWord(word, coordinate, isHorizontal)) {
+			Ecran.afficherln("\nLe mot est trop long.");
+
+			Ecran.afficherln("Saisir le mot que vous souhaitez placer: ");
+			word = Clavier.saisirString().toUpperCase();
+		}
+
+		// Check the word
+		indexLetters = new int[word.length()];
+		for(int i=0; i<word.length(); i++) {
+			// Index onf the letter
+			indexLetters[i] = indexOnTheRack(player, word.charAt(i));
+			
+			// Check if the letter is already on the grid
+			if(indexLetters[i] == -1) {
+				boolean isOn = false;
+				if(isHorizontal) {
+					if(this.gameboard.getGrid()[coordinate[1]][coordinate[0] + i].getTile().getLetter() == word.charAt(i)) {
+						isOn = true;
 					}
 				} else {
-					line = correctCapture("le numéro de la ligne", 1, 15);
-					while (getGameBoard().getGrid()[line][column].getTile().getValue() != 0) {
-						Ecran.afficherln("Erreur - Il y a déjà une tuile posée sur cette case ");
-						line = correctCapture("le numéro de la ligne", 1, 15);
-					}
-					while (line > 1 && line < 15) {
-						while (getGameBoard().getGrid()[line - 1][column].getTile().getValue() == 0
-								&& getGameBoard().getGrid()[line + 1][column].getTile().getValue() == 0) {
-							Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
-							line = correctCapture("le numéro de la ligne", 1, 15);
-						}
-					}
-					while (line == 1) {
-						while (getGameBoard().getGrid()[line + 1][column].getTile().getValue() == 0) {
-							Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
-							line = correctCapture("le numéro de la ligne", 1, 15);
-						}
-					}
-					while (line == 15) {
-						while (getGameBoard().getGrid()[line - 1][column].getTile().getValue() == 0) {
-							Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
-							line = correctCapture("le numéro de la ligne", 1, 15);
-						}
+					if(this.gameboard.getGrid()[coordinate[1] + i][coordinate[0]].getTile().getLetter() == word.charAt(i)) {
+						isOn = true;
 					}
 				}
+
+				// If the letter isn't on the grid
+				if(!isOn) {
+					int answer;
+					Ecran.afficherln("Vous ne pouvez pas placer ce mot...");
+					putWord(player);
+					return;
+				}
 			}
-			setTileOnGrid(line - 1, column - 1, player, indexOnTheRack(player, word.charAt(i)));
-			System.out.println(getGameBoard());
 		}
 
-		if (isHorizontal) {
-			if (nbTiles == 7)
-				player.increaseScore(getGameBoard().wordScoreCalcul(getGameBoard().grid[line][column - (nbTiles - 1)],
-						nbTiles, true, true));
-			else
-				player.increaseScore(getGameBoard().wordScoreCalcul(getGameBoard().grid[line][column - (nbTiles - 1)],
-						nbTiles, true, false));
-
-		} else {
-			if (nbTiles == 7)
-				player.increaseScore(getGameBoard().wordScoreCalcul(getGameBoard().grid[line - (nbTiles - 1)][column],
-						nbTiles, false, true));
-			else
-				player.increaseScore(getGameBoard().wordScoreCalcul(getGameBoard().grid[line - (nbTiles - 1)][column],
-						nbTiles, false, false));
+		// Put the word onto the grid
+		for(int i=0; i<indexLetters.length; i++) {
+			if(isHorizontal) {
+				if(indexLetters[i] != -1) {
+					this.gameboard.getGrid()[coordinate[1]][coordinate[0] + i].setTile(
+						player.getRack().getTiles()[indexLetters[i]]
+					);
+				}
+			} else {
+				if(indexLetters[i] != -1) {
+					this.gameboard.getGrid()[coordinate[1] + i][coordinate[0]].setTile(
+						player.getRack().getTiles()[indexLetters[i]]
+					);
+				}
+			}
 		}
-		Ecran.afficherln(player.getName() + " a maintenant " + player.getScore() + " points");
-	}
-
-	private void setTileOnGrid(int numLine, int numColumn, Player player, int numTileInRack) {
-		Square tile = this.getGameBoard().getGrid()[numLine][numColumn];
-		tile.setTile(player.getRack().getTiles()[numTileInRack]);
+		player.getRack().refreshRack(indexLetters);
 	}
 	
 	// --------------------------------------------------
@@ -306,70 +301,51 @@ public class Game {
 	// --------------------------------------------------
 
 	/**
-	 * Make sure the asked value is bewteen 0 and 14
+	 * Check if a word is too long the be on the grid
 	 * 
-	 * @param min
-	 * @param max
-	 * @param msg the name of the value asked
-	 * @return the value
+	 * @param word The word
+	 * @param coordinate Coordinate of the word
+	 * @param isHorizontal The orientation f the word
+	 * 
+	 * @return True if the word is too long
 	 */
-	private int correctCapture(String msg, int min, int max) {
-		Ecran.afficherln("Veuillez saisir " + msg + " : ");
-		int n = Clavier.saisirInt();
-		while (n < min || n > max) {
-			Ecran.afficherln("Le nombre saisi doit être compris entre " + min + " et " + max + " (compris)");
-			n = Clavier.saisirInt();
-		}
-		return n;
+	public boolean checkLengthWord(String word, int[] coordinate, boolean isHorizontal) {
+		// Variable
+		boolean isTooLong = false;
+		int i = 1;
+
+		// treatment
+		if(isHorizontal) // check the orientation
+			i = 0;
+		if(coordinate[i] + word.length() - 1 > 14) // check if the word is too long
+			isTooLong = true;
+
+		return isTooLong;
 	}
 
+	/**
+	 * Find he index of a letter on the rack
+	 * 
+	 * @param player Player who is currently playing
+	 * @param letter The searched letter
+	 * 
+	 * @return the index of the letter, -1 if it's not on the rack
+	 */
 	private int indexOnTheRack(Player player, char letter) {
+		// Variables
 		boolean isOn = false;
 		int i = -1;
+
+		// Search in the rack
 		while (!isOn && i < 6) {
 			i++;
-			if (player.getRack().getTiles()[i].getLetter() == letter) {
+			if (player.getRack().getTiles()[i].getLetter() == letter)
 				isOn = true;
-			}
-
 		}
-		if (!isOn) { // not found
+		if (!isOn) // not found
 			i = -1;
-		}
-		return (i);
-	}
 
-	private int correctCoord(String msg, int value, boolean isHorizontal) {
-		int n = 0;
-
-		while (value == 0) {
-			if (isHorizontal) {
-				while (getGameBoard().getGrid()[value][value + 1].getTile().getValue() == 0) {
-					Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
-					value = correctCapture("le numéro de " + msg, 1, 15);
-				}
-			} else {
-				while (getGameBoard().getGrid()[value + 1][value].getTile().getValue() == 0) {
-					Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
-					value = correctCapture("le numéro de " + msg, 1, 15);
-				}
-			}
-		}
-		while (value == 15) {
-			if (isHorizontal) {
-				while (getGameBoard().getGrid()[value][value - 1].getTile().getValue() == 0) {
-					Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
-					value = correctCapture("le numéro de " + msg, 1, 15);
-				}
-			} else {
-				while (getGameBoard().getGrid()[value - 1][value].getTile().getValue() == 0) {
-					Ecran.afficherln("Erreur - La tuile doit être posée avant ou après une tuile déjà posée");
-					value = correctCapture("le numéro de " + msg, 1, 15);
-				}
-			}
-		}
-
-		return n;
+		return i;
 	}
 
 	/**
@@ -383,9 +359,8 @@ public class Game {
 
 		// Treatment
 		for (int i = 0; i < this.nbPlayer; i++) {
-			if (!this.player[i].isRackNull()) {
+			if (!this.player[i].isRackNull())
 				areNull = false;
-			}
 		}
 
 		return areNull;

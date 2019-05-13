@@ -56,11 +56,16 @@ public class Rack {
 	public void refreshRack(int[] indexLetter) {
 		if (indexLetter.length <= 7 && bag.getLettersLength() > 0) {
 			for (int i = 0; i < indexLetter.length; i++) {
-				this.rack[i] = this.bag.drawLetter();
+				if(indexLetter[i] >= 0) {
+					this.rack[indexLetter[i]] = this.bag.drawLetter();
+				}
 			}
 		} else {
 			for (int i = 0; i < indexLetter.length; i++) {
-				this.rack[i] = null;
+				if(indexLetter[i] >= 0) {
+					this.rack[indexLetter[i]] = null;
+				}
+				
 			}
 		}
 	}

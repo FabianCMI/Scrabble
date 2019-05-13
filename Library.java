@@ -29,4 +29,23 @@ public class Library {
 		return getRandomInt(0, up);
 	}
 
+	/**
+	 * Put a String into an array of int
+	 * 
+	 * @param tabInt The array of integers
+	 * @param str The String
+	 * @param splitter The splitter (e.g. ",", "", ...)
+	 */
+	public static void StringtoArray(int[] tabInt, String str, String splitter) {
+		// Variable
+		String[] tabStr = new String[tabInt.length];
+
+		// Split the array
+		tabStr = str.split(splitter);
+
+		// String to int
+		for(int i=0; i<tabInt.length; i++)
+			tabInt[i] = Integer.parseInt(tabStr[i]);
+	}
+
 }
