@@ -17,7 +17,7 @@ public class Scrabble {
 		mainFg.setClearColor(50, 50, 50);
 		mainFg.clear();
 		
-		
+		// Gameboard's drawing
 		for (int i = 0; i < 16; i++) {
 			for (int j = 0; j < 16; j++) {
 				x = 178 + i*50;
@@ -44,10 +44,7 @@ public class Scrabble {
 				}
 			}
 		}
-		
 		mainFg.flush();
-
-		
 		
 		// Main part of the game
 		//game.playGame();
