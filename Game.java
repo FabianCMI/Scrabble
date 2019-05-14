@@ -24,16 +24,18 @@ public class Game {
 	/**
 	 * Game constructor
 	 */
-	Game() {
+	Game(FenetreGraphique fg) {
 		// First text
+		int xTextZone = (int)(fg.getBufferWidth()*0.6);
 		int nbPlayerInput;
-		Ecran.afficherln("\n============================ SCRABBLE ============================");
-		Ecran.afficher("Bonjour et bienvenue dans ce jeu de scrabble.\n\nSaisir le nombre de joueurs : ");
-		nbPlayerInput = Clavier.saisirInt();
-		while (nbPlayerInput < 2 || nbPlayerInput > 4) {
-			Ecran.afficher("Vous devez avoir entre 2 et 4 joueurs. Saisir le nombre de joueurs : ");
-			nbPlayerInput = Clavier.saisirInt();
-		}
+		fg.drawLine(xTextZone, 0, xTextZone, fg.getBufferHeight());
+		fg.drawString(xTextZone + 5, 20, 3, " ===================== SCRABBLE =====================");
+		fg.drawText(xTextZone + 5, 50, 3, "Bonjour et bienvenue dans ce jeu de scrabble. Saisir le nombre de joueurs : ");
+		fg.drawText(xTextZone + 5, 65, 3, "Saisir le nombre de joueurs : ");
+		fg.flush();
+		do{
+			nbPlayerInput = fg.getKey();
+		} while (nbPlayerInput != '2' && nbPlayerInput != '3' && nbPlayerInput != '4' && nbPlayerInput != '\"' && nbPlayerInput != '\'' );
 		this.nbPlayer = nbPlayerInput;
 		player = new Player[this.nbPlayer];
 
