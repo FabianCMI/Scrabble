@@ -30,33 +30,34 @@ public class Game {
 
 		// First text
 		
-		fg.drawString(5, textHeight(fg, Scrabble.textHeight, 20), 3, " =============================== SCRABBLE =============================");
-		fg.drawString(5,textHeight(fg, Scrabble.textHeight, 40), 3, "Bonjour et bienvenue dans ce jeu de scrabble !");
-		fg.drawString(5, textHeight(fg, Scrabble.textHeight, 20), 3, "Saisir le nombre de joueurs : ");
+		fg.drawString(5, textHeight(fg, 20), 3, " =============================== SCRABBLE =============================");
+		fg.drawString(5,textHeight(fg, 40), 3, "Bonjour et bienvenue dans ce jeu de scrabble !");
+		fg.drawString(5, textHeight(fg, 20), 3, "Saisir le nombre de joueurs : ");
 
 		// Drawing of the buttons
+		int buttonHeight = textHeight(fg, 10);
 		fg.setColor(255, 0, 0);
-		fg.drawRect( midZone -185, 90, 70, 40);
-		fg.drawRect( midZone -35, 90, 70, 40);
-		fg.drawRect( midZone +115, 90, 70, 40);
+		fg.drawRect( midZone -185, buttonHeight, 70, 40);
+		fg.drawRect( midZone -35, buttonHeight, 70, 40);
+		fg.drawRect( midZone +115, buttonHeight, 70, 40);
 		fg.setColor(220, 220, 220);
-		fg.fillRect( midZone -183, 92, 67, 37);
-		fg.fillRect( midZone -33, 92, 67, 37);
-		fg.fillRect( midZone +117, 92, 67, 37);
+		fg.fillRect( midZone -183, buttonHeight+2, 67, 37);
+		fg.fillRect( midZone -33, buttonHeight+2, 67, 37);
+		fg.fillRect( midZone +117, buttonHeight+2, 67, 37);
 		fg.setColor(0, 0, 0);
-		fg.drawString( midZone -155, 117, 3, "2");
-		fg.drawString( midZone -5, 117, 3, "3");
-		fg.drawString( midZone +146, 117, 3, "4");
+		fg.drawString( midZone -155, buttonHeight+27, 3, "2");
+		fg.drawString( midZone -5, buttonHeight+27, 3, "3");
+		fg.drawString( midZone +146, buttonHeight+27, 3, "4");
 		fg.flush();
 
 		// making the buttons clickable
 		
 		do {
-			if(isClicked(fg, midZone-185, 90, 70, 40))
+			if(isClicked(fg, midZone-185, buttonHeight, 70, 40))
 				nbPlayerInput = 2;
-			else if(isClicked(fg, midZone-35, 90, 70, 40))
+			else if(isClicked(fg, midZone-35, buttonHeight, 70, 40))
 				nbPlayerInput = 3;
-			else if(isClicked(fg, midZone+115, 90, 70, 40))
+			else if(isClicked(fg, midZone+115, buttonHeight, 70, 40))
 				nbPlayerInput = 4;
 
 		} while(nbPlayerInput < 2 || nbPlayerInput > 4);
@@ -116,7 +117,7 @@ public class Game {
 
 		// Treatment
 		for (int i = 0; i < this.nbPlayer; i++) {
-			fg.drawString(5, textHeight(fg, Scrabble.textHeight, 20), 3, "Saisir le nom du joueur " + (i + 1) + ": ");
+			fg.drawString(5, textHeight(fg, 20), 3, ("Saisir le nom du joueur " + (i + 1) + ": "));
 			names[i] = Clavier.saisirString();
 		}
 
@@ -488,12 +489,19 @@ public class Game {
 		}
 		return(false);
 	}
+	/**
+	 * Calcul the height of the next text line
+	 * 
+	 * @param fg the frame to write in
+	 * @param n	the size in pixel of the interline
+	 * @return the new height of the textline
+	 */
+	private int textHeight(FenetreGraphique fg, int n){
+		if(Scrabble.textHeight + n > fg.getBufferHeight())
+			Scrabble.textHeight = 20;
+		else 
+			Scrabble.textHeight += n;
 
-	private int textHeight(FenetreGraphique fg, int textHeight, int n){
-		if(textHeight + n > fg.getBufferHeight()){
-			textHeight = 20;
-		}
-		textHeight += textHeight + n;
-		return(textHeight);
+		return(Scrabble.textHeight);
 	}
 }
