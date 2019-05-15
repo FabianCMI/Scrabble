@@ -33,7 +33,7 @@ static int textHeight = 0;
 		
 		// Main part of the game
 		//game.playGame();
-		FenetreGraphique.exit();
+		//FenetreGraphique.exit();
 	}
 
 	public static void drawGameBoard(FenetreGraphique mainFg, Game game){

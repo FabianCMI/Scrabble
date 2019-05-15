@@ -117,13 +117,17 @@ public class Game {
 
 		// Treatment
 		for (int i = 0; i < this.nbPlayer; i++) {
-			fg.drawString(5, textHeight(fg, 20), 3, ("Saisir le nom du joueur " + (i + 1) + ": "));
+			String str = "Saisir le nom du joueur " + Integer.toString((i+1)) + " : ";
+			Ecran.afficherln(str);
+			fg.setColor(255, 255, 255);
+			fg.drawString(5, textHeight(fg, 60), 3, str);
+			fg.flush();
 			names[i] = Clavier.saisirString();
 		}
 
 		// Beginning of the game
-		Ecran.afficherln("\n----------------------- Début de la partie -----------------------");
-
+		fg.drawString(5, textHeight(fg, 20), 3, "----------------------- Debut de la partie -----------------------");
+		fg.flush();
 		return names;
 	}
 
