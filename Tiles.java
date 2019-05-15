@@ -61,5 +61,4 @@ public class Tiles {
 	public String toString() {
 		return String.valueOf(this.letter);
 	}
-
 }

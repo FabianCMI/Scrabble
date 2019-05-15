@@ -81,4 +81,15 @@ public class Rack {
 		str += "\n-----------------------------\n  1   2   3   4   5   6   7";
 		return (str);
 	}
+
+	public void drawRack(FenetreGraphique fg){
+		Game.drawText(fg, " -----------------------------", 30);
+		String str = "|";
+		for (int i = 0; i < 7; i++) {
+			str +="| " + this.rack[i] + " ";
+		}
+		str += "||";
+		Game.drawText(fg, str, 15);
+		Game.drawText(fg, " -----------------------------", 15);
+	}
 }

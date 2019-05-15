@@ -103,15 +103,6 @@ public class Player {
 		aboutPlayer = this.name;
 
 		// Score
-		int value;
-		if (this.score < 10) {
-			value = 20;
-		} else {
-			if (this.score < 100)
-				value = 19;
-			else
-				value = 18;
-		}
 		for (int i = 0; i < 20 - this.name.length(); i++) {
 			aboutPlayer += " ";
 		}
@@ -121,5 +112,10 @@ public class Player {
 		aboutPlayer += "\n" + this.rack;
 
 		return aboutPlayer;
+	}
+
+	public void drawPlayer(FenetreGraphique fg){
+		Game.drawText(fg, this.name + "                      " + "Score : " + this.score, 20);
+		this.rack.drawRack(fg);
 	}
 }

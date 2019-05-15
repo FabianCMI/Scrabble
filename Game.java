@@ -143,7 +143,7 @@ public class Game {
 	/**
 	 * Main part of the game
 	 */
-	public void playGame() {
+	public void playGame(FenetreGraphique fg) {
 		// Variable
 		boolean stateGame = true;
 		int firstPlayer = Library.getRandomInt(this.nbPlayer);
@@ -154,14 +154,13 @@ public class Game {
 		do {
 			if (this.stateGame) {
 				// Informations display
-				Ecran.afficherln("C'est au tour de " + this.player[currentPlayer].getName() + " de jouer..."); // first
+				drawText(fg, "C'est au tour de " + this.player[currentPlayer].getName() + " de jouer...", 20); 
+
 				// message
-				Ecran.afficherln("\n" + this.gameboard + "\n"); // game board
-				Ecran.afficherln(this.player[currentPlayer] + "\n"); // informations about the player (name, score and
-				// rack)
+				player[currentPlayer].drawPlayer(fg);// informations about the player (name, score and rack)
 
 				// Menu of actions
-				selectAction(this.player[currentPlayer]);
+				selectAction(this.player[currentPlayer], fg);
 
 				// Check if the game can continue
 				if (areAllRacksNull()) // check if all racks all racks are empty
@@ -197,19 +196,39 @@ public class Game {
 	 * 
 	 * @param player The player who is currently playing
 	 */
-	public void selectAction(Player player) {
+	public void selectAction(Player player, FenetreGraphique fg) {
 		// Variables
-		int numAction;
+		int numAction = 0;
 
 		// Action entry
-		Ecran.afficher(
-				"Que souhaitez-vous faire ?\n 1- Poser un mot\n 2- Piocher des lettres\n 3- Passer son tour\nQue souhaitez-vous faire : ");
-		numAction = Clavier.saisirInt();
-		while (numAction < 1 || numAction > 3) {
-			Ecran.afficher("Numéro non valide.\nQue souhaitez-vous faire : ");
-			numAction = Clavier.saisirInt();
-		}
-		Ecran.sautDeLigne();
+		drawText(fg, "Que souhaitez-vous faire ?", 25);
+
+		// more buttons
+		final int midZone = fg.getBufferWidth()/2;
+		int buttonHeight = textHeight(fg, 30);
+
+		fg.setColor(255, 0, 0);
+		fg.drawRect( midZone - 300, buttonHeight, 150, 50);
+		fg.drawRect( midZone - 100, buttonHeight, 200, 50);
+		fg.drawRect( midZone + 150, buttonHeight, 150, 50);
+		fg.setColor(220, 220, 220);
+		fg.fillRect( midZone - 298, buttonHeight+2, 147, 47);
+		fg.fillRect( midZone - 98, buttonHeight+2, 197, 47);
+		fg.fillRect( midZone + 152, buttonHeight+2, 147, 47);
+		fg.setColor(0, 0, 0);
+		fg.drawString( midZone - 280, buttonHeight+32, 3, "Poser un mot");
+		fg.drawString( midZone - 85, buttonHeight+32, 3, "Piocher des lettres ");
+		fg.drawString( midZone + 160, buttonHeight+32, 3, "Passer son tour");
+		fg.flush();
+
+		do{
+			if(isClicked(fg, midZone - 300, buttonHeight, 150, 50))
+				numAction = 1;
+			else if(isClicked(fg, midZone - 100, buttonHeight, 200, 50))
+				numAction = 2;
+			else if(isClicked(fg, midZone +150, buttonHeight, 150, 50))
+				numAction = 3;
+		} while(numAction < 1 || numAction > 3);
 
 		// Action
 		switch (numAction) {
@@ -514,7 +533,7 @@ public class Game {
 	 * @param n	the size in pixel of the interline
 	 * @return the new height of the textline
 	 */
-	private int textHeight(FenetreGraphique fg, int n){
+	private static int textHeight(FenetreGraphique fg, int n){
 		if(Scrabble.textHeight + n > fg.getBufferHeight())
 			resetTextHeight();
 		else 
@@ -523,7 +542,7 @@ public class Game {
 		return(Scrabble.textHeight);
 	}
 
-	private void resetTextHeight(){
+	private static void resetTextHeight(){
 		Scrabble.textHeight = 20;
 	}
 
@@ -544,6 +563,11 @@ public class Game {
 		}while(!isClicked(fg, x, y, 100, 50));
 		fg.wait(200);
 		return(playerName);
+	}
+
+	static void drawText(FenetreGraphique fg, String msg, int n){
+		fg.drawString(5, textHeight(fg, n), 3, msg);
+		fg.flush();
 	}
 	
 }
