@@ -235,7 +235,7 @@ public class Game {
 		// Put a word
 		case 1:
 			// Putting the word
-			putWord(player);
+			putWord(player, fg);
 			nextPlayer = 0;
 
 			// Last display
@@ -261,7 +261,7 @@ public class Game {
 	 * 
 	 * @param player Player who is currently working
 	 */
-	public void putWord(Player player) {
+	public void putWord(Player player, FenetreGraphique fg) {
 		// Variables
 		boolean isHorizontal = true;
 		int[] coordinate = { 7, 7 };
@@ -269,9 +269,31 @@ public class Game {
 		String word;
 
 		// About the orientation
-		int answerInt;
-		Ecran.afficher("Souhaitez-vous poser un mot vertical ou horitonzal ?\n 1- Horizontal\n 2- Vertical\n > ");
-		answerInt = Clavier.saisirInt();
+		int answerInt = 0;
+		fg.setColor(255, 255, 255);
+		drawText(fg, "Souhaitez-vous poser un mot vertical ou horitonzal ?", 100);
+		
+		// buttons
+		final int midZone = fg.getBufferWidth()/2;
+		int buttonHeight = textHeight(fg, 30);
+		fg.setColor(255, 0, 0);
+		fg.drawRect(midZone - 200, buttonHeight, 150, 50);
+		fg.drawRect(midZone + 50, buttonHeight, 150, 50);
+		fg.setColor(220, 220, 220);
+		fg.fillRect(midZone - 198, buttonHeight+2, 147, 47);
+		fg.fillRect(midZone + 52, buttonHeight+2, 147, 47);
+		fg.setColor(0, 0, 0);
+		fg.drawString(midZone - 170, buttonHeight+32, 3, "Horizontal");
+		fg.drawString(midZone + 90, buttonHeight+32, 3, "Vertical");
+		fg.flush();
+
+		do{
+			if(isClicked(fg, midZone - 200, buttonHeight, 150, 50))
+				answerInt = 1;
+			else if (isClicked(fg, midZone + 50, buttonHeight, 150, 50))
+				answerInt = 2;
+		} while(answerInt != 1 && answerInt != 2);
+
 		if (answerInt != 1)
 			isHorizontal = false;
 
@@ -337,7 +359,7 @@ public class Game {
 				if (!isOn) {
 					int answer;
 					Ecran.afficherln("Vous ne pouvez pas placer ce mot...");
-					putWord(player);
+					putWord(player, fg);
 					return;
 				}
 			}
