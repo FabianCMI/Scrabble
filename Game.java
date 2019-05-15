@@ -30,9 +30,9 @@ public class Game {
 
 		// First text
 		
-		fg.drawString(5, 20, 3, " =============================== SCRABBLE =============================");
-		fg.drawText(5, 50, 3, "Bonjour et bienvenue dans ce jeu de scrabble. Saisir le nombre de joueurs : ");
-		fg.drawText(5, 70, 3, "Saisir le nombre de joueurs : ");
+		fg.drawString(5, textHeight(fg, Scrabble.textHeight, 20), 3, " =============================== SCRABBLE =============================");
+		fg.drawString(5,textHeight(fg, Scrabble.textHeight, 40), 3, "Bonjour et bienvenue dans ce jeu de scrabble !");
+		fg.drawString(5, textHeight(fg, Scrabble.textHeight, 20), 3, "Saisir le nombre de joueurs : ");
 
 		// Drawing of the buttons
 		fg.setColor(255, 0, 0);
@@ -52,21 +52,20 @@ public class Game {
 		// making the buttons clickable
 		
 		do {
-			if(isClicked(fg,  midZone -185, 90, 70, 40))
+			if(isClicked(fg, midZone-185, 90, 70, 40))
 				nbPlayerInput = 2;
-			else if(isClicked(fg,  midZone -35, 90, 70, 40))
+			else if(isClicked(fg, midZone-35, 90, 70, 40))
 				nbPlayerInput = 3;
-			else if(isClicked(fg,  midZone +115, 90, 70, 40))
-					nbPlayerInput = 4;
+			else if(isClicked(fg, midZone+115, 90, 70, 40))
+				nbPlayerInput = 4;
 
-		}while(nbPlayerInput < 2 || nbPlayerInput > 4);
-		
+		} while(nbPlayerInput < 2 || nbPlayerInput > 4);
 		
 		this.nbPlayer = nbPlayerInput;
 		player = new Player[this.nbPlayer];
 
 		// Names
-		String[] names = initGame();
+		String[] names = initGame(fg);
 		for (int i = 0; i < this.nbPlayer; i++) {
 			if (names[i].length() < 1)
 				player[i] = new Player();
@@ -108,16 +107,16 @@ public class Game {
 
 	/**
 	 * Ask players for their names and initialize the game
-	 * 
+	 *  
 	 * @return Array of names
 	 */
-	public String[] initGame() {
+	public String[] initGame(FenetreGraphique fg) {
 		// Variables
 		String[] names = new String[this.nbPlayer];
 
 		// Treatment
 		for (int i = 0; i < this.nbPlayer; i++) {
-			Ecran.afficher("Saisir le nom du joueur " + (i + 1) + ": ");
+			fg.drawString(5, textHeight(fg, Scrabble.textHeight, 20), 3, "Saisir le nom du joueur " + (i + 1) + ": ");
 			names[i] = Clavier.saisirString();
 		}
 
@@ -142,10 +141,10 @@ public class Game {
 			if (this.stateGame) {
 				// Informations display
 				Ecran.afficherln("C'est au tour de " + this.player[currentPlayer].getName() + " de jouer..."); // first
-																												// message
+				// message
 				Ecran.afficherln("\n" + this.gameboard + "\n"); // game board
 				Ecran.afficherln(this.player[currentPlayer] + "\n"); // informations about the player (name, score and
-																		// rack)
+				// rack)
 
 				// Menu of actions
 				selectAction(this.player[currentPlayer]);
@@ -488,5 +487,13 @@ public class Game {
 			}
 		}
 		return(false);
+	}
+
+	private int textHeight(FenetreGraphique fg, int textHeight, int n){
+		if(textHeight + n > fg.getBufferHeight()){
+			textHeight = 20;
+		}
+		textHeight += textHeight + n;
+		return(textHeight);
 	}
 }
