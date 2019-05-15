@@ -24,44 +24,43 @@ public class Game {
 	 * Game constructor
 	 */
 	Game(FenetreGraphique fg) {
-		// First text
-		final int xTextZone = (int)(fg.getBufferWidth()*0.6);
-		final int midxTextZone = (int)(fg.getBufferWidth()*0.8);
+		// Variables
+		final int midZone = fg.getBufferWidth()/2;
 		int nbPlayerInput = 0;
-		fg.drawLine(xTextZone, 0, xTextZone, fg.getBufferHeight());
-		fg.drawString(xTextZone + 5, 20, 3, " =============================== SCRABBLE =============================");
-		fg.drawText(xTextZone + 5, 50, 3, "Bonjour et bienvenue dans ce jeu de scrabble. Saisir le nombre de joueurs : ");
-		fg.drawText(xTextZone + 5, 70, 3, "Saisir le nombre de joueurs : ");
+
+		// First text
+		
+		fg.drawString(5, 20, 3, " =============================== SCRABBLE =============================");
+		fg.drawText(5, 50, 3, "Bonjour et bienvenue dans ce jeu de scrabble. Saisir le nombre de joueurs : ");
+		fg.drawText(5, 70, 3, "Saisir le nombre de joueurs : ");
 
 		// Drawing of the buttons
 		fg.setColor(255, 0, 0);
-		
-		fg.drawRect(midxTextZone-185, 90, 70, 40);
-		fg.drawRect(midxTextZone-35, 90, 70, 40);
-		fg.drawRect(midxTextZone+115, 90, 70, 40);
-		fg.setColor(255, 255, 255);
-		fg.fillRect(midxTextZone-183, 92, 67, 37);
-		fg.fillRect(midxTextZone-33, 92, 67, 37);
-		fg.fillRect(midxTextZone+117, 92, 67, 37);
+		fg.drawRect( midZone -185, 90, 70, 40);
+		fg.drawRect( midZone -35, 90, 70, 40);
+		fg.drawRect( midZone +115, 90, 70, 40);
+		fg.setColor(220, 220, 220);
+		fg.fillRect( midZone -183, 92, 67, 37);
+		fg.fillRect( midZone -33, 92, 67, 37);
+		fg.fillRect( midZone +117, 92, 67, 37);
 		fg.setColor(0, 0, 0);
-		fg.drawString(midxTextZone-155, 117, 3, "2");
-		fg.drawString(midxTextZone-5, 117, 3, "3");
-		fg.drawString(midxTextZone+146, 117, 3, "4");
+		fg.drawString( midZone -155, 117, 3, "2");
+		fg.drawString( midZone -5, 117, 3, "3");
+		fg.drawString( midZone +146, 117, 3, "4");
 		fg.flush();
 
 		// making the buttons clickable
 		
 		do {
-			if(isClicked(fg, midxTextZone-185, 90, 70, 40))
+			if(isClicked(fg,  midZone -185, 90, 70, 40))
 				nbPlayerInput = 2;
-			else if(isClicked(fg, midxTextZone-35, 90, 70, 40))
+			else if(isClicked(fg,  midZone -35, 90, 70, 40))
 				nbPlayerInput = 3;
-			else if(isClicked(fg, midxTextZone+115, 90, 70, 40))
+			else if(isClicked(fg,  midZone +115, 90, 70, 40))
 					nbPlayerInput = 4;
 
 		}while(nbPlayerInput < 2 || nbPlayerInput > 4);
 		
-			Ecran.afficherln("Le nombre de joueur doit être compris entre 2 et 4");
 		
 		this.nbPlayer = nbPlayerInput;
 		player = new Player[this.nbPlayer];
@@ -481,7 +480,7 @@ public class Game {
 	 * @return the state of the click
 	 */
 	private boolean isClicked(FenetreGraphique fg, int x, int y, int width, int height) {
-		if(fg.getMouseState() == 2){
+		if(fg.getMouseState() == 2 || fg.getMouseState() == 1){
 			if(fg.getMouseY() > y && fg.getMouseY() < y+height 
 			&& fg.getMouseX() > x
 			&& fg.getMouseX() < x + width){

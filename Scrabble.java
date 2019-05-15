@@ -9,18 +9,23 @@ public class Scrabble {
 
 	public static void main(String[] args) {
 		// Variables
-		final int FRAME_WIDTH = 1700;
+		final int MAIN_FRAME_WIDTH = 1100;
+		final int SIDE_FRAME_WIDTH = 1920 - MAIN_FRAME_WIDTH; 
 		final int FRAME_HEIGHT = 1040;
-		final int INSIDE_WIDTH = 1657;
+		final int MAIN_INSIDE_WIDTH = MAIN_FRAME_WIDTH - 47;
+		final int SIDE_INSIDE_WIDTH = SIDE_FRAME_WIDTH - 47;
 		final int INSIDE_HEIGHT = 940;
-		FenetreGraphique mainFg = new FenetreGraphique(110, 0, FRAME_WIDTH, FRAME_HEIGHT, INSIDE_WIDTH, INSIDE_HEIGHT, "Jeu de Scrabble");
+		FenetreGraphique mainFg = new FenetreGraphique(0, 0, MAIN_FRAME_WIDTH, FRAME_HEIGHT, MAIN_INSIDE_WIDTH, INSIDE_HEIGHT, "Jeu de Scrabble");
+		FenetreGraphique sideFg = new FenetreGraphique(MAIN_FRAME_WIDTH, 0, SIDE_FRAME_WIDTH, FRAME_HEIGHT, SIDE_INSIDE_WIDTH, INSIDE_HEIGHT, "Jeu de scrabble");
 
 		// Graphic frame
 		mainFg.setClearColor(50, 50, 50);
 		mainFg.clear();
+		sideFg.setClearColor(50, 50, 50);
+		sideFg.clear();
 
 		// Initialisation of the game
-		Game game = new Game(mainFg);
+		Game game = new Game(sideFg);
 
 		// Gameboard's drawing
 		drawGameBoard(mainFg, game);
