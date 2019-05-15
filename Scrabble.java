@@ -23,13 +23,13 @@ public class Scrabble {
 		Game game = new Game(mainFg);
 
 		// Gameboard's drawing
-		gameBoardDrawing(mainFg, game);
+		drawGameBoard(mainFg, game);
 		
 		// Main part of the game
 		//game.playGame();
 	}
 
-	public static void gameBoardDrawing(FenetreGraphique mainFg, Game game){
+	public static void drawGameBoard(FenetreGraphique mainFg, Game game){
 		// Variables
 		int x, y;
 		int lineNumber = 1;
@@ -77,6 +77,10 @@ public class Scrabble {
 			}
 		}
 		mainFg.flush();
+	}
+
+	public void drawRackPlayer(FenetreGraphique mainFg, Game game, Player pl) {
+		
 	}
 
 }
