@@ -9,15 +9,19 @@ public class Scrabble {
 
 	public static void main(String[] args) {
 		// Variables
-		FenetreGraphique mainFg = new FenetreGraphique(110, 0, 1700, 1040, 1657, 940, "Jeu de Scrabble");
-		
-		
+		final int FRAME_WIDTH = 1700;
+		final int FRAME_HEIGHT = 1040;
+		final int INSIDE_WIDTH = 1657;
+		final int INSIDE_HEIGHT = 940;
+		FenetreGraphique mainFg = new FenetreGraphique(110, 0, FRAME_WIDTH, FRAME_HEIGHT, INSIDE_WIDTH, INSIDE_HEIGHT, "Jeu de Scrabble");
 
 		// Graphic frame
-		 
 		mainFg.setClearColor(50, 50, 50);
 		mainFg.clear();
+
+		// Initialisation of the game
 		Game game = new Game(mainFg);
+
 		// Gameboard's drawing
 		gameBoardDrawing(mainFg, game);
 		
@@ -26,7 +30,10 @@ public class Scrabble {
 	}
 
 	public static void gameBoardDrawing(FenetreGraphique mainFg, Game game){
+		// Variables
 		int x, y;
+
+		// Drawing
 		for (int i = 0; i < 16; i++) {
 			for (int j = 0; j < 16; j++) {
 				x = 178 + i*50;
