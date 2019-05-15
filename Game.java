@@ -40,7 +40,7 @@ public class Game {
 		fg.drawRect( midZone -185, buttonHeight, 70, 40);
 		fg.drawRect( midZone -35, buttonHeight, 70, 40);
 		fg.drawRect( midZone +115, buttonHeight, 70, 40);
-		fg.setColor(220, 220, 220);
+		fg.setColor(255, 255, 255);
 		fg.fillRect( midZone -183, buttonHeight+2, 67, 37);
 		fg.fillRect( midZone -33, buttonHeight+2, 67, 37);
 		fg.fillRect( midZone +117, buttonHeight+2, 67, 37);
@@ -118,11 +118,19 @@ public class Game {
 		// Treatment
 		for (int i = 0; i < this.nbPlayer; i++) {
 			String str = "Saisir le nom du joueur " + Integer.toString((i+1)) + " : ";
-			Ecran.afficherln(str);
 			fg.setColor(255, 255, 255);
-			fg.drawString(5, textHeight(fg, 60), 3, str);
+			fg.drawString(5, textHeight(fg, 70), 3, str);
 			fg.flush();
-			names[i] = Clavier.saisirString();
+			int buttonWidth = fg.getBufferWidth()/2-50;
+			int buttonHeight = 500;
+			fg.setColor(255, 0, 0);
+			fg.drawRect(buttonWidth, buttonHeight, 100, 50);
+			fg.setColor(255, 255, 255);
+			fg.fillRect(buttonWidth+2, buttonHeight+2, 97, 47);
+			fg.setColor(0, 0, 0);
+			fg.drawString(buttonWidth+20 , buttonHeight+30, 3, "Valider");
+			fg.setColor(255, 255, 255);
+			names[i] = enterName(fg, buttonWidth, buttonHeight);
 		}
 
 		// Beginning of the game
@@ -459,6 +467,11 @@ public class Game {
 		return (int) letter - 64;
 	}
 
+	/**
+	 * 
+	 * @param indexLetters
+	 * @return true if the player posed his 7 letters
+	 */
 	private boolean isScrabble(int[] indexLetters) {
 		int nbLetter = 0;
 		boolean isScrabble = false;
@@ -474,7 +487,7 @@ public class Game {
 	}
 
 	/**
-	 * Create a rectangle and make it clickable
+	 * look if the button created by the coordonates is clicked
 	 * 
 	 * @param fg the graphic frame
 	 * @param x the abscissa of the square's left-top corner pixel 
@@ -484,10 +497,10 @@ public class Game {
 	 * @return the state of the click
 	 */
 	private boolean isClicked(FenetreGraphique fg, int x, int y, int width, int height) {
-		if(fg.getMouseState() == 2 || fg.getMouseState() == 1){
-			if(fg.getMouseY() > y && fg.getMouseY() < y+height 
-			&& fg.getMouseX() > x
-			&& fg.getMouseX() < x + width){
+		if(fg.getMouseY() > y && fg.getMouseY() < y+height 
+		&& fg.getMouseX() > x
+		&& fg.getMouseX() < x + width){
+			if(fg.getMouseState() == 2){
 				return(true);
 			}
 		}
@@ -508,4 +521,25 @@ public class Game {
 
 		return(Scrabble.textHeight);
 	}
+
+	private String enterName(FenetreGraphique fg, int x, int y){
+		String playerName = "";
+		int height = textHeight(fg, 20);
+		do{
+			char lastChar = fg.getKey();
+			int lastCode = (int)lastChar;
+			fg.drawString(5, height, 3, playerName);
+			fg.flush();
+			if(!(lastCode >= 65 && lastCode <= 90) && !(lastCode >= 97 && lastCode <= 122)){
+				lastChar = Character.MIN_VALUE;
+			}
+			if(lastChar != Character.MIN_VALUE){
+				playerName += lastChar;
+			}
+			fg.wait(100);
+		}while(!isClicked(fg, x, y, 100, 50));
+		fg.wait(200);
+		return(playerName);
+	}
+	
 }
