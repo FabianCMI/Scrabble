@@ -132,9 +132,10 @@ public class Game {
 			fg.setColor(255, 255, 255);
 			names[i] = enterName(fg, buttonWidth, buttonHeight);
 		}
-
+		fg.clear();
+		resetTextHeight();
 		// Beginning of the game
-		fg.drawString(5, textHeight(fg, 20), 3, "----------------------- Debut de la partie -----------------------");
+		fg.drawString(5, textHeight(fg, 0), 3, "--------------------------------- Debut de la partie --------------------------------");
 		fg.flush();
 		return names;
 	}
@@ -515,11 +516,15 @@ public class Game {
 	 */
 	private int textHeight(FenetreGraphique fg, int n){
 		if(Scrabble.textHeight + n > fg.getBufferHeight())
-			Scrabble.textHeight = 20;
+			resetTextHeight();
 		else 
 			Scrabble.textHeight += n;
 
 		return(Scrabble.textHeight);
+	}
+
+	private void resetTextHeight(){
+		Scrabble.textHeight = 20;
 	}
 
 	private String enterName(FenetreGraphique fg, int x, int y){
@@ -536,7 +541,6 @@ public class Game {
 			if(lastChar != Character.MIN_VALUE){
 				playerName += lastChar;
 			}
-			fg.wait(100);
 		}while(!isClicked(fg, x, y, 100, 50));
 		fg.wait(200);
 		return(playerName);
