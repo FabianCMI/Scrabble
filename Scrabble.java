@@ -32,12 +32,28 @@ public class Scrabble {
 	public static void gameBoardDrawing(FenetreGraphique mainFg, Game game){
 		// Variables
 		int x, y;
+		int lineNumber = 1;
+		int colonneNumber = 1;
+		char[] letters = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'};
 
 		// Drawing
 		for (int i = 0; i < 16; i++) {
 			for (int j = 0; j < 16; j++) {
 				x = 178 + i*50;
 				y = 70 + j*50;
+				//letters and numbers
+				if(x%178 == 0 && lineNumber <= 15) { // letters
+					mainFg.setColor(220, 220, 220);
+					mainFg.drawText(x - 25, y + 33, 3, letters[lineNumber-1]);
+					lineNumber++;
+				}
+				if(y == 70 && colonneNumber <= 15) { // numbers
+					mainFg.setColor(220, 220, 220);
+					mainFg.drawText(x + 17, y - 10, 3, colonneNumber);
+					colonneNumber++;
+				}
+
+				// lines
 				mainFg.setColor(220, 220, 220);
 				mainFg.drawLine(x, 70, x, 820);
 				mainFg.drawLine(178, y, 928, y);

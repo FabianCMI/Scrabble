@@ -1,4 +1,3 @@
-
 /**
  * Scrabble (APO Project - CMI L1) Rack.java - Represents the tiles's rack of a
  * player
@@ -26,16 +25,18 @@ public class Game {
 	 */
 	Game(FenetreGraphique fg) {
 		// First text
-		int xTextZone = (int)(fg.getBufferWidth()*0.6);
+		int xTextZone = (int) (fg.getBufferWidth() * 0.6);
 		int nbPlayerInput;
 		fg.drawLine(xTextZone, 0, xTextZone, fg.getBufferHeight());
-		fg.drawString(xTextZone + 5, 20, 3, " ===================== SCRABBLE =====================");
-		fg.drawText(xTextZone + 5, 50, 3, "Bonjour et bienvenue dans ce jeu de scrabble. Saisir le nombre de joueurs : ");
+		fg.drawString(xTextZone + 5, 20, 3, "SCRABBLE");
+		fg.drawText(xTextZone + 5, 50, 3,
+				"Bonjour et bienvenue dans ce jeu de scrabble. Saisir le nombre de joueurs : ");
 		fg.drawText(xTextZone + 5, 65, 3, "Saisir le nombre de joueurs : ");
 		fg.flush();
-		do{
+		do {
 			nbPlayerInput = fg.getKey();
-		} while (nbPlayerInput != '2' && nbPlayerInput != '3' && nbPlayerInput != '4' && nbPlayerInput != '\"' && nbPlayerInput != '\'' );
+		} while (nbPlayerInput != '2' && nbPlayerInput != '3' && nbPlayerInput != '4' && nbPlayerInput != '\"'
+				&& nbPlayerInput != '\'');
 		this.nbPlayer = nbPlayerInput;
 		player = new Player[this.nbPlayer];
 
@@ -113,35 +114,37 @@ public class Game {
 		// Main loop
 
 		do {
-				if (this.stateGame) {
-					// Informations display
-					Ecran.afficherln("C'est au tour de " + this.player[currentPlayer].getName() + " de jouer..."); // first message
-					Ecran.afficherln("\n" + this.gameboard + "\n"); // game board
-					Ecran.afficherln(this.player[currentPlayer] + "\n"); // informations about the player (name, score and rack)
+			if (this.stateGame) {
+				// Informations display
+				Ecran.afficherln("C'est au tour de " + this.player[currentPlayer].getName() + " de jouer..."); // first
+																												// message
+				Ecran.afficherln("\n" + this.gameboard + "\n"); // game board
+				Ecran.afficherln(this.player[currentPlayer] + "\n"); // informations about the player (name, score and
+																		// rack)
 
-					// Menu of actions
-					selectAction(this.player[currentPlayer]);
+				// Menu of actions
+				selectAction(this.player[currentPlayer]);
 
-					// Check if the game can continue
-					if (areAllRacksNull()) // check if all racks all racks are empty
-						this.stateGame = false;
-					if (this.nextPlayer >= this.nbPlayer) // check if all players have passed their turn
-						this.stateGame = false;
+				// Check if the game can continue
+				if (areAllRacksNull()) // check if all racks all racks are empty
+					this.stateGame = false;
+				if (this.nextPlayer >= this.nbPlayer) // check if all players have passed their turn
+					this.stateGame = false;
 
-					// One more tour
-					this.nbTour += 1;
-				}
-			if(currentPlayer == this.nbPlayer-1)
+				// One more tour
+				this.nbTour += 1;
+			}
+			if (currentPlayer == this.nbPlayer - 1)
 				currentPlayer = 0;
 			else
-				currentPlayer += 1; 
+				currentPlayer += 1;
 
 		} while (this.stateGame);
 
 		// End of the game
 		Ecran.afficherln("\n------------------------ Fin de la partie ------------------------");
 		Ecran.afficherln("\nVous avez terminé la partie !\nVoilà les informations sur les joueurs :");
-		for(Player aPlayer : this.player) {
+		for (Player aPlayer : this.player) {
 			Ecran.sautDeLigne();
 			Ecran.afficherln(aPlayer);
 		}
@@ -172,27 +175,27 @@ public class Game {
 
 		// Action
 		switch (numAction) {
-			// Put a word
-			case 1:
-				// Putting the word
-				putWord(player);
-				nextPlayer = 0;
+		// Put a word
+		case 1:
+			// Putting the word
+			putWord(player);
+			nextPlayer = 0;
 
-				// Last display
-				Ecran.afficherln("Votre mot a été placé.");
-				break;
+			// Last display
+			Ecran.afficherln("Votre mot a été placé.");
+			break;
 
-			// Change letters
-			case 2:
-				changeSomeLetters(player);
-				break;
+		// Change letters
+		case 2:
+			changeSomeLetters(player);
+			break;
 
-			// Don't want to play
-			case 3:
-				// Last display
-				Ecran.afficherln("Vous passez votre tour.");
-				nextPlayer++;
-				break;
+		// Don't want to play
+		case 3:
+			// Last display
+			Ecran.afficherln("Vous passez votre tour.");
+			nextPlayer++;
+			break;
 		}
 	}
 
@@ -297,9 +300,10 @@ public class Game {
 				}
 			}
 		}
-		
-		//score calcul
-		int score = gameboard.wordScoreCalcul(this.gameboard.getGrid()[coordinate[1]][coordinate[0]], indexLetters.length, isHorizontal, isScrabble(indexLetters));
+
+		// score calcul
+		int score = gameboard.wordScoreCalcul(this.gameboard.getGrid()[coordinate[1]][coordinate[0]],
+				indexLetters.length, isHorizontal, isScrabble(indexLetters));
 		player.increaseScore(score);
 		Ecran.afficherln(player.getName() + " a marqué " + score + " points");
 
@@ -322,7 +326,7 @@ public class Game {
 		answerStr = Clavier.saisirString();
 
 		// Check length of the String
-		while(answerStr.length() > 7) {
+		while (answerStr.length() > 7) {
 			Ecran.afficherln("Vous ne pouvez changer que 7 lettres maximum.");
 			Ecran.afficher("Saisir l'index des lettres que vous voulez changer (ex: 123) : ");
 			answerStr = Clavier.saisirString();
@@ -331,7 +335,7 @@ public class Game {
 		Library.StringtoArray(indexLetters, answerStr, "");
 
 		// Check values of the array of integers
-		if(!Library.checkValuesOfArray(indexLetters, 1, 7)) {
+		if (!Library.checkValuesOfArray(indexLetters, 1, 7)) {
 			Ecran.afficherln("Vous avez saisi un ou plusieurs index incorrectes.");
 			changeSomeLetters(player);
 		} else {
@@ -415,6 +419,7 @@ public class Game {
 
 	/**
 	 * Transform a letter (char) into a integer
+	 * 
 	 * @param letter
 	 * @return
 	 */
@@ -422,18 +427,18 @@ public class Game {
 		// Variable
 		letter = Character.toUpperCase(letter);
 
-		return (int)letter - 64;
+		return (int) letter - 64;
 	}
-	
-	private boolean isScrabble (int[] indexLetters){
+
+	private boolean isScrabble(int[] indexLetters) {
 		int nbLetter = 0;
 		boolean isScrabble = false;
-		for (int i=0; i<indexLetters.length; i++) {
-			if(indexLetters[i] >= 0){
+		for (int i = 0; i < indexLetters.length; i++) {
+			if (indexLetters[i] >= 0) {
 				nbLetter += 1;
 			}
 		}
-		if(nbLetter == 7)
+		if (nbLetter == 7)
 			isScrabble = true;
 
 		return (isScrabble);
