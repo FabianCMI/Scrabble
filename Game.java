@@ -26,16 +26,44 @@ public class Game {
 	 */
 	Game(FenetreGraphique fg) {
 		// First text
-		int xTextZone = (int)(fg.getBufferWidth()*0.6);
-		int nbPlayerInput;
+		final int xTextZone = (int)(fg.getBufferWidth()*0.6);
+		final int midxTextZone = (int)(fg.getBufferWidth()*0.8);
+		int nbPlayerInput = 0;
 		fg.drawLine(xTextZone, 0, xTextZone, fg.getBufferHeight());
-		fg.drawString(xTextZone + 5, 20, 3, " ===================== SCRABBLE =====================");
+		fg.drawString(xTextZone + 5, 20, 3, " =============================== SCRABBLE =============================");
 		fg.drawText(xTextZone + 5, 50, 3, "Bonjour et bienvenue dans ce jeu de scrabble. Saisir le nombre de joueurs : ");
-		fg.drawText(xTextZone + 5, 65, 3, "Saisir le nombre de joueurs : ");
+		fg.drawText(xTextZone + 5, 70, 3, "Saisir le nombre de joueurs : ");
+
+		// Drawing of the buttons
+		fg.setColor(255, 0, 0);
+		
+		fg.drawRect(midxTextZone-185, 90, 70, 40);
+		fg.drawRect(midxTextZone-35, 90, 70, 40);
+		fg.drawRect(midxTextZone+115, 90, 70, 40);
+		fg.setColor(255, 255, 255);
+		fg.fillRect(midxTextZone-183, 92, 67, 37);
+		fg.fillRect(midxTextZone-33, 92, 67, 37);
+		fg.fillRect(midxTextZone+117, 92, 67, 37);
+		fg.setColor(0, 0, 0);
+		fg.drawString(midxTextZone-155, 117, 3, "2");
+		fg.drawString(midxTextZone-5, 117, 3, "3");
+		fg.drawString(midxTextZone+146, 117, 3, "4");
 		fg.flush();
-		do{
-			nbPlayerInput = fg.getKey();
-		} while (nbPlayerInput != '2' && nbPlayerInput != '3' && nbPlayerInput != '4' && nbPlayerInput != '\"' && nbPlayerInput != '\'' );
+
+		// making the buttons clickable
+		
+		do {
+			if(isClicked(fg, midxTextZone-185, 90, 70, 40))
+				nbPlayerInput = 2;
+			else if(isClicked(fg, midxTextZone-35, 90, 70, 40))
+				nbPlayerInput = 3;
+			else if(isClicked(fg, midxTextZone+115, 90, 70, 40))
+					nbPlayerInput = 4;
+
+		}while(nbPlayerInput < 2 || nbPlayerInput > 4);
+		
+			Ecran.afficherln("Le nombre de joueur doit être compris entre 2 et 4");
+		
 		this.nbPlayer = nbPlayerInput;
 		player = new Player[this.nbPlayer];
 
@@ -344,7 +372,7 @@ public class Game {
 	}
 
 	// --------------------------------------------------
-	// ############# Manger des carottes ################
+	// ################### Methods ######################
 	// --------------------------------------------------
 
 	/**
@@ -437,5 +465,26 @@ public class Game {
 			isScrabble = true;
 
 		return (isScrabble);
+	}
+
+	/**
+	 * Create a rectangle and make it clickable
+	 * 
+	 * @param fg the graphic frame
+	 * @param x the abscissa of the square's left-top corner pixel 
+	 * @param y the ordinate of the square's left-top corner pixel 
+	 * @param width the width of the square
+	 * @param height the height of the square
+	 * @return the state of the click
+	 */
+	private boolean isClicked(FenetreGraphique fg, int x, int y, int width, int height) {
+		if(fg.getMouseState() == 2){
+			if(fg.getMouseY() > y && fg.getMouseY() < y+height 
+			&& fg.getMouseX() > x
+			&& fg.getMouseX() < x + width){
+				return(true);
+			}
+		}
+		return(false);
 	}
 }
