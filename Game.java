@@ -73,7 +73,6 @@ public class Game {
 			else
 				player[i] = new Player(names[i]);
 		}
-		Ecran.sautDeLigne();
 
 		// Tour
 		this.nbTour = 1;
@@ -121,16 +120,7 @@ public class Game {
 			fg.setColor(255, 255, 255);
 			fg.drawString(5, textHeight(fg, 70), 3, str);
 			fg.flush();
-			int buttonWidth = fg.getBufferWidth()/2-50;
-			int buttonHeight = 500;
-			fg.setColor(255, 0, 0);
-			fg.drawRect(buttonWidth, buttonHeight, 100, 50);
-			fg.setColor(255, 255, 255);
-			fg.fillRect(buttonWidth+2, buttonHeight+2, 97, 47);
-			fg.setColor(0, 0, 0);
-			fg.drawString(buttonWidth+20 , buttonHeight+30, 3, "Valider");
-			fg.setColor(255, 255, 255);
-			names[i] = enterName(fg, buttonWidth, buttonHeight);
+			names[i] = enterWord(fg);
 		}
 		fg.clear();
 		resetTextHeight();
@@ -179,11 +169,11 @@ public class Game {
 		} while (this.stateGame);
 
 		// End of the game
-		Ecran.afficherln("\n------------------------ Fin de la partie ------------------------");
-		Ecran.afficherln("\nVous avez terminé la partie !\nVoilà les informations sur les joueurs :");
+		drawText(fg, "------------------------ Fin de la partie ------------------------", 0);
+		drawText(fg, "Vous avez fini la partie !", 40);
+		drawText(fg, "Informations sur les joueurs :", 20);
 		for (Player aPlayer : this.player) {
-			Ecran.sautDeLigne();
-			Ecran.afficherln(aPlayer);
+			aPlayer.drawPlayer(fg);
 		}
 	}
 
@@ -220,6 +210,7 @@ public class Game {
 		fg.drawString( midZone - 85, buttonHeight+32, 3, "Piocher des lettres ");
 		fg.drawString( midZone + 160, buttonHeight+32, 3, "Passer son tour");
 		fg.flush();
+		fg.setColor(255, 255, 255);
 
 		do{
 			if(isClicked(fg, midZone - 300, buttonHeight, 150, 50))
@@ -239,21 +230,24 @@ public class Game {
 			nextPlayer = 0;
 
 			// Last display
-			Ecran.afficherln("Votre mot a été placé.");
+			drawText(fg, "Votre mot est maintenant sur la grille.", 20);
 			break;
 
 		// Change letters
 		case 2:
-			changeSomeLetters(player);
+			changeSomeLetters(player, fg);
 			break;
 
 		// Don't want to play
 		case 3:
 			// Last display
-			Ecran.afficherln("Vous passez votre tour.");
+			drawText(fg, "Vous passez votre tour.", 80);;
 			nextPlayer++;
 			break;
 		}
+		fg.wait(1500);
+		fg.clear();
+		Scrabble.textHeight = 20;
 	}
 
 	/**
@@ -270,7 +264,6 @@ public class Game {
 
 		// About the orientation
 		int answerInt = 0;
-		fg.setColor(255, 255, 255);
 		drawText(fg, "Souhaitez-vous poser un mot vertical ou horitonzal ?", 100);
 		
 		// buttons
@@ -286,7 +279,7 @@ public class Game {
 		fg.drawString(midZone - 170, buttonHeight+32, 3, "Horizontal");
 		fg.drawString(midZone + 90, buttonHeight+32, 3, "Vertical");
 		fg.flush();
-
+		fg.setColor(255, 255, 255);
 		do{
 			if(isClicked(fg, midZone - 200, buttonHeight, 150, 50))
 				answerInt = 1;
@@ -302,16 +295,16 @@ public class Game {
 		if (this.nbTour > 1) {
 			// Enter of coordinates
 			String[] splitStr;
-			Ecran.afficher("\nSaisir les coordonnées de la première lettre (ex: \"2,C\"): ");
-			answerStr = Clavier.saisirString();
+			drawText(fg, "Saisir les coordonnees de la premiere lettre (ex: \"2,C\"): ", 70);
+			answerStr = enterWord(fg);
 			splitStr = answerStr.split("");
 			answerStr = splitStr[0] + letterCoordtoInt(splitStr[1].charAt(0));
 
 			// Check the entry
 			Library.StringtoArray(coordinate, answerStr, "");
 			while (coordinate[0] < 1 || coordinate[0] > 15 || coordinate[1] < 1 || coordinate[1] > 15) {
-				Ecran.afficher("\nSaisir les coordonnées de la première lettre (ex: \"2C\"): ");
-				answerStr = Clavier.saisirString();
+				drawText(fg, "Saisir les coordonnees de la premiere lettre (ex: \"2,C\"): ", 20);
+				answerStr = enterWord(fg);
 				splitStr = answerStr.split("");
 				answerStr = splitStr[0] + letterCoordtoInt(splitStr[1].charAt(0));
 
@@ -323,15 +316,15 @@ public class Game {
 		}
 
 		// About the word
-		Ecran.afficherln("\nSaisir le mot que vous souhaitez placer: ");
-		word = Clavier.saisirString().toUpperCase();
+		drawText(fg, "Saisir le mot que vous souhaitez placer: ", 70);
+		word = enterWord(fg);
 
 		// Check the length
 		while (checkLengthWord(word, coordinate, isHorizontal)) {
-			Ecran.afficherln("\nLe mot est trop long.");
+			drawText(fg, "Le mot est trop long.", 20);
 
-			Ecran.afficherln("Saisir le mot que vous souhaitez placer: ");
-			word = Clavier.saisirString().toUpperCase();
+			drawText(fg, "Saisir le mot que vous souhaitez placer: ", 20);
+			word = enterWord(fg);
 		}
 
 		// Check the word
@@ -358,7 +351,7 @@ public class Game {
 				// If the letter isn't on the grid
 				if (!isOn) {
 					int answer;
-					Ecran.afficherln("Vous ne pouvez pas placer ce mot...");
+					drawText(fg, "Vous ne pouvez pas placer ce mot...", 20);
 					putWord(player, fg);
 					return;
 				}
@@ -384,7 +377,7 @@ public class Game {
 		int score = gameboard.wordScoreCalcul(this.gameboard.getGrid()[coordinate[1]][coordinate[0]],
 				indexLetters.length, isHorizontal, isScrabble(indexLetters));
 		player.increaseScore(score);
-		Ecran.afficherln(player.getName() + " a marqué " + score + " points");
+		drawText(fg, player.getName() + " marque " + score + " points", 20);
 
 		// refreshing the rack
 		player.getRack().refreshRack(indexLetters);
@@ -395,34 +388,34 @@ public class Game {
 	 * 
 	 * @param player The player
 	 */
-	public void changeSomeLetters(Player player) {
+	public void changeSomeLetters(Player player, FenetreGraphique fg) {
 		// Variables
 		int[] indexLetters;
 
 		// Entry of indexes in a String
 		String answerStr;
-		Ecran.afficher("Saisir l'index des lettres que vous voulez changer (ex: 123) : ");
-		answerStr = Clavier.saisirString();
+		drawText(fg, "Saisir l'index des lettres que vous voulez changer (ex: abc) : ", 80);
+		answerStr = enterWord(fg);
 
 		// Check length of the String
 		while (answerStr.length() > 7) {
-			Ecran.afficherln("Vous ne pouvez changer que 7 lettres maximum.");
-			Ecran.afficher("Saisir l'index des lettres que vous voulez changer (ex: 123) : ");
-			answerStr = Clavier.saisirString();
+			drawText(fg, "Vous ne pouvez changer que 7 tuiles au maximum.", 20);
+			drawText(fg, "Saisir l'index des tuiles que vous voulez changer (ex: abc) : ", 20);
+			answerStr = enterWord(fg);
 		}
 		indexLetters = new int[answerStr.length()];
 		Library.StringtoArray(indexLetters, answerStr, "");
 
 		// Check values of the array of integers
 		if (!Library.checkValuesOfArray(indexLetters, 1, 7)) {
-			Ecran.afficherln("Vous avez saisi un ou plusieurs index incorrectes.");
-			changeSomeLetters(player);
+			drawText(fg, "Vous avez saisi un ou plusieurs index incorrects.", 20);
+			changeSomeLetters(player, fg);
 		} else {
 			// Refresh the rack
 			player.getRack().refreshRack(indexLetters);
 
 			// Last display
-			Ecran.afficherln("Votre chevalet a été rafrachî.");
+			drawText(fg, "Vous avez maintenant de nouvelles tuiles.", 20);
 		}
 	}
 
@@ -568,23 +561,31 @@ public class Game {
 		Scrabble.textHeight = 20;
 	}
 
-	private String enterName(FenetreGraphique fg, int x, int y){
-		String playerName = "";
+	private String enterWord(FenetreGraphique fg){
+		String word = "";
 		int height = textHeight(fg, 20);
+		int buttonWidth = fg.getBufferWidth()/2-50;
+		int buttonHeight = 800;
+		fg.setColor(255, 0, 0);
+		fg.drawRect(buttonWidth, buttonHeight, 100, 50);
+		fg.setColor(255, 255, 255);
+		fg.fillRect(buttonWidth+2, buttonHeight+2, 97, 47);
+		fg.setColor(0, 0, 0);
+		fg.drawString(buttonWidth+20 , buttonHeight+30, 3, "Valider");
+		fg.setColor(255, 255, 255);
 		do{
 			char lastChar = fg.getKey();
 			int lastCode = (int)lastChar;
-			fg.drawString(5, height, 3, playerName);
+			fg.drawString(5, height, 3, word);
 			fg.flush();
 			if(!(lastCode >= 65 && lastCode <= 90) && !(lastCode >= 97 && lastCode <= 122)){
 				lastChar = Character.MIN_VALUE;
 			}
 			if(lastChar != Character.MIN_VALUE){
-				playerName += lastChar;
+				word += lastChar;
 			}
-		}while(!isClicked(fg, x, y, 100, 50));
-		fg.wait(200);
-		return(playerName);
+		}while(!isClicked(fg, buttonWidth, buttonHeight, 100, 50));;
+		return(word);
 	}
 
 	static void drawText(FenetreGraphique fg, String msg, int n){
