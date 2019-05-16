@@ -37,6 +37,9 @@ public class Rack {
 		return this.rack;
 	}
 
+	/**
+	 * Get the number of null tiles in the rack i.e. places not occupied by tiles
+	 */
 	public int getNullTiles() {
 		int nbNullTiles = 0;
 

@@ -2,21 +2,25 @@
 /**
  * Scrabble (APO Project - CMI L1) Rack.java - Represents the tiles's rack of a
  * player
- * Excellent projet dont la plus-value principale est d'avoir été programmé à moitié sur un mac, ce qui est réellement formidable.
+ * 
  * @author Fabian Devel, Valentin Perignon
  */
-import javax.lang.model.util.ElementScanner6;
-import javax.swing.JOptionPane;
 
 public class Game {
 
 	// ---------- Attributs ----------
 
+	/** Number of players in the game */
 	final int nbPlayer;
-	private boolean stateGame = true;
-	private int nbTour;
-	private int nextPlayer = 0;
+	/** Array of players currently playing */
 	private Player[] player;
+	/** Current state of the game (playing or not) */
+	private boolean stateGame = true;
+	/** Number of the game turn */
+	private int nbTour;
+	/** Number of "To skip the turn" followed */
+	private int nextPlayer = 0;
+	/** Gameboad */
 	private GameBoard gameboard = new GameBoard();
 
 	// ---------- Constructors ----------
@@ -57,6 +61,7 @@ public class Game {
 	 * Get a player
 	 * 
 	 * @param numPlayer The wanted player's numero
+	 * 
 	 * @return The player designed by the numero given in parameter
 	 */
 	public Player[] getPlayer() {
@@ -377,7 +382,7 @@ public class Game {
 	 * @param player Player who is currently playing
 	 * @param letter The searched letter
 	 * 
-	 * @return the index of the letter, -1 if it's not on the rack
+	 * @return The index of the letter, -1 if it's not on the rack
 	 */
 	private int indexOnTheRack(Player player, char letter) {
 		// Variables
@@ -418,7 +423,7 @@ public class Game {
 	 * Transform a letter (char) into a integer
 	 * 
 	 * @param letter
-	 * @return
+	 * @return The integer of the char
 	 */
 	private int letterCoordtoInt(char letter) {
 		// Variable
@@ -427,6 +432,13 @@ public class Game {
 		return (int) letter - 64;
 	}
 
+	/**
+	 * Check if the word is a "scrabble"
+	 * 
+	 * @param indexLetters Index of letters of the rack used
+	 * 
+	 * @return True if it's a "scrabble"
+	 */
 	private boolean isScrabble(int[] indexLetters) {
 		int nbLetter = 0;
 		boolean isScrabble = false;
