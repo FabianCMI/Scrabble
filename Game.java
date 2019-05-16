@@ -337,7 +337,15 @@ public class Game {
 				if (!isOn) {
 					int answer;
 					drawText(fg, "Vous ne pouvez pas placer ce mot...", 20);
-					fg.wait(1000);
+					drawButton(fg, fg.getBufferWidth()/2-50, 800, 100, 50, 9, "Continuer");
+					fg.setColor(255, 255, 255);
+					do{
+						fg.wait(20);
+					} while(!isClicked(fg, fg.getBufferWidth()/2-50, 800, 100, 50));
+					fg.clear();
+					resetTextHeight();
+					player.drawPlayer(fg);
+					textHeight(fg, 80);
 					putWord(player, fg, mainFg);
 					return;
 				}
@@ -398,11 +406,17 @@ public class Game {
 				}
 			}
 			if(!isNear){
-				drawText(fg, "Vous devez positionner votre mot pour qu'il touche au moins une lettre deja sur le plateau ", 20);
+				drawText(fg, "Vous devez positionner votre mot pour qu'il touche au moins une lettre", 20);
+				drawText(fg, "deja sur le plateau ", 20);
 				drawButton(fg, fg.getBufferWidth()/2-50, 800, 100, 50, 9, "Continuer");
+				fg.setColor(255, 255, 255);
 				do{
 					fg.wait(20);
 				} while(!isClicked(fg, fg.getBufferWidth()/2-50, 800, 100, 50));
+				fg.clear();
+				resetTextHeight();
+				player.drawPlayer(fg);
+				textHeight(fg, 80);
 				putWord(player, fg, mainFg);
 				return;
 			}
