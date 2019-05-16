@@ -115,6 +115,7 @@ public class Player {
 	}
 
 	public void drawPlayer(FenetreGraphique fg){
+		Game.drawText(fg, "", 50);
 		Game.drawText(fg, this.name + "                      " + "Score : " + this.score, 20);
 		this.rack.drawRack(fg);
 	}
