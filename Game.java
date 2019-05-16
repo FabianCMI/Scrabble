@@ -24,6 +24,8 @@ public class Game {
 	 * Game constructor
 	 */
 	Game(FenetreGraphique fg) {
+		/*  /!\ DEBUG !!!
+
 		// Variables
 		final int midZone = fg.getBufferWidth()/2;
 		int nbPlayerInput = 0;
@@ -65,6 +67,17 @@ public class Game {
 		}
 
 		// Tour
+		this.nbTour = 1;
+
+		*/
+
+		// /!\ DEBUG
+
+		this.nbPlayer = 2;
+		this.player = new Player[2];
+		this.player[0] = new Player("Valentin");
+		this.player[1] = new Player("Fabian");
+
 		this.nbTour = 1;
 	}
 
@@ -188,7 +201,8 @@ public class Game {
 		int numAction = 0;
 
 		// Action entry
-		drawText(fg, "Que souhaitez-vous faire ?", 25);
+		fg.setColor(255, 255, 255);
+		drawText(fg, "Que souhaitez-vous faire ?", 140);
 
 		// more buttons
 		final int midZone = fg.getBufferWidth()/2;
