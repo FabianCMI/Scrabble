@@ -53,6 +53,7 @@ public class Tiles {
 	public int getValue() {
 		return this.value;
 	}
+	
 	// ---------- Methods ----------
 
 	/**

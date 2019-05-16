@@ -54,13 +54,13 @@ public class Library {
 	public static boolean checkValuesOfArray(int[] tab, int min, int max) {
 		// Variables
 		boolean isOk = true;
-		int i=0;
+		int i = 0;
 
 		// Treatment
-		while(i<tab.length && isOk) {
-			if(tab[i] < min || tab[i] > max)
+		while (i < tab.length && isOk) {
+			if (tab[i] < min || tab[i] > max)
 				isOk = false;
-			else 
+			else
 				i++;
 		}
 

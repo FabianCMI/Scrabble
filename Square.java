@@ -117,7 +117,7 @@ public class Square {
      * 
      * @param n the new value of the score multiplicator
      */
-    public void setScoreMult(int n){
+    public void setScoreMult(int n) {
         this.scoreMultiplicator = n;
     }
 
