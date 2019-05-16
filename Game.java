@@ -188,7 +188,8 @@ public class Game {
 		int numAction = 0;
 
 		// Action entry
-		drawText(fg, "Que souhaitez-vous faire ?", 25);
+		fg.setColor(255, 255, 255);
+		drawText(fg, "Que souhaitez-vous faire ?", 140);
 
 		// more buttons
 		final int midZone = fg.getBufferWidth()/2;

@@ -36,9 +36,4 @@ static int textHeight = 0;
 		FenetreGraphique.exit();
 	}
 
-
-	public void drawRackPlayer(FenetreGraphique mainFg, Game game, Player pl) {
-		
-	}
-
 }
