@@ -294,7 +294,7 @@ public class Game {
 		}
 
 		// About the word
-		drawText(fg, "Saisir le mot que vous souhaitez placer: ", 70);
+		drawText(fg, "Saisir le mot que vous souhaitez placer: ", 80);
 		do{
 			word = enterWord(fg);
 		} while(word == "");
@@ -303,7 +303,6 @@ public class Game {
 		// Check the length
 		while (checkLengthWord(word, coordinate, isHorizontal)) {
 			drawText(fg, "Le mot est trop long.", 20);
-
 			drawText(fg, "Saisir le mot que vous souhaitez placer: ", 20);
 			do{
 				word = enterWord(fg);
@@ -311,6 +310,7 @@ public class Game {
 		}
 
 		// Check the word
+		boolean isOnTemp = false;
 		indexLetters = new int[word.length()];
 		for (int i = 0; i < word.length(); i++) {
 			// Index of the letter
@@ -323,6 +323,7 @@ public class Game {
 					if (this.gameboard.getGrid()[coordinate[1]][coordinate[0] + i].getTile().getLetter() == word
 							.charAt(i)) {
 						isOn = true;
+						isOnTemp = true;
 					}
 				} else {
 					if (this.gameboard.getGrid()[coordinate[1] + i][coordinate[0]].getTile().getLetter() == word
@@ -335,12 +336,77 @@ public class Game {
 				if (!isOn) {
 					int answer;
 					drawText(fg, "Vous ne pouvez pas placer ce mot...", 20);
-					fg.wait(500);
+					fg.wait(1000);
 					putWord(player, fg, mainFg);
 					return;
 				}
 			}
 		}
+		// Check if the word is connected with another
+		if(!isOnTemp && this.nbTour > 1){
+			boolean isNear = false;
+			for(int i = 0; i < word.length(); i++){
+				if(isHorizontal){
+					if(i == 0 && coordinate[0] != 0){
+						if(this.gameboard.getGrid()[coordinate[1]][coordinate[0]-1].getTile().getValue() != 0){
+							isNear = true;
+						}
+					} else if(i == word.length() - 1 && coordinate[0] != 14){
+						if(this.gameboard.getGrid()[coordinate[1]][coordinate[0]+1].getTile().getValue() != 0){
+							isNear = true;
+						}
+					}
+					if(coordinate[1] == 0){
+						if(this.gameboard.getGrid()[coordinate[1]+1][coordinate[0]+i].getTile().getValue() != 0){
+							isNear = true;
+						}
+					} else if(coordinate[1] == 14){
+						if(this.gameboard.getGrid()[coordinate[1]-1][coordinate[0]+i].getTile().getValue() != 0){
+							isNear = true;
+						}
+					} else {
+						if(this.gameboard.getGrid()[coordinate[1]+1][coordinate[0]+i].getTile().getValue() != 0
+						|| this.gameboard.getGrid()[coordinate[1]-1][coordinate[0]+i].getTile().getValue() != 0){
+							isNear = true;
+						}
+					}
+				} else {
+					if(i == 0 && coordinate[1] != 0){
+						if(this.gameboard.getGrid()[coordinate[1]-1][coordinate[0]].getTile().getValue() != 0){
+							isNear = true;
+						}
+					} else if(i == word.length() - 1 && coordinate[1] != 14){
+						if(this.gameboard.getGrid()[coordinate[1]][coordinate[0]+1].getTile().getValue() != 0){
+							isNear = true;
+						}
+					}
+					if(coordinate[0] == 0){
+						if(this.gameboard.getGrid()[coordinate[1]+i][coordinate[0]+1].getTile().getValue() != 0){
+							isNear = true;
+						}
+					} else if(coordinate[0] == 14){
+						if(this.gameboard.getGrid()[coordinate[1]+i][coordinate[0]-1].getTile().getValue() != 0){
+							isNear = true;
+						}
+					} else {
+						if(this.gameboard.getGrid()[coordinate[1]+i][coordinate[0]+1].getTile().getValue() != 0
+						|| this.gameboard.getGrid()[coordinate[1]+i][coordinate[0]-1].getTile().getValue() != 0){
+							isNear = true;
+						}
+					}
+				}
+			}
+			if(!isNear){
+				drawText(fg, "Vous devez positionner votre mot pour qu'il touche au moins une lettre deja sur le plateau ", 20);
+				drawButton(fg, fg.getBufferWidth()/2-50, 800, 100, 50, 9, "Continuer");
+				do{
+					fg.wait(20);
+				} while(!isClicked(fg, fg.getBufferWidth()/2-50, 800, 100, 50));
+				putWord(player, fg, mainFg);
+				return;
+			}
+		}
+		
 
 		// Put the word onto the grid
 		for (int i = 0; i < indexLetters.length; i++) {
@@ -533,19 +599,6 @@ public class Game {
 	}
 
 	/**
-	 * Transform a letter (char) into a integer
-	 * 
-	 * @param letter
-	 * @return
-	 */
-	private int letterCoordtoInt(char letter) {
-		// Variable
-		letter = Character.toUpperCase(letter);
-
-		return (int) letter - 64;
-	}
-
-	/**
 	 * 
 	 * @param indexLetters
 	 * @return true if the player posed his 7 letters
@@ -592,7 +645,7 @@ public class Game {
 	 * @return the new height of the textline
 	 */
 	private static int textHeight(FenetreGraphique fg, int n){
-		if(Scrabble.textHeight + n > fg.getBufferHeight()){
+		if(Scrabble.textHeight + n > 800){
 			resetTextHeight();
 			fg.clear();
 		} else { 
