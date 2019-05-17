@@ -496,7 +496,7 @@ public class Game {
 			answerStr = enterWord(fg);
 		}
 		indexLetters = new int[answerStr.length()];
-		Library.StringtoArray(indexLetters, answerStr, "");
+		Library.charstoArray(indexLetters, answerStr, "");
 
 		// Check values of the array of integers
 		if (!Library.checkValuesOfArray(indexLetters, 1, 7)) {

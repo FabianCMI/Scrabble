@@ -26,7 +26,6 @@ public class GameBoard {
 			for (int j = 0; j <= lastN; j++) {
 				multiplicator = 1;
 				typeBonus = false;
-				/
 				// word x 3
 				if (i == 0 || i == midN || i == lastN) {
 					if (j == 0 || j == midN || j == lastN) {
