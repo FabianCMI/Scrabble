@@ -1,8 +1,9 @@
 
 /**
  * Scrabble (APO Project - CMI L1) Rack.java - Represents the tiles's rack of a
- * player
- * Excellent projet dont la plus-value principale est d'avoir été programmé à moitié sur un mac, ce qui est réellement formidable.
+ * player Excellent projet dont la plus-value principale est d'avoir été
+ * programmé à moitié sur un mac, ce qui est réellement formidable.
+ * 
  * @author Fabian Devel, Valentin Perignon
  */
 
@@ -172,8 +173,8 @@ public class Game {
 
 		} while (this.stateGame);
 
-		//--------- End of the game -------------
-		
+		// --------- End of the game -------------
+
 		endingCalculScore();
 		fg.clear();
 		drawText(fg, "------------------------------------ Fin de la partie -------------------------------------", 0);
@@ -339,7 +340,7 @@ public class Game {
 		for (int i = 0; i < word.length(); i++) {
 			// Index of the letter
 			indexLetters[i] = indexOnTheRack(letters, word.charAt(i));
-			if(indexLetters[i] != -1)
+			if (indexLetters[i] != -1)
 				letters[indexLetters[i]] = null;
 
 			// Check if the letter is already on the grid
@@ -606,7 +607,7 @@ public class Game {
 	 * Find he index of a letter on the rack
 	 * 
 	 * @param letters An array of letters
-	 * @param letter The searched letter
+	 * @param letter  The searched letter
 	 * 
 	 * @return the index of the letter, -1 if it's not on the rack
 	 */
@@ -618,7 +619,7 @@ public class Game {
 		// Search in the rack
 		while (!isOn && i < 6) {
 			i++;
-			if(letters[i] != null) {
+			if (letters[i] != null) {
 				if (letters[i].getLetter() == letter)
 					isOn = true;
 			}
@@ -681,7 +682,7 @@ public class Game {
 	 */
 	private boolean isClicked(FenetreGraphique fg, int x, int y, int width, int height) {
 		if (fg.getMouseY() > y && fg.getMouseY() < y + height && fg.getMouseX() > x && fg.getMouseX() < x + width) {
-			if (fg.getMouseState() == 1){
+			if (fg.getMouseState() == 1) {
 				fg.wait(200);
 				return (true);
 			}
@@ -744,27 +745,27 @@ public class Game {
 		fg.flush();
 	}
 
-	private void endingCalculScore(){
+	private void endingCalculScore() {
 		boolean isLeft = false;
 		int tempPlayerIndex = -1;
 		int score = 0;
 		// Look if there are a player without remaining tiles
 		for (int i = 0; i < player.length; i++) {
-			for (int j = 0; j < player[i].getRack().getTiles().length; j++){
-				if(player[i].getRack().getTiles()[j].getLetter() != Character.MIN_VALUE){
+			for (int j = 0; j < player[i].getRack().getTiles().length; j++) {
+				if (player[i].getRack().getTiles()[j].getLetter() != Character.MIN_VALUE) {
 					isLeft = true;
-					j = player[i].getRack().getTiles().length-1; // no need to test other tiles
+					j = player[i].getRack().getTiles().length - 1; // no need to test other tiles
 				}
 			}
-			if(!isLeft){
+			if (!isLeft) {
 				tempPlayerIndex = i;
-				i = player.length-1; // No need to test other players
+				i = player.length - 1; // No need to test other players
 			}
 		}
-		if(tempPlayerIndex >= 0){
+		if (tempPlayerIndex >= 0) {
 			int i = 0;
-			do{
-				for (int j = 0; j < player[i].getRack().getTiles().length; j++){
+			do {
+				for (int j = 0; j < player[i].getRack().getTiles().length; j++) {
 					score += player[i].getRack().getTiles()[j].getValue();
 				}
 				player[i].increaseScore(-score);

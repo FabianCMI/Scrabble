@@ -118,7 +118,7 @@ public class TilesBag {
 	}
 
 	// ---------- Methods ----------
-		
+
 	/**
 	 * Draw a tile from the bag
 	 * 
