@@ -299,64 +299,64 @@ public class Game {
 		// About the coordinates
 		String answerStr;
 
-			// Enter of coordinates
-			String[] splitStr;
-			drawText(fg, "Cliquez sur la case de la premiere lettre : ", 70);
-			do {
-				if (isClicked(mainFg, 178, 70, 750, 750)) { // click on the board
-					int mouseX = mainFg.getMouseX() - 178;
-					int mouseY = mainFg.getMouseY() - 70;
-					for (int i = 0; i < 15; i++) {
-						for (int j = 0; j < 15; j++) {
-							if (mouseX / 50 == j && mouseY / 50 == i) {
-								mainFg.setColor(200, 200, 200);
-								mainFg.fillRect(178 + j*50, 70 + i*50, 50, 50);
-								mainFg.flush();
-								coordinate[1] = this.gameboard.grid[i][j].getColumn();
-								coordinate[0] = this.gameboard.grid[i][j].getLine();
-							}
+		// Enter of coordinates
+		String[] splitStr;
+		drawText(fg, "Cliquez sur la case de la premiere lettre : ", 70);
+		do {
+			if (isClicked(mainFg, 178, 70, 750, 750)) { // click on the board
+				int mouseX = mainFg.getMouseX() - 178;
+				int mouseY = mainFg.getMouseY() - 70;
+				for (int i = 0; i < 15; i++) {
+					for (int j = 0; j < 15; j++) {
+						if (mouseX / 50 == j && mouseY / 50 == i) {
+							mainFg.setColor(200, 200, 200);
+							mainFg.fillRect(178 + j * 50, 70 + i * 50, 50, 50);
+							mainFg.flush();
+							coordinate[1] = this.gameboard.grid[i][j].getColumn();
+							coordinate[0] = this.gameboard.grid[i][j].getLine();
 						}
 					}
-				} else {
-					coordinate[0] = -1;
 				}
-			} while (coordinate[0] < 0 || coordinate[0] > 14 || coordinate[1] < 0 || coordinate[1] > 14);
-	
+			} else {
+				coordinate[0] = -1;
+			}
+		} while (coordinate[0] < 0 || coordinate[0] > 14 || coordinate[1] < 0 || coordinate[1] > 14);
 
 		// About the word
 		drawText(fg, "Saisir le mot que vous souhaitez placer: ", 80);
 		do {
 			word = enterWord(fg);
 		} while (word == "");
-		// Check if there is another word on the grid, if not make sure 
+		// Check if there is another word on the grid, if not make sure
 		// that the word will cover the central square
 		boolean isWordPlaced = false;
 		boolean isTouchingCenter = false;
-			for (int i = 0; i < 15; i++) {
-				for (int j = 0; j < 15; j++){
-					if(this.gameboard.getGrid()[i][j].getTile().getValue() != 0){
-						isWordPlaced = true;
-						j = 14;
-						i = 14;
-					}
+		for (int i = 0; i < 15; i++) {
+			for (int j = 0; j < 15; j++) {
+				if (this.gameboard.getGrid()[i][j].getTile().getValue() != 0) {
+					isWordPlaced = true;
+					j = 14;
+					i = 14;
 				}
 			}
-			if(!isWordPlaced){
-				for(int i = 0; i < word.length(); i++){
-					if((isVertical && coordinate[0] + i == 7 && coordinate[1] == 7) || (coordinate[1] + i == 7 && !isVertical && coordinate[0] == 7)){
-						isTouchingCenter = true; 
-						i = word.length() - 1;
-					}
-				}
-				while(!isTouchingCenter){
-					retry(fg, "votre mot doit avoir une lettre sur le centre, veuillez recommencer : ", 20, player);
-					putWord(player, fg, mainFg);
-					return;
+		}
+		if (!isWordPlaced) {
+			for (int i = 0; i < word.length(); i++) {
+				if ((isVertical && coordinate[0] + i == 7 && coordinate[1] == 7)
+						|| (coordinate[1] + i == 7 && !isVertical && coordinate[0] == 7)) {
+					isTouchingCenter = true;
+					i = word.length() - 1;
 				}
 			}
+			while (!isTouchingCenter) {
+				retry(fg, "votre mot doit avoir une lettre sur le centre, veuillez recommencer : ", 20, player);
+				putWord(player, fg, mainFg);
+				return;
+			}
+		}
 		// Check the length
-		if(this.nbTour == 1){
-			while(word.length() < 2){
+		if (this.nbTour == 1) {
+			while (word.length() < 2) {
 				drawText(fg, "Le mot doit faire au moins deux lettres", 20);
 				drawText(fg, "Saisir le mot que vous souhaitez placer: ", 20);
 				do {
@@ -601,8 +601,8 @@ public class Game {
 	/**
 	 * Check if a word is too long the be on the grid
 	 * 
-	 * @param word         The word
-	 * @param coordinate   Coordinate of the word
+	 * @param word       The word
+	 * @param coordinate Coordinate of the word
 	 * @param isVertical The orientation f the word
 	 * 
 	 * @return True if the word is too long
@@ -791,7 +791,7 @@ public class Game {
 		}
 	}
 
-	private void retry(FenetreGraphique fg, String msg, int n, Player player){
+	private void retry(FenetreGraphique fg, String msg, int n, Player player) {
 		drawText(fg, msg, n);
 		drawButton(fg, fg.getBufferWidth() / 2 - 50, 800, 100, 50, 9, "Continuer");
 		fg.setColor(255, 255, 255);
