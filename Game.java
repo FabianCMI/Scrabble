@@ -676,8 +676,8 @@ public class Game {
 	 */
 	private boolean isClicked(FenetreGraphique fg, int x, int y, int width, int height) {
 		if (fg.getMouseY() > y && fg.getMouseY() < y + height && fg.getMouseX() > x && fg.getMouseX() < x + width) {
-			if (fg.getMouseState() == 2){
-				fg.getMouseState();
+			if (fg.getMouseState() == 1){
+				fg.wait(200);
 				return (true);
 			}
 		}
