@@ -1,3 +1,4 @@
+import java.security.interfaces.ECPrivateKey;
 
 /**
  * Scrabble (APO Project - CMI L1) Rack.java - Represents the tiles's rack of a
@@ -212,7 +213,13 @@ public class Game {
 		boolean isHorizontal = true;
 		int[] coordinate = { 7, 7 };
 		int[] indexLetters;
+		Tiles[] letters = new Tiles[7];
 		String word;
+
+		// Create a new rack
+		for(int i=0; i<letters.length; i++) {
+			letters[i] = player.getRack().getTiles()[i];
+		}
 
 		// About the orientation
 		int answerInt;
@@ -228,7 +235,7 @@ public class Game {
 			String[] splitStr;
 			Ecran.afficher("\nSaisir les coordonnées de la première lettre (ex: \"2,C\"): ");
 			answerStr = Clavier.saisirString();
-			splitStr = answerStr.split("");
+			splitStr = answerStr.split(",");
 			answerStr = splitStr[0] + letterCoordtoInt(splitStr[1].charAt(0));
 
 			// Check the entry
@@ -236,7 +243,7 @@ public class Game {
 			while (coordinate[0] < 1 || coordinate[0] > 15 || coordinate[1] < 1 || coordinate[1] > 15) {
 				Ecran.afficher("\nSaisir les coordonnées de la première lettre (ex: \"2C\"): ");
 				answerStr = Clavier.saisirString();
-				splitStr = answerStr.split("");
+				splitStr = answerStr.split(",");
 				answerStr = splitStr[0] + letterCoordtoInt(splitStr[1].charAt(0));
 
 				// Check the entry
@@ -263,7 +270,9 @@ public class Game {
 		boolean isOnTemp = false;
 		for (int i = 0; i < word.length(); i++) {
 			// Index of the letter
-			indexLetters[i] = indexOnTheRack(player, word.charAt(i));
+			indexLetters[i] = indexOnTheRack(letters, word.charAt(i));
+			if(indexLetters[i] != -1)
+				letters[indexLetters[i]] = null;
 
 			// Check if the letter is already on the grid
 			if (indexLetters[i] == -1) {
@@ -449,7 +458,7 @@ public class Game {
 	 * 
 	 * @return The index of the letter, -1 if it's not on the rack
 	 */
-	private int indexOnTheRack(Player player, char letter) {
+	private int indexOnTheRack(Tiles[] letters, char letter) {
 		// Variables
 		boolean isOn = false;
 		int i = -1;
@@ -457,8 +466,10 @@ public class Game {
 		// Search in the rack
 		while (!isOn && i < 6) {
 			i++;
-			if (player.getRack().getTiles()[i].getLetter() == letter)
-				isOn = true;
+			if(letters[i] != null) {
+				if (letters[i].getLetter() == letter)
+					isOn = true;
+			}
 		}
 		if (!isOn) // not found
 			i = -1;
