@@ -260,6 +260,7 @@ public class Game {
 
 		// Check the word
 		indexLetters = new int[word.length()];
+		boolean isOnTemp = false;
 		for (int i = 0; i < word.length(); i++) {
 			// Index of the letter
 			indexLetters[i] = indexOnTheRack(player, word.charAt(i));
@@ -271,11 +272,13 @@ public class Game {
 					if (this.gameboard.getGrid()[coordinate[1]][coordinate[0] + i].getTile().getLetter() == word
 							.charAt(i)) {
 						isOn = true;
+						isOnTemp = true;
 					}
 				} else {
 					if (this.gameboard.getGrid()[coordinate[1] + i][coordinate[0]].getTile().getLetter() == word
 							.charAt(i)) {
 						isOn = true;
+						isOnTemp = true;
 					}
 				}
 
@@ -288,7 +291,68 @@ public class Game {
 				}
 			}
 		}
-
+		// Check if the word is connected with another
+		if (!isOnTemp && this.nbTour > 1) {
+			boolean isNear = false;
+			for (int i = 0; i < word.length(); i++) {
+				if (isHorizontal) {
+					if (i == 0 && coordinate[0] != 0) {
+						if (this.gameboard.getGrid()[coordinate[1]][coordinate[0] - 1].getTile().getValue() != 0) {
+							isNear = true;
+						}
+					} else if (i == word.length() - 1 && coordinate[0] != 14) {
+						if (this.gameboard.getGrid()[coordinate[1]][coordinate[0] + 1].getTile().getValue() != 0) {
+							isNear = true;
+						}
+					}
+					if (coordinate[1] == 0) {
+						if (this.gameboard.getGrid()[coordinate[1] + 1][coordinate[0] + i].getTile().getValue() != 0) {
+							isNear = true;
+						}
+					} else if (coordinate[1] == 14) {
+						if (this.gameboard.getGrid()[coordinate[1] - 1][coordinate[0] + i].getTile().getValue() != 0) {
+							isNear = true;
+						}
+					} else {
+						if (this.gameboard.getGrid()[coordinate[1] + 1][coordinate[0] + i].getTile().getValue() != 0
+								|| this.gameboard.getGrid()[coordinate[1] - 1][coordinate[0] + i].getTile()
+										.getValue() != 0) {
+							isNear = true;
+						}
+					}
+				} else {
+					if (i == 0 && coordinate[1] != 0) {
+						if (this.gameboard.getGrid()[coordinate[1] - 1][coordinate[0]].getTile().getValue() != 0) {
+							isNear = true;
+						}
+					} else if (i == word.length() - 1 && coordinate[1] != 14) {
+						if (this.gameboard.getGrid()[coordinate[1]][coordinate[0] + 1].getTile().getValue() != 0) {
+							isNear = true;
+						}
+					}
+					if (coordinate[0] == 0) {
+						if (this.gameboard.getGrid()[coordinate[1] + i][coordinate[0] + 1].getTile().getValue() != 0) {
+							isNear = true;
+						}
+					} else if (coordinate[0] == 14) {
+						if (this.gameboard.getGrid()[coordinate[1] + i][coordinate[0] - 1].getTile().getValue() != 0) {
+							isNear = true;
+						}
+					} else {
+						if (this.gameboard.getGrid()[coordinate[1] + i][coordinate[0] + 1].getTile().getValue() != 0
+								|| this.gameboard.getGrid()[coordinate[1] + i][coordinate[0] - 1].getTile()
+										.getValue() != 0) {
+							isNear = true;
+						}
+					}
+				}
+			}
+			if (!isNear) {
+				Ecran.afficherln("Vous devez positionner votre mot pour qu'il touche au moins une lettre deja sur le plateau ");
+				putWord(player);
+				return;
+			}
+		}
 		// Put the word onto the grid
 		for (int i = 0; i < indexLetters.length; i++) {
 			if (isHorizontal) {
@@ -351,7 +415,7 @@ public class Game {
 	}
 
 	// --------------------------------------------------
-	// ############# Manger des carottes ################
+	// ############# Methods ################
 	// --------------------------------------------------
 
 	/**
