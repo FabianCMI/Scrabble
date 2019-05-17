@@ -55,7 +55,7 @@ public class Library {
 	 * @param str      The String
 	 * @param splitter The splitter (e.g. ",", "", ...)
 	 */
-	public static void  charstoArray(int[] tabInt, String str, String splitter) {
+	public static void charstoArray(int[] tabInt, String str, String splitter) {
 		// Variable
 		String[] tabStr = new String[tabInt.length];
 		char[] tabChar = new char[tabInt.length];
@@ -64,46 +64,50 @@ public class Library {
 		tabStr = str.split(splitter);
 
 		// Array of char
-		for(int i=0; i<tabChar.length; i++)
+		for (int i = 0; i < tabChar.length; i++)
 			tabChar[i] = tabStr[i].charAt(0);
 
 		// String to int
-		for (int i=0; i<tabInt.length; i++)
+		for (int i = 0; i < tabInt.length; i++)
 			tabInt[i] = charToInt(tabChar[i]);
 	}
 
+	/**
+	 * Transform a char into an integer
+	 * 
+	 * @param letter Letter to transform
+	 */
 	private static int charToInt(char letter) {
 		// Variables
 		int number;
 		letter = Character.toUpperCase(letter);
 
-
 		// Treatment
-		switch(letter) {
-			case 'A':
-				number = 1;
-				break;
-			case 'B':
-				number = 2;
-				break;
-			case 'C':
-				number = 3;
-				break;
-			case 'D':
-				number = 4;
-				break;
-			case 'E':
-				number = 5;
-				break;
-			case 'F':
-				number = 6;
-				break;
-			case 'G':
-				number = 7;
-				break;
-			default:
-				number = 0;
-				break;
+		switch (letter) {
+		case 'A':
+			number = 1;
+			break;
+		case 'B':
+			number = 2;
+			break;
+		case 'C':
+			number = 3;
+			break;
+		case 'D':
+			number = 4;
+			break;
+		case 'E':
+			number = 5;
+			break;
+		case 'F':
+			number = 6;
+			break;
+		case 'G':
+			number = 7;
+			break;
+		default:
+			number = 0;
+			break;
 		}
 
 		return number;
@@ -115,13 +119,13 @@ public class Library {
 	public static boolean checkValuesOfArray(int[] tab, int min, int max) {
 		// Variables
 		boolean isOk = true;
-		int i=0;
+		int i = 0;
 
 		// Treatment
-		while(i<tab.length && isOk) {
-			if(tab[i] < min || tab[i] > max)
+		while (i < tab.length && isOk) {
+			if (tab[i] < min || tab[i] > max)
 				isOk = false;
-			else 
+			else
 				i++;
 		}
 

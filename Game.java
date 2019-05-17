@@ -1,3 +1,4 @@
+
 /**
  * Scrabble (APO Project - CMI L1) Rack.java - Represents the tiles's rack of a
  * player
@@ -11,27 +12,36 @@ public class Game {
 
 	// ---------- Attributs ----------
 
-	final int nbPlayer;
-	private boolean stateGame = true;
-	private int nbTour;
-	private int nextPlayer = 0;
+	/** Array of players */
 	private Player[] player;
+	/** Number of player who are currently playing */
+	final int nbPlayer;
+	/** Current state of the game (running or not) */
+	private boolean stateGame = true;
+	/** Number of games turn */
+	private int nbTour;
+	/** Number of "To next player" */
+	private int nextPlayer = 0;
+	/** Gameboard */
 	private GameBoard gameboard = new GameBoard();
 
 	// ---------- Constructors ----------
 
 	/**
 	 * Game constructor
+	 * 
+	 * @param fg The window
 	 */
 	Game(FenetreGraphique fg) {
 		// Variables
-		final int midZone = fg.getBufferWidth()/2;
+		final int midZone = fg.getBufferWidth() / 2;
 		int nbPlayerInput = 0;
 
 		// First text
-		
-		fg.drawString(5, textHeight(fg, 20), 3, " =============================== SCRABBLE =============================");
-		fg.drawString(5,textHeight(fg, 40), 3, "Bonjour et bienvenue dans ce jeu de scrabble !");
+
+		fg.drawString(5, textHeight(fg, 20), 3,
+				" =============================== SCRABBLE =============================");
+		fg.drawString(5, textHeight(fg, 40), 3, "Bonjour et bienvenue dans ce jeu de scrabble !");
 		fg.drawString(5, textHeight(fg, 20), 3, "Saisir le nombre de joueurs : ");
 
 		// Drawing of the buttons
@@ -41,17 +51,17 @@ public class Game {
 		drawButton(fg, midZone + 115, buttonHeight, 70, 40, 5, "4 ");
 
 		// making the buttons clickable
-		
+
 		do {
-			if(isClicked(fg, midZone-185, buttonHeight, 70, 40))
+			if (isClicked(fg, midZone - 185, buttonHeight, 70, 40))
 				nbPlayerInput = 2;
-			else if(isClicked(fg, midZone-35, buttonHeight, 70, 40))
+			else if (isClicked(fg, midZone - 35, buttonHeight, 70, 40))
 				nbPlayerInput = 3;
-			else if(isClicked(fg, midZone+115, buttonHeight, 70, 40))
+			else if (isClicked(fg, midZone + 115, buttonHeight, 70, 40))
 				nbPlayerInput = 4;
 
-		} while(nbPlayerInput < 2 || nbPlayerInput > 4);
-		
+		} while (nbPlayerInput < 2 || nbPlayerInput > 4);
+
 		this.nbPlayer = nbPlayerInput;
 		player = new Player[this.nbPlayer];
 
@@ -74,6 +84,7 @@ public class Game {
 	 * Get a player
 	 * 
 	 * @param numPlayer The wanted player's numero
+	 * 
 	 * @return The player designed by the numero given in parameter
 	 */
 	public Player[] getPlayer() {
@@ -97,7 +108,9 @@ public class Game {
 
 	/**
 	 * Ask players for their names and initialize the game
-	 *  
+	 * 
+	 * @param fg The window
+	 * 
 	 * @return Array of names
 	 */
 	public String[] initGame(FenetreGraphique fg) {
@@ -106,7 +119,7 @@ public class Game {
 
 		// Treatment
 		for (int i = 0; i < this.nbPlayer; i++) {
-			String str = "Saisir le nom du joueur " + Integer.toString((i+1)) + " : ";
+			String str = "Saisir le nom du joueur " + Integer.toString((i + 1)) + " : ";
 			fg.setColor(255, 255, 255);
 			fg.drawString(5, textHeight(fg, 70), 3, str);
 			fg.flush();
@@ -115,13 +128,17 @@ public class Game {
 		fg.clear();
 		resetTextHeight();
 		// Beginning of the game
-		fg.drawString(5, textHeight(fg, 0), 3, "--------------------------------- Debut de la partie --------------------------------");
+		fg.drawString(5, textHeight(fg, 0), 3,
+				"--------------------------------- Debut de la partie --------------------------------");
 		fg.flush();
 		return names;
 	}
 
 	/**
 	 * Main part of the game
+	 * 
+	 * @param fg     Second window
+	 * @param mainFg Main window
 	 */
 	public void playGame(FenetreGraphique fg, FenetreGraphique mainFg) {
 		// Variable
@@ -130,11 +147,10 @@ public class Game {
 		int currentPlayer = firstPlayer;
 
 		// Main loop
-
 		do {
 			if (this.stateGame) {
 				// Informations display
-				drawText(fg, "C'est au tour de " + this.player[currentPlayer].getName() + " de jouer...", 20); 
+				drawText(fg, "C'est au tour de " + this.player[currentPlayer].getName() + " de jouer...", 20);
 
 				// message
 				player[currentPlayer].drawPlayer(fg);// informations about the player (name, score and rack)
@@ -166,12 +182,12 @@ public class Game {
 			aPlayer.drawPlayer(fg);
 		}
 		// Need another button
-		int buttonX = fg.getBufferWidth()/2-50;
+		int buttonX = fg.getBufferWidth() / 2 - 50;
 		int buttonY = 800;
 		drawButton(fg, buttonX, buttonY, 100, 50, 10, "Quitter");
-		do{
+		do {
 			FenetreGraphique.wait(20);
-		} while(!isClicked(fg, buttonX, buttonY, 100, 50));
+		} while (!isClicked(fg, buttonX, buttonY, 100, 50));
 	}
 
 	// --------------------------------------------------
@@ -182,6 +198,8 @@ public class Game {
 	 * The player choose an action
 	 * 
 	 * @param player The player who is currently playing
+	 * @param fg     Second window
+	 * @param mainFg Main window
 	 */
 	public void selectAction(Player player, FenetreGraphique fg, FenetreGraphique mainFg) {
 		// Variables
@@ -192,7 +210,7 @@ public class Game {
 		drawText(fg, "Que souhaitez-vous faire ?", 140);
 
 		// more buttons
-		final int midZone = fg.getBufferWidth()/2;
+		final int midZone = fg.getBufferWidth() / 2;
 		int buttonHeight = textHeight(fg, 30);
 
 		fg.setColor(255, 0, 0);
@@ -200,14 +218,14 @@ public class Game {
 		drawButton(fg, midZone - 100, buttonHeight, 200, 50, 8, " Piocher des lettres    ");
 		drawButton(fg, midZone + 150, buttonHeight, 150, 50, 8, "Passer son tour  ");
 
-		do{
-			if(isClicked(fg, midZone - 300, buttonHeight, 150, 50))
+		do {
+			if (isClicked(fg, midZone - 300, buttonHeight, 150, 50))
 				numAction = 1;
-			else if(isClicked(fg, midZone - 100, buttonHeight, 200, 50))
+			else if (isClicked(fg, midZone - 100, buttonHeight, 200, 50))
 				numAction = 2;
-			else if(isClicked(fg, midZone +150, buttonHeight, 150, 50))
+			else if (isClicked(fg, midZone + 150, buttonHeight, 150, 50))
 				numAction = 3;
-		} while(numAction < 1 || numAction > 3);
+		} while (numAction < 1 || numAction > 3);
 
 		// Action
 		switch (numAction) {
@@ -231,7 +249,8 @@ public class Game {
 		// Don't want to play
 		case 3:
 			// Last display
-			drawText(fg, "Vous passez votre tour.", 80);;
+			drawText(fg, "Vous passez votre tour.", 80);
+			;
 			nextPlayer++;
 			break;
 		}
@@ -244,6 +263,8 @@ public class Game {
 	 * Put a word on the grid
 	 * 
 	 * @param player Player who is currently working
+	 * @param fg     Second window
+	 * @param mainFg Main window
 	 */
 	public void putWord(Player player, FenetreGraphique fg, FenetreGraphique mainFg) {
 		// Variables
@@ -255,18 +276,18 @@ public class Game {
 		// About the orientation
 		int answerInt = 0;
 		drawText(fg, "Souhaitez-vous poser un mot vertical ou horitonzal ?", 100);
-		
+
 		// buttons
-		final int midZone = fg.getBufferWidth()/2;
+		final int midZone = fg.getBufferWidth() / 2;
 		int buttonHeight = textHeight(fg, 30);
 		drawButton(fg, midZone - 200, buttonHeight, 150, 50, 9, "Vertical ");
 		drawButton(fg, midZone + 50, buttonHeight, 150, 50, 9, "Horizontal");
-		do{
-			if(isClicked(fg, midZone - 200, buttonHeight, 150, 50))
+		do {
+			if (isClicked(fg, midZone - 200, buttonHeight, 150, 50))
 				answerInt = 1;
 			else if (isClicked(fg, midZone + 50, buttonHeight, 150, 50))
 				answerInt = 2;
-		} while(answerInt != 1 && answerInt != 2);
+		} while (answerInt != 1 && answerInt != 2);
 
 		if (answerInt != 1)
 			isHorizontal = false;
@@ -277,13 +298,13 @@ public class Game {
 			// Enter of coordinates
 			String[] splitStr;
 			drawText(fg, "Cliquez sur la case de la premiere lettre : ", 70);
-			do{
-				if(isClicked(mainFg, 178, 70, 750, 750)){ // click on the board
-					int mouseX = mainFg.getMouseX()-178;
-					int mouseY = mainFg.getMouseY()-70;
+			do {
+				if (isClicked(mainFg, 178, 70, 750, 750)) { // click on the board
+					int mouseX = mainFg.getMouseX() - 178;
+					int mouseY = mainFg.getMouseY() - 70;
 					for (int i = 0; i < 15; i++) {
 						for (int j = 0; j < 15; j++) {
-							if(mouseX / 50 == j && mouseY / 50 == i){
+							if (mouseX / 50 == j && mouseY / 50 == i) {
 								coordinate[1] = this.gameboard.grid[i][j].getColumn();
 								coordinate[0] = this.gameboard.grid[i][j].getLine();
 							}
@@ -292,23 +313,22 @@ public class Game {
 				} else {
 					coordinate[0] = -1;
 				}
-			} while(coordinate[0] < 0 || coordinate[0] > 14 || coordinate[1] < 0 || coordinate[1] > 14);
+			} while (coordinate[0] < 0 || coordinate[0] > 14 || coordinate[1] < 0 || coordinate[1] > 14);
 		}
 
 		// About the word
 		drawText(fg, "Saisir le mot que vous souhaitez placer: ", 80);
-		do{
+		do {
 			word = enterWord(fg);
-		} while(word == "");
-		
+		} while (word == "");
 
 		// Check the length
 		while (checkLengthWord(word, coordinate, isHorizontal)) {
 			drawText(fg, "Le mot est trop long.", 20);
 			drawText(fg, "Saisir le mot que vous souhaitez placer: ", 20);
-			do{
+			do {
 				word = enterWord(fg);
-			} while(word == "");
+			} while (word == "");
 		}
 
 		// Check the word
@@ -338,11 +358,11 @@ public class Game {
 				if (!isOn) {
 					int answer;
 					drawText(fg, "Vous ne pouvez pas placer ce mot...", 20);
-					drawButton(fg, fg.getBufferWidth()/2-50, 800, 100, 50, 9, "Continuer");
+					drawButton(fg, fg.getBufferWidth() / 2 - 50, 800, 100, 50, 9, "Continuer");
 					fg.setColor(255, 255, 255);
-					do{
+					do {
 						fg.wait(20);
-					} while(!isClicked(fg, fg.getBufferWidth()/2-50, 800, 100, 50));
+					} while (!isClicked(fg, fg.getBufferWidth() / 2 - 50, 800, 100, 50));
 					fg.clear();
 					resetTextHeight();
 					player.drawPlayer(fg);
@@ -353,67 +373,69 @@ public class Game {
 			}
 		}
 		// Check if the word is connected with another
-		if(!isOnTemp && this.nbTour > 1){
+		if (!isOnTemp && this.nbTour > 1) {
 			boolean isNear = false;
-			for(int i = 0; i < word.length(); i++){
-				if(isHorizontal){
-					if(i == 0 && coordinate[0] != 0){
-						if(this.gameboard.getGrid()[coordinate[1]][coordinate[0]-1].getTile().getValue() != 0){
+			for (int i = 0; i < word.length(); i++) {
+				if (isHorizontal) {
+					if (i == 0 && coordinate[0] != 0) {
+						if (this.gameboard.getGrid()[coordinate[1]][coordinate[0] - 1].getTile().getValue() != 0) {
 							isNear = true;
 						}
-					} else if(i == word.length() - 1 && coordinate[0] != 14){
-						if(this.gameboard.getGrid()[coordinate[1]][coordinate[0]+1].getTile().getValue() != 0){
+					} else if (i == word.length() - 1 && coordinate[0] != 14) {
+						if (this.gameboard.getGrid()[coordinate[1]][coordinate[0] + 1].getTile().getValue() != 0) {
 							isNear = true;
 						}
 					}
-					if(coordinate[1] == 0){
-						if(this.gameboard.getGrid()[coordinate[1]+1][coordinate[0]+i].getTile().getValue() != 0){
+					if (coordinate[1] == 0) {
+						if (this.gameboard.getGrid()[coordinate[1] + 1][coordinate[0] + i].getTile().getValue() != 0) {
 							isNear = true;
 						}
-					} else if(coordinate[1] == 14){
-						if(this.gameboard.getGrid()[coordinate[1]-1][coordinate[0]+i].getTile().getValue() != 0){
+					} else if (coordinate[1] == 14) {
+						if (this.gameboard.getGrid()[coordinate[1] - 1][coordinate[0] + i].getTile().getValue() != 0) {
 							isNear = true;
 						}
 					} else {
-						if(this.gameboard.getGrid()[coordinate[1]+1][coordinate[0]+i].getTile().getValue() != 0
-						|| this.gameboard.getGrid()[coordinate[1]-1][coordinate[0]+i].getTile().getValue() != 0){
+						if (this.gameboard.getGrid()[coordinate[1] + 1][coordinate[0] + i].getTile().getValue() != 0
+								|| this.gameboard.getGrid()[coordinate[1] - 1][coordinate[0] + i].getTile()
+										.getValue() != 0) {
 							isNear = true;
 						}
 					}
 				} else {
-					if(i == 0 && coordinate[1] != 0){
-						if(this.gameboard.getGrid()[coordinate[1]-1][coordinate[0]].getTile().getValue() != 0){
+					if (i == 0 && coordinate[1] != 0) {
+						if (this.gameboard.getGrid()[coordinate[1] - 1][coordinate[0]].getTile().getValue() != 0) {
 							isNear = true;
 						}
-					} else if(i == word.length() - 1 && coordinate[1] != 14){
-						if(this.gameboard.getGrid()[coordinate[1]][coordinate[0]+1].getTile().getValue() != 0){
+					} else if (i == word.length() - 1 && coordinate[1] != 14) {
+						if (this.gameboard.getGrid()[coordinate[1]][coordinate[0] + 1].getTile().getValue() != 0) {
 							isNear = true;
 						}
 					}
-					if(coordinate[0] == 0){
-						if(this.gameboard.getGrid()[coordinate[1]+i][coordinate[0]+1].getTile().getValue() != 0){
+					if (coordinate[0] == 0) {
+						if (this.gameboard.getGrid()[coordinate[1] + i][coordinate[0] + 1].getTile().getValue() != 0) {
 							isNear = true;
 						}
-					} else if(coordinate[0] == 14){
-						if(this.gameboard.getGrid()[coordinate[1]+i][coordinate[0]-1].getTile().getValue() != 0){
+					} else if (coordinate[0] == 14) {
+						if (this.gameboard.getGrid()[coordinate[1] + i][coordinate[0] - 1].getTile().getValue() != 0) {
 							isNear = true;
 						}
 					} else {
-						if(this.gameboard.getGrid()[coordinate[1]+i][coordinate[0]+1].getTile().getValue() != 0
-						|| this.gameboard.getGrid()[coordinate[1]+i][coordinate[0]-1].getTile().getValue() != 0){
+						if (this.gameboard.getGrid()[coordinate[1] + i][coordinate[0] + 1].getTile().getValue() != 0
+								|| this.gameboard.getGrid()[coordinate[1] + i][coordinate[0] - 1].getTile()
+										.getValue() != 0) {
 							isNear = true;
 						}
 					}
 				}
 			}
-			if(!isNear){
+			if (!isNear) {
 				drawText(fg, "Vous devez positionner votre mot pour qu'il touche au moins une lettre", 20);
 				drawText(fg, "deja sur le plateau ", 20);
-				drawButton(fg, fg.getBufferWidth()/2-50, 800, 100, 50, 9, "Continuer");
+				drawButton(fg, fg.getBufferWidth() / 2 - 50, 800, 100, 50, 9, "Continuer");
 				fg.setColor(255, 255, 255);
-				do{
+				do {
 					fg.wait(20);
-				} while(!isClicked(fg, fg.getBufferWidth()/2-50, 800, 100, 50));
+				} while (!isClicked(fg, fg.getBufferWidth() / 2 - 50, 800, 100, 50));
 				fg.clear();
 				resetTextHeight();
 				player.drawPlayer(fg);
@@ -422,7 +444,6 @@ public class Game {
 				return;
 			}
 		}
-		
 
 		// Put the word onto the grid
 		for (int i = 0; i < indexLetters.length; i++) {
@@ -438,14 +459,14 @@ public class Game {
 				}
 			}
 		}
-		
+
 		// score calcul
 		int score = gameboard.wordScoreCalcul(this.gameboard.getGrid()[coordinate[1]][coordinate[0]],
 				indexLetters.length, isHorizontal, isScrabble(indexLetters));
 		player.increaseScore(score);
 		drawText(fg, player.getName() + " marque " + score + " points", 20);
 
-		//coordinates reset
+		// coordinates reset
 		coordinate[0] = -1;
 		coordinate[1] = -1;
 
@@ -457,6 +478,7 @@ public class Game {
 	 * To change some letters in a rack
 	 * 
 	 * @param player The player
+	 * @param fg     The window
 	 */
 	public void changeSomeLetters(Player player, FenetreGraphique fg) {
 		// Variables
@@ -489,25 +511,30 @@ public class Game {
 		}
 	}
 
-	public void drawGameBoard(FenetreGraphique mainFg){
+	/**
+	 * Display the gameboard
+	 * 
+	 * @param mainFg The window
+	 */
+	public void drawGameBoard(FenetreGraphique mainFg) {
 		// Variables
 		int x, y;
 		int lineNumber = 1;
 		int colonneNumber = 1;
-		char[] letters = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'};
+		char[] letters = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O' };
 
 		// Drawing
 		for (int i = 0; i < 16; i++) {
 			for (int j = 0; j < 16; j++) {
-				x = 178 + i*50;
-				y = 70 + j*50;
-				//letters and numbers
-				if(x%178 == 0 && lineNumber <= 15) { // letters
+				x = 178 + i * 50;
+				y = 70 + j * 50;
+				// letters and numbers
+				if (x % 178 == 0 && lineNumber <= 15) { // letters
 					mainFg.setColor(220, 220, 220);
-					mainFg.drawText(x - 25, y + 33, 3, letters[lineNumber-1]);
+					mainFg.drawText(x - 25, y + 33, 3, letters[lineNumber - 1]);
 					lineNumber++;
 				}
-				if(y == 70 && colonneNumber <= 15) { // numbers
+				if (y == 70 && colonneNumber <= 15) { // numbers
 					mainFg.setColor(220, 220, 220);
 					mainFg.drawText(x + 17, y - 10, 3, colonneNumber);
 					colonneNumber++;
@@ -518,22 +545,22 @@ public class Game {
 				mainFg.drawLine(x, 70, x, 820);
 				mainFg.drawLine(178, y, 928, y);
 				mainFg.setColor(60, 100, 60);
-				if(i < 15 && j < 15){
-					if(this.gameboard.getGrid()[i][j].getScoreMult() == 3){
-						if(this.gameboard.getGrid()[i][j].getTypeScoreMult()){
+				if (i < 15 && j < 15) {
+					if (this.gameboard.getGrid()[i][j].getScoreMult() == 3) {
+						if (this.gameboard.getGrid()[i][j].getTypeScoreMult()) {
 							mainFg.setColor(175, 0, 0);
 						} else {
 							mainFg.setColor(0, 0, 175);
 						}
-					} else if(this.gameboard.getGrid()[i][j].getScoreMult() == 2){
-						if(this.gameboard.getGrid()[i][j].getTypeScoreMult()){
+					} else if (this.gameboard.getGrid()[i][j].getScoreMult() == 2) {
+						if (this.gameboard.getGrid()[i][j].getTypeScoreMult()) {
 							mainFg.setColor(255, 100, 100);
 						} else {
 							mainFg.setColor(100, 100, 255);
 						}
 					}
 					mainFg.fillRect(x, y, 50, 50);
-					if(this.gameboard.getGrid()[i][j].getTile().getLetter() != Character.MIN_VALUE){
+					if (this.gameboard.getGrid()[i][j].getTile().getLetter() != Character.MIN_VALUE) {
 						mainFg.setColor(255, 255, 255);
 						String str = Character.toString(gameboard.getGrid()[i][j].getTile().getLetter());
 						mainFg.drawString(x + 22, y + 25, 3, str);
@@ -615,9 +642,11 @@ public class Game {
 	}
 
 	/**
+	 * Checi if there is an "is Scrabble"
 	 * 
-	 * @param indexLetters
-	 * @return true if the player posed his 7 letters
+	 * @param indexLetters Index of the letters used
+	 * 
+	 * @return True if the player posed his 7 letters
 	 */
 	private boolean isScrabble(int[] indexLetters) {
 		int nbLetter = 0;
@@ -634,92 +663,104 @@ public class Game {
 	}
 
 	/**
-	 * look if the button created by the coordonates is clicked
+	 * Look if the button created by the coordonates is clicked
 	 * 
-	 * @param fg the graphic frame
-	 * @param x the abscissa of the square's left-top corner pixel 
-	 * @param y the ordinate of the square's left-top corner pixel 
-	 * @param width the width of the square
-	 * @param height the height of the square
-	 * @return the state of the click
+	 * @param fg     The graphic frame
+	 * @param x      The abscissa of the square's left-top corner pixel
+	 * @param y      The ordinate of the square's left-top corner pixel
+	 * @param width  The width of the square
+	 * @param height The height of the square
+	 * 
+	 * @return The state of the click
 	 */
 	private boolean isClicked(FenetreGraphique fg, int x, int y, int width, int height) {
-		if(fg.getMouseY() > y && fg.getMouseY() < y+height 
-		&& fg.getMouseX() > x
-		&& fg.getMouseX() < x + width){
-			if(fg.getMouseState() == 2){
-				return(true);
+		if (fg.getMouseY() > y && fg.getMouseY() < y + height && fg.getMouseX() > x && fg.getMouseX() < x + width) {
+			if (fg.getMouseState() == 2) {
+				return (true);
 			}
 		}
-		return(false);
+		return (false);
 	}
+
 	/**
 	 * Calcul the height of the next text line
 	 * 
-	 * @param fg the frame to write in
-	 * @param n	the size in pixel of the interline
-	 * @return the new height of the textline
+	 * @param fg The frame to write in
+	 * @param n  The size in pixel of the interline
+	 * 
+	 * @return The new height of the textline
 	 */
-	private static int textHeight(FenetreGraphique fg, int n){
-		if(Scrabble.textHeight + n > 800){
+	private static int textHeight(FenetreGraphique fg, int n) {
+		if (Scrabble.textHeight + n > 800) {
 			resetTextHeight();
 			fg.clear();
-		} else { 
+		} else {
 			Scrabble.textHeight += n;
 		}
-		return(Scrabble.textHeight);
+		return (Scrabble.textHeight);
 	}
 
-	private static void resetTextHeight(){
+	/**
+	 * Reset the text hieght
+	 */
+	private static void resetTextHeight() {
 		Scrabble.textHeight = 20;
 	}
 
-	private String enterWord(FenetreGraphique fg){
+	/**
+	 * To enter a word
+	 * 
+	 * @param fg The window
+	 * 
+	 * @return The word
+	 */
+	private String enterWord(FenetreGraphique fg) {
 		String word = "";
 		int height = textHeight(fg, 20);
-		int buttonX = fg.getBufferWidth()/2-50;
+		int buttonX = fg.getBufferWidth() / 2 - 50;
 		int buttonY = 800;
 		drawButton(fg, buttonX, buttonY, 100, 50, 10, "Valider");
-		do{
+		do {
 			char lastChar = fg.getKey();
-			int lastCode = (int)lastChar;
+			int lastCode = (int) lastChar;
 			fg.drawString(5, height, 3, word);
 			fg.flush();
-			if(!(lastCode >= 65 && lastCode <= 90) && !(lastCode >= 97 && lastCode <= 122)){
+			if (!(lastCode >= 65 && lastCode <= 90) && !(lastCode >= 97 && lastCode <= 122)) {
 				lastChar = Character.MIN_VALUE;
 			}
-			if(lastChar != Character.MIN_VALUE){
+			if (lastChar != Character.MIN_VALUE) {
 				word += lastChar;
 			}
-		}while(!isClicked(fg, buttonX, buttonY, 100, 50));;
-		return(word);
+		} while (!isClicked(fg, buttonX, buttonY, 100, 50));
+		;
+		return (word);
 	}
 
-	static void drawText(FenetreGraphique fg, String msg, int n){
+	static void drawText(FenetreGraphique fg, String msg, int n) {
 		fg.drawString(5, textHeight(fg, n), 3, msg);
 		fg.flush();
 	}
 
 	/**
-	 * Draw a button  
+	 * Draw a button
 	 * 
-	 * @param fg the frame where the button will be draw
-	 * @param x	the abscissa of the top left corner of the button 
-	 * @param y the ordinate of the top left corner of the button 
-	 * @param width the width of the button
-	 * @param height the height of the button
-	 * @param n the number used to center the text in fonction of its length
-	 * @param str the text inside the button
+	 * @param fg     The frame where the button will be draw
+	 * @param x      The abscissa of the top left corner of the button
+	 * @param y      The ordinate of the top left corner of the button
+	 * @param width  The width of the button
+	 * @param height The height of the button
+	 * @param n      The number used to center the text in fonction of its length
+	 * @param str    The text inside the button
 	 */
-	private void drawButton(FenetreGraphique fg, int x, int y, int width, int height, int n, String str){
+	private void drawButton(FenetreGraphique fg, int x, int y, int width, int height, int n, String str) {
 		fg.setColor(255, 0, 0);
 		fg.drawRect(x, y, width, height);
 		fg.setColor(255, 255, 255);
-		fg.fillRect(x+2, y+2, width-3, height-3);
+		fg.fillRect(x + 2, y + 2, width - 3, height - 3);
 		fg.setColor(0, 0, 0);
-		fg.drawString(x + (width/2-(str.length()/2)*n) , y + height/2+5, 3, str);
+		fg.drawString(x + (width / 2 - (str.length() / 2) * n), y + height / 2 + 5, 3, str);
 		fg.setColor(255, 255, 255);
 		fg.flush();
 	}
-	
+
 }

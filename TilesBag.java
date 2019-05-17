@@ -16,6 +16,9 @@ public class TilesBag {
 
 	// ---------- Constructors ----------
 
+	/**
+	 * TilesBag constructor
+	 */
 	TilesBag() {
 		// Variables
 		char letter;
@@ -115,7 +118,12 @@ public class TilesBag {
 	}
 
 	// ---------- Methods ----------
-
+`	
+	/**
+	 * Draw a tile from the bag
+	 * 
+	 * @return A random tile
+	 */
 	public Tiles drawLetter() {
 		// Variables
 		Tiles letter;

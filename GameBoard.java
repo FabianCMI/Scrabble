@@ -15,7 +15,7 @@ public class GameBoard {
 	// ---------- Constructors ----------
 
 	/**
-	 * gameboard's constructor
+	 * Gameboard constructor
 	 */
 	GameBoard() {
 		int multiplicator;
@@ -26,7 +26,7 @@ public class GameBoard {
 			for (int j = 0; j <= lastN; j++) {
 				multiplicator = 1;
 				typeBonus = false;
-				/* ----Fill the square with the score multiplicator---- */
+				/
 				// word x 3
 				if (i == 0 || i == midN || i == lastN) {
 					if (j == 0 || j == midN || j == lastN) {
@@ -66,17 +66,18 @@ public class GameBoard {
 	// ---------- Methods -----------
 
 	/**
-	 * test 2 columns(symetrics from the centered column) of the grid to know if
+	 * Test 2 columns(symetrics from the centered column) of the grid to know if
 	 * there are letter's score multiplicator on 2 of their squares
 	 * 
-	 * @param x     the Line of the grid's square
-	 * @param y     the Column of the grid's square
-	 * @param m     the number to add or substract from the lines to obtain the
+	 * @param x     The Line of the grid's square
+	 * @param y     The Column of the grid's square
+	 * @param m     The number to add or substract from the lines to obtain the
 	 *              square's Linecissa
-	 * @param n     the number to add or substract from the columns to obtain the
+	 * @param n     The number to add or substract from the columns to obtain the
 	 *              square's Columninate
-	 * @param lastN the last column or line of the grid
-	 * @return true if the coColumninate given by the parameters correspond to a
+	 * @param lastN The last column or line of the grid
+	 * 
+	 * @return True if the coColumninate given by the parameters correspond to a
 	 *         score multiplicator's square
 	 */
 	private boolean testLetterMult(int i, int j, int m, int n, int lastN) {

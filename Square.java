@@ -6,6 +6,7 @@
  */
 
 public class Square {
+
     // ---------- Attributs ----------
 
     /** The tile on the square */
@@ -97,7 +98,7 @@ public class Square {
     /**
      * Set the line on which is placed the square
      * 
-     * @param n the number by which you want to increase the line's numero
+     * @param n The number by which you want to increase the line's numero
      */
     public void setLine(int n) {
         this.line += n;
@@ -106,7 +107,7 @@ public class Square {
     /**
      * Set the column on which is placed the square
      * 
-     * @param n the number by which you want to increase the column's numero
+     * @param n The number by which you want to increase the column's numero
      */
     public void setColumn(int n) {
         this.column += n;
@@ -115,9 +116,9 @@ public class Square {
     /**
      * Set the score multiplicator of the tile
      * 
-     * @param n the new value of the score multiplicator
+     * @param n The new value of the score multiplicator
      */
-    public void setScoreMult(int n){
+    public void setScoreMult(int n) {
         this.scoreMultiplicator = n;
     }
 
@@ -135,6 +136,9 @@ public class Square {
         return (score);
     }
 
+    /**
+     * A square to String
+     */
     public String toString() {
         if (this.typeScoreMult) {
             return (this.tile + "\nMultiplicateur : " + this.scoreMultiplicator + "\n Type : mot\nx:" + this.line

@@ -56,13 +56,13 @@ public class Rack {
 	public void refreshRack(int[] indexLetter) {
 		if (indexLetter.length <= 7 && bag.getLettersLength() > 0) {
 			for (int i = 0; i < indexLetter.length; i++) {
-				if (indexLetter[i]-1 >= 0 && indexLetter[i]-1 <= 7) {
-					this.rack[indexLetter[i] -1] = this.bag.drawLetter();
+				if (indexLetter[i] - 1 >= 0 && indexLetter[i] - 1 <= 7) {
+					this.rack[indexLetter[i] - 1] = this.bag.drawLetter();
 				}
 			}
 		} else {
 			for (int i = 0; i < indexLetter.length; i++) {
-				if (indexLetter[i]-1 >= 0 && indexLetter[i]-1 <= 7) {
+				if (indexLetter[i] - 1 >= 0 && indexLetter[i] - 1 <= 7) {
 					this.rack[indexLetter[i]] = null;
 				}
 
@@ -82,21 +82,26 @@ public class Rack {
 		return (str);
 	}
 
-	public void drawRack(FenetreGraphique fg){
+	/**
+	 * Display the rack on the screen
+	 * 
+	 * @param fg The window
+	 */
+	public void drawRack(FenetreGraphique fg) {
 		// Bottom
 		fg.setColor(183, 118, 47);
 		fg.fillRect(10, 200, 440, 20);
 
 		// Tiles
-		for(int i=0; i<this.rack.length; i++) {
+		for (int i = 0; i < this.rack.length; i++) {
 			// tile
 			fg.setColor(236, 191, 106);
-			fg.fillRect(25+10*i+50*i, 150, 50, 50);
+			fg.fillRect(25 + 10 * i + 50 * i, 150, 50, 50);
 
 			// letter
 			fg.setColor(0, 0, 0);
-			fg.drawString(25+10*i+50*i+20, 183, 3, "" + this.rack[i].getLetter() + ""); // char
-			fg.drawString(25+10*i+50*i+30, 200, 3, "" + this.rack[i].getValue() + ""); // value
+			fg.drawString(25 + 10 * i + 50 * i + 20, 183, 3, "" + this.rack[i].getLetter() + ""); // char
+			fg.drawString(25 + 10 * i + 50 * i + 30, 200, 3, "" + this.rack[i].getValue() + ""); // value
 		}
 	}
 }

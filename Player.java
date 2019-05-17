@@ -114,7 +114,12 @@ public class Player {
 		return aboutPlayer;
 	}
 
-	public void drawPlayer(FenetreGraphique fg){
+	/**
+	 * Display the player on the screen
+	 * 
+	 * @param fg The window
+	 */
+	public void drawPlayer(FenetreGraphique fg) {
 		// Name and score
 		Game.drawText(fg, "", 50);
 		Game.drawText(fg, "Joueur : " + this.name, 20);
