@@ -151,7 +151,7 @@ public class Library {
 	}
 
 	/**
-	 * Reset the text hieght
+	 * Reset the text height
 	 */
 	public static void resetTextHeight() {
 		Scrabble.textHeight = 20;
