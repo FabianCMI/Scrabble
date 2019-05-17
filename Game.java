@@ -272,7 +272,6 @@ public class Game {
 		boolean isHorizontal = true;
 		int[] coordinate = { 7, 7 };
 		int[] indexLetters;
-		Tiles[] letters = new Tiles[7];
 		String word;
 
 		// About the orientation
@@ -338,9 +337,7 @@ public class Game {
 		indexLetters = new int[word.length()];
 		for (int i = 0; i < word.length(); i++) {
 			// Index of the letter
-			indexLetters[i] = indexOnTheRack(letters, word.charAt(i));
-			if(indexLetters[i] != -1)
-				letters[indexLetters[i]] = null;
+			indexLetters[i] = indexOnTheRack(player, word.charAt(i));
 
 			// Check if the letter is already on the grid
 			if (indexLetters[i] == -1) {
@@ -605,12 +602,12 @@ public class Game {
 	/**
 	 * Find he index of a letter on the rack
 	 * 
-	 * @param letters An array of letters
+	 * @param player Player who is currently playing
 	 * @param letter The searched letter
 	 * 
 	 * @return the index of the letter, -1 if it's not on the rack
 	 */
-	private int indexOnTheRack(Tiles[] letters, char letter) {
+	private int indexOnTheRack(Player player, char letter) {
 		// Variables
 		boolean isOn = false;
 		int i = -1;
@@ -618,10 +615,8 @@ public class Game {
 		// Search in the rack
 		while (!isOn && i < 6) {
 			i++;
-			if(letters[i] != null) {
-				if (letters[i].getLetter() == letter)
-					isOn = true;
-			}
+			if (player.getRack().getTiles()[i].getLetter() == letter)
+				isOn = true;
 		}
 		if (!isOn) // not found
 			i = -1;
