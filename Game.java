@@ -342,13 +342,13 @@ public class Game {
 			}
 			if(!isWordPlaced){
 				for(int i = 0; i < word.length(); i++){
-					if((isVertical && coordinate[0] + i == 7) || (coordinate[1] + i == 7 && !isVertical)){
+					if((isVertical && coordinate[0] + i == 7 && coordinate[1] == 7) || (coordinate[1] + i == 7 && !isVertical && coordinate[0] == 7)){
 						isTouchingCenter = true; 
 						i = word.length() - 1;
 					}
 				}
 				while(!isTouchingCenter){
-					drawText(fg, "votre mot doit avoir une lettre sur le centre, veuillez recommencer : ");
+					retry(fg, "votre mot doit avoir une lettre sur le centre, veuillez recommencer : ", 20, player);
 					putWord(player, fg, mainFg);
 					return;
 				}
@@ -397,16 +397,7 @@ public class Game {
 				// If the letter isn't on the grid
 				if (!isOn) {
 					int answer;
-					drawText(fg, "Vous ne pouvez pas placer ce mot, il vous manque une lettre", 20);
-					drawButton(fg, fg.getBufferWidth() / 2 - 50, 800, 100, 50, 9, "Continuer");
-					fg.setColor(255, 255, 255);
-					do {
-						fg.wait(20);
-					} while (!isClicked(fg, fg.getBufferWidth() / 2 - 50, 800, 100, 50));
-					fg.clear();
-					Library.resetTextHeight();
-					player.drawPlayer(fg);
-					Library.textHeight(fg, 80);
+					retry(fg, "Vous ne pouvez pas placer ce mot, il vous manque une lettre", 20, player);
 					putWord(player, fg, mainFg);
 					return;
 				}
@@ -470,16 +461,7 @@ public class Game {
 			}
 			if (!isNear) {
 				drawText(fg, "Vous devez positionner votre mot pour qu'il touche au moins une lettre", 20);
-				drawText(fg, "deja sur le plateau ", 20);
-				drawButton(fg, fg.getBufferWidth() / 2 - 50, 800, 100, 50, 9, "Continuer");
-				fg.setColor(255, 255, 255);
-				do {
-					fg.wait(20);
-				} while (!isClicked(fg, fg.getBufferWidth() / 2 - 50, 800, 100, 50));
-				fg.clear();
-				Library.resetTextHeight();
-				player.drawPlayer(fg);
-				Library.textHeight(fg, 80);
+				retry(fg, "deja sur le plateau ", 20, player);
 				putWord(player, fg, mainFg);
 				return;
 			}
@@ -806,5 +788,18 @@ public class Game {
 				i++;
 			} while (i < player.length);
 		}
+	}
+
+	private void retry(FenetreGraphique fg, String msg, int n, Player player){
+		drawText(fg, msg, n);
+		drawButton(fg, fg.getBufferWidth() / 2 - 50, 800, 100, 50, 9, "Continuer");
+		fg.setColor(255, 255, 255);
+		do {
+			fg.wait(20);
+		} while (!isClicked(fg, fg.getBufferWidth() / 2 - 50, 800, 100, 50));
+		fg.clear();
+		Library.resetTextHeight();
+		player.drawPlayer(fg);
+		Library.textHeight(fg, 80);
 	}
 }
