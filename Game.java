@@ -215,7 +215,7 @@ public class Game {
 		case 1:
 			// Putting the word
 			putWord(player, fg, mainFg);
-			nextPlayer = 0;
+			this.nextPlayer = 0;
 			// draw the new gameboard
 			drawGameBoard(mainFg);
 			// Last display
@@ -225,6 +225,7 @@ public class Game {
 		// Change letters
 		case 2:
 			changeSomeLetters(player, fg);
+			this.nextPlayer = 0;
 			break;
 
 		// Don't want to play
