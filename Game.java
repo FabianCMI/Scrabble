@@ -297,7 +297,7 @@ public class Game {
 
 		// About the coordinates
 		String answerStr;
-		if (this.nbTour > 1) {
+
 			// Enter of coordinates
 			String[] splitStr;
 			drawText(fg, "Cliquez sur la case de la premiere lettre : ", 70);
@@ -320,14 +320,39 @@ public class Game {
 					coordinate[0] = -1;
 				}
 			} while (coordinate[0] < 0 || coordinate[0] > 14 || coordinate[1] < 0 || coordinate[1] > 14);
-		}
+	
 
 		// About the word
 		drawText(fg, "Saisir le mot que vous souhaitez placer: ", 80);
 		do {
 			word = enterWord(fg);
 		} while (word == "");
-
+		// Check if there is another word on the grid, if not make sure 
+		// that the word will cover the central square
+		boolean isWordPlaced = false;
+		boolean isTouchingCenter = false;
+			for (int i = 0; i < 15; i++) {
+				for (int j = 0; j < 15; j++){
+					if(this.gameboard.getGrid()[i][j].getTile().getValue() != 0){
+						isWordPlaced = true;
+						j = 14;
+						i = 14;
+					}
+				}
+			}
+			if(!isWordPlaced){
+				for(int i = 0; i < word.length(); i++){
+					if((isVertical && coordinate[0] + i == 7) || (coordinate[1] + i == 7 && !isVertical)){
+						isTouchingCenter = true; 
+						i = word.length() - 1;
+					}
+				}
+				while(!isTouchingCenter){
+					drawText(fg, "votre mot doit avoir une lettre sur le centre, veuillez recommencer : ");
+					putWord(player, fg, mainFg);
+					return;
+				}
+			}
 		// Check the length
 		if(this.nbTour == 1){
 			while(word.length() < 2){
@@ -388,7 +413,7 @@ public class Game {
 			}
 		}
 		// Check if the word is connected with another
-		if (!isOnTemp && this.nbTour > 1) {
+		if (!isOnTemp && this.nbTour > 1 && isWordPlaced) {
 			boolean isNear = false;
 			for (int i = 0; i < word.length(); i++) {
 				if (!isVertical) {
