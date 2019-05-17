@@ -304,7 +304,32 @@ public class Game {
 		if (!isOnTemp && this.nbTour > 1) {
 			boolean isNear = false;
 			for (int i = 0; i < word.length(); i++) {
-				if (isHorizontal) {
+				if (isHorizontal){
+					if (i == 0 && coordinate[1] != 0) {
+						if (this.gameboard.getGrid()[coordinate[1] - 1][coordinate[0]].getTile().getValue() != 0) {
+							isNear = true;
+						}
+					} else if (i == word.length() - 1 && coordinate[1] != 14) {
+						if (this.gameboard.getGrid()[coordinate[1] + 1][coordinate[0]].getTile().getValue() != 0) {
+							isNear = true;
+						}
+					}
+					if (coordinate[0] == 0) {
+						if (this.gameboard.getGrid()[coordinate[1] + i][coordinate[0] + 1].getTile().getValue() != 0) {
+							isNear = true;
+						}
+					} else if (coordinate[0] == 14) {
+						if (this.gameboard.getGrid()[coordinate[1] + i][coordinate[0] - 1].getTile().getValue() != 0) {
+							isNear = true;
+						}
+					} else {
+						if (this.gameboard.getGrid()[coordinate[1] + 1][coordinate[0] + i].getTile().getValue() != 0
+								|| this.gameboard.getGrid()[coordinate[1] - 1][coordinate[0] + i].getTile()
+										.getValue() != 0) {
+							isNear = true;
+						}
+					}
+				} else {
 					if (i == 0 && coordinate[0] != 0) {
 						if (this.gameboard.getGrid()[coordinate[1]][coordinate[0] - 1].getTile().getValue() != 0) {
 							isNear = true;
@@ -325,31 +350,6 @@ public class Game {
 					} else {
 						if (this.gameboard.getGrid()[coordinate[1] + 1][coordinate[0] + i].getTile().getValue() != 0
 								|| this.gameboard.getGrid()[coordinate[1] - 1][coordinate[0] + i].getTile()
-										.getValue() != 0) {
-							isNear = true;
-						}
-					}
-				} else {
-					if (i == 0 && coordinate[1] != 0) {
-						if (this.gameboard.getGrid()[coordinate[1] - 1][coordinate[0]].getTile().getValue() != 0) {
-							isNear = true;
-						}
-					} else if (i == word.length() - 1 && coordinate[1] != 14) {
-						if (this.gameboard.getGrid()[coordinate[1]][coordinate[0] + 1].getTile().getValue() != 0) {
-							isNear = true;
-						}
-					}
-					if (coordinate[0] == 0) {
-						if (this.gameboard.getGrid()[coordinate[1] + i][coordinate[0] + 1].getTile().getValue() != 0) {
-							isNear = true;
-						}
-					} else if (coordinate[0] == 14) {
-						if (this.gameboard.getGrid()[coordinate[1] + i][coordinate[0] - 1].getTile().getValue() != 0) {
-							isNear = true;
-						}
-					} else {
-						if (this.gameboard.getGrid()[coordinate[1] + i][coordinate[0] + 1].getTile().getValue() != 0
-								|| this.gameboard.getGrid()[coordinate[1] + i][coordinate[0] - 1].getTile()
 										.getValue() != 0) {
 							isNear = true;
 						}
