@@ -230,34 +230,69 @@ public class Game {
 
 		// About the coordinates
 		String answerStr;
-		if (this.nbTour > 1) {
-			// Enter of coordinates
-			String[] splitStr;
+		// Enter of coordinates
+		String[] splitStr;
+		do{
+			Ecran.afficherln("Saisir les coordonnées de la première lettre (ex: \"2,C\") sans oublier la virgule !");
+			answerStr = Clavier.saisirString();
+		} while(answerStr.length() != 3);
+		splitStr = answerStr.split(",");
+		answerStr = splitStr[0] + letterCoordtoInt(splitStr[1].charAt(0));
+
+		// Check the entry
+		Library.StringtoArray(coordinate, answerStr, "");
+		while (coordinate[0] < 1 || coordinate[0] > 15 || coordinate[1] < 1 || coordinate[1] > 15) {
 			Ecran.afficher("\nSaisir les coordonnées de la première lettre (ex: \"2,C\"): ");
 			answerStr = Clavier.saisirString();
 			splitStr = answerStr.split(",");
 			answerStr = splitStr[0] + letterCoordtoInt(splitStr[1].charAt(0));
-
+	
 			// Check the entry
-			Library.StringtoArray(coordinate, answerStr, "");
-			while (coordinate[0] < 1 || coordinate[0] > 15 || coordinate[1] < 1 || coordinate[1] > 15) {
-				Ecran.afficher("\nSaisir les coordonnées de la première lettre (ex: \"2C\"): ");
-				answerStr = Clavier.saisirString();
-				splitStr = answerStr.split(",");
-				answerStr = splitStr[0] + letterCoordtoInt(splitStr[1].charAt(0));
-
-				// Check the entry
-				Library.StringtoArray(coordinate, answerStr, ",");
-			}
-			coordinate[0] -= 1;
-			coordinate[1] -= 1;
+			Library.StringtoArray(coordinate, answerStr, ",");
 		}
+		coordinate[0] -= 1;
+		coordinate[1] -= 1;
 
 		// About the word
 		Ecran.afficherln("\nSaisir le mot que vous souhaitez placer: ");
 		word = Clavier.saisirString().toUpperCase();
 
+		// Check if there is another word on the grid, if not make sure 
+		// that the word will cover the central square
+		boolean isWordPlaced = false;
+		boolean isTouchingCenter = false;
+			for (int i = 0; i < 15; i++) {
+				for (int j = 0; j < 15; j++){
+					if(this.gameboard.getGrid()[i][j].getTile().getValue() != 0){
+						isWordPlaced = true;
+						j = 14;
+						i = 14;
+					}
+				}
+			}
+			if(!isWordPlaced){
+				for(int i = 0; i < word.length(); i++){
+					if((!isHorizontal && coordinate[0] + i == 7) || (coordinate[1] + i == 7 && isHorizontal)){
+						isTouchingCenter = true; 
+						i = word.length() - 1;
+					}
+				}
+				while(!isTouchingCenter){
+					Ecran.afficher("Votre mot doit avoir une lettre sur le centre, veuillez recommencer :\n ");
+					putWord(player);
+					return;
+				}
+			}
 		// Check the length
+		if(this.nbTour == 1){
+			while(word.length() < 2){
+				Ecran.afficherln("Le mot doit faire au moins deux lettres");
+				Ecran.afficherln("Saisir le mot que vous souhaitez placer: ");
+				do {
+					word = Clavier.saisirString().toUpperCase();
+				} while (word == "");
+			}
+		}
 		while (checkLengthWord(word, coordinate, isHorizontal)) {
 			Ecran.afficherln("\nLe mot est trop long.");
 
@@ -301,7 +336,7 @@ public class Game {
 			}
 		}
 		// Check if the word is connected with another
-		if (!isOnTemp && this.nbTour > 1) {
+		if (!isOnTemp && this.nbTour > 1 && isWordPlaced) {
 			boolean isNear = false;
 			for (int i = 0; i < word.length(); i++) {
 				if (isHorizontal){
