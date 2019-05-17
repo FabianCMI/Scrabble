@@ -127,5 +127,6 @@ public class Player {
 
 		// Rack
 		this.rack.drawRack(fg);
+		fg.setColor(255, 255, 255);
 	}
 }

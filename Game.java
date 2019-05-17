@@ -5,8 +5,6 @@
  * Excellent projet dont la plus-value principale est d'avoir été programmé à moitié sur un mac, ce qui est réellement formidable.
  * @author Fabian Devel, Valentin Perignon
  */
-import javax.lang.model.util.ElementScanner6;
-import javax.swing.JOptionPane;
 
 public class Game {
 
@@ -174,12 +172,13 @@ public class Game {
 
 		} while (this.stateGame);
 
-		// End of the game
-		drawText(fg, "------------------------ Fin de la partie ------------------------", 0);
+		// End of the game 
+		fg.clear();
+		drawText(fg, "------------------------------------ Fin de la partie -------------------------------------", 0);
 		drawText(fg, "Vous avez fini la partie !", 40);
-		drawText(fg, "Informations sur les joueurs :", 20);
+		drawText(fg, "Informations sur les joueurs :", 50);
 		for (Player aPlayer : this.player) {
-			aPlayer.drawPlayer(fg);
+			drawText(fg, aPlayer.getName() + "          score : " + aPlayer.getScore(), 40);
 		}
 		// Need another button
 		int buttonX = fg.getBufferWidth() / 2 - 50;
@@ -675,7 +674,8 @@ public class Game {
 	 */
 	private boolean isClicked(FenetreGraphique fg, int x, int y, int width, int height) {
 		if (fg.getMouseY() > y && fg.getMouseY() < y + height && fg.getMouseX() > x && fg.getMouseX() < x + width) {
-			if (fg.getMouseState() == 2) {
+			if (fg.getMouseState() == 2){
+				fg.getMouseState();
 				return (true);
 			}
 		}
