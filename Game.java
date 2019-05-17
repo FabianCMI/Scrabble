@@ -181,7 +181,7 @@ public class Game {
 		case 1:
 			// Putting the word
 			putWord(player);
-			nextPlayer = 0;
+			this.nextPlayer = 0;
 
 			// Last display
 			Ecran.afficherln("Votre mot a été placé.");
@@ -190,6 +190,7 @@ public class Game {
 		// Change letters
 		case 2:
 			changeSomeLetters(player);
+			this.nextPlayer = 0;
 			break;
 
 		// Don't want to play
