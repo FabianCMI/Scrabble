@@ -37,13 +37,13 @@ public class Game {
 
 		// First text
 
-		fg.drawString(5, textHeight(fg, 20), 3,
+		fg.drawString(5, Library.textHeight(fg, 20), 3,
 				" =============================== SCRABBLE =============================");
-		fg.drawString(5, textHeight(fg, 40), 3, "Bonjour et bienvenue dans ce jeu de scrabble !");
-		fg.drawString(5, textHeight(fg, 20), 3, "Saisir le nombre de joueurs : ");
+		fg.drawString(5, Library.textHeight(fg, 40), 3, "Bonjour et bienvenue dans ce jeu de scrabble !");
+		fg.drawString(5, Library.textHeight(fg, 20), 3, "Saisir le nombre de joueurs : ");
 
 		// Drawing of the buttons
-		int buttonHeight = textHeight(fg, 10);
+		int buttonHeight = Library.textHeight(fg, 10);
 		drawButton(fg, midZone - 185, buttonHeight, 70, 40, 5, "2 ");
 		drawButton(fg, midZone - 35, buttonHeight, 70, 40, 5, "3 ");
 		drawButton(fg, midZone + 115, buttonHeight, 70, 40, 5, "4 ");
@@ -119,14 +119,14 @@ public class Game {
 		for (int i = 0; i < this.nbPlayer; i++) {
 			String str = "Saisir le nom du joueur " + Integer.toString((i + 1)) + " : ";
 			fg.setColor(255, 255, 255);
-			fg.drawString(5, textHeight(fg, 70), 3, str);
+			fg.drawString(5, Library.textHeight(fg, 70), 3, str);
 			fg.flush();
 			names[i] = enterWord(fg);
 		}
 		fg.clear();
-		resetTextHeight();
+		Library.resetTextHeight();
 		// Beginning of the game
-		fg.drawString(5, textHeight(fg, 0), 3,
+		fg.drawString(5, Library.textHeight(fg, 0), 3,
 				"--------------------------------- Debut de la partie --------------------------------");
 		fg.flush();
 		return names;
@@ -172,7 +172,9 @@ public class Game {
 
 		} while (this.stateGame);
 
-		// End of the game 
+		//--------- End of the game -------------
+		
+		endingCalculScore();
 		fg.clear();
 		drawText(fg, "------------------------------------ Fin de la partie -------------------------------------", 0);
 		drawText(fg, "Vous avez fini la partie !", 40);
@@ -210,7 +212,7 @@ public class Game {
 
 		// more buttons
 		final int midZone = fg.getBufferWidth() / 2;
-		int buttonHeight = textHeight(fg, 30);
+		int buttonHeight = Library.textHeight(fg, 30);
 
 		fg.setColor(255, 0, 0);
 		drawButton(fg, midZone - 300, buttonHeight, 150, 50, 9, "Poser un mot");
@@ -278,7 +280,7 @@ public class Game {
 
 		// buttons
 		final int midZone = fg.getBufferWidth() / 2;
-		int buttonHeight = textHeight(fg, 30);
+		int buttonHeight = Library.textHeight(fg, 30);
 		drawButton(fg, midZone - 200, buttonHeight, 150, 50, 9, "Vertical ");
 		drawButton(fg, midZone + 50, buttonHeight, 150, 50, 9, "Horizontal");
 		do {
@@ -363,9 +365,9 @@ public class Game {
 						fg.wait(20);
 					} while (!isClicked(fg, fg.getBufferWidth() / 2 - 50, 800, 100, 50));
 					fg.clear();
-					resetTextHeight();
+					Library.resetTextHeight();
 					player.drawPlayer(fg);
-					textHeight(fg, 80);
+					Library.textHeight(fg, 80);
 					putWord(player, fg, mainFg);
 					return;
 				}
@@ -436,9 +438,9 @@ public class Game {
 					fg.wait(20);
 				} while (!isClicked(fg, fg.getBufferWidth() / 2 - 50, 800, 100, 50));
 				fg.clear();
-				resetTextHeight();
+				Library.resetTextHeight();
 				player.drawPlayer(fg);
-				textHeight(fg, 80);
+				Library.textHeight(fg, 80);
 				putWord(player, fg, mainFg);
 				return;
 			}
@@ -562,7 +564,7 @@ public class Game {
 					if (this.gameboard.getGrid()[i][j].getTile().getLetter() != Character.MIN_VALUE) {
 						mainFg.setColor(255, 255, 255);
 						String str = Character.toString(gameboard.getGrid()[i][j].getTile().getLetter());
-						mainFg.drawString(x + 22, y + 25, 3, str);
+						mainFg.drawString(x + 20, y + 30, 3, str);
 					}
 				}
 			}
@@ -683,31 +685,6 @@ public class Game {
 	}
 
 	/**
-	 * Calcul the height of the next text line
-	 * 
-	 * @param fg The frame to write in
-	 * @param n  The size in pixel of the interline
-	 * 
-	 * @return The new height of the textline
-	 */
-	private static int textHeight(FenetreGraphique fg, int n) {
-		if (Scrabble.textHeight + n > 800) {
-			resetTextHeight();
-			fg.clear();
-		} else {
-			Scrabble.textHeight += n;
-		}
-		return (Scrabble.textHeight);
-	}
-
-	/**
-	 * Reset the text hieght
-	 */
-	private static void resetTextHeight() {
-		Scrabble.textHeight = 20;
-	}
-
-	/**
 	 * To enter a word
 	 * 
 	 * @param fg The window
@@ -716,7 +693,7 @@ public class Game {
 	 */
 	private String enterWord(FenetreGraphique fg) {
 		String word = "";
-		int height = textHeight(fg, 20);
+		int height = Library.textHeight(fg, 20);
 		int buttonX = fg.getBufferWidth() / 2 - 50;
 		int buttonY = 800;
 		drawButton(fg, buttonX, buttonY, 100, 50, 10, "Valider");
@@ -732,12 +709,11 @@ public class Game {
 				word += lastChar;
 			}
 		} while (!isClicked(fg, buttonX, buttonY, 100, 50));
-		;
 		return (word);
 	}
 
 	static void drawText(FenetreGraphique fg, String msg, int n) {
-		fg.drawString(5, textHeight(fg, n), 3, msg);
+		fg.drawString(5, Library.textHeight(fg, n), 3, msg);
 		fg.flush();
 	}
 
@@ -763,4 +739,33 @@ public class Game {
 		fg.flush();
 	}
 
+	private void endingCalculScore(){
+		boolean isLeft = false;
+		int tempPlayerIndex = -1;
+		int score = 0;
+		// Look if there are a player without remaining tiles
+		for (int i = 0; i < player.length; i++) {
+			for (int j = 0; j < player[i].getRack().getTiles().length; j++){
+				if(player[i].getRack().getTiles()[j].getLetter() != Character.MIN_VALUE){
+					isLeft = true;
+					j = player[i].getRack().getTiles().length-1; // no need to test other tiles
+				}
+			}
+			if(!isLeft){
+				tempPlayerIndex = i;
+				i = player.length-1; // No need to test other players
+			}
+		}
+		if(tempPlayerIndex >= 0){
+			int i = 0;
+			do{
+				for (int j = 0; j < player[i].getRack().getTiles().length; j++){
+					score += player[i].getRack().getTiles()[j].getValue();
+				}
+				player[i].increaseScore(-score);
+				player[tempPlayerIndex].increaseScore(score);
+				i++;
+			} while (i < player.length);
+		}
+	}
 }

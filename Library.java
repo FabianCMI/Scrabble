@@ -132,4 +132,29 @@ public class Library {
 		return isOk;
 	}
 
+	/**
+	 * Calcul the height of the next text line
+	 * 
+	 * @param fg The frame to write in
+	 * @param n  The size in pixel of the interline
+	 * 
+	 * @return The new height of the textline
+	 */
+	public static int textHeight(FenetreGraphique fg, int n) {
+		if (Scrabble.textHeight + n > 800) {
+			resetTextHeight();
+			fg.clear();
+		} else {
+			Scrabble.textHeight += n;
+		}
+		return (Scrabble.textHeight);
+	}
+
+	/**
+	 * Reset the text hieght
+	 */
+	public static void resetTextHeight() {
+		Scrabble.textHeight = 20;
+	}
+
 }
