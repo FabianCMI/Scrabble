@@ -274,6 +274,8 @@ public class Game {
 		int[] indexLetters;
 		String word;
 
+		drawGameBoard(mainFg);
+
 		// About the orientation
 		int answerInt = -1;
 		drawText(fg, "Souhaitez-vous poser un mot vertical ou horitonzal ?", 100);
