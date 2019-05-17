@@ -217,7 +217,7 @@ public class Game {
 		String word;
 
 		// Create a new rack
-		for(int i=0; i<letters.length; i++) {
+		for (int i = 0; i < letters.length; i++) {
 			letters[i] = player.getRack().getTiles()[i];
 		}
 
@@ -271,7 +271,7 @@ public class Game {
 		for (int i = 0; i < word.length(); i++) {
 			// Index of the letter
 			indexLetters[i] = indexOnTheRack(letters, word.charAt(i));
-			if(indexLetters[i] != -1)
+			if (indexLetters[i] != -1)
 				letters[indexLetters[i]] = null;
 
 			// Check if the letter is already on the grid
@@ -304,7 +304,7 @@ public class Game {
 		if (!isOnTemp && this.nbTour > 1) {
 			boolean isNear = false;
 			for (int i = 0; i < word.length(); i++) {
-				if (isHorizontal){
+				if (isHorizontal) {
 					if (i == 0 && coordinate[1] != 0) {
 						if (this.gameboard.getGrid()[coordinate[1] - 1][coordinate[0]].getTile().getValue() != 0) {
 							isNear = true;
@@ -357,7 +357,8 @@ public class Game {
 				}
 			}
 			if (!isNear) {
-				Ecran.afficherln("Vous devez positionner votre mot pour qu'il touche au moins une lettre deja sur le plateau ");
+				Ecran.afficherln(
+						"Vous devez positionner votre mot pour qu'il touche au moins une lettre deja sur le plateau ");
 				putWord(player);
 				return;
 			}
@@ -466,7 +467,7 @@ public class Game {
 		// Search in the rack
 		while (!isOn && i < 6) {
 			i++;
-			if(letters[i] != null) {
+			if (letters[i] != null) {
 				if (letters[i].getLetter() == letter)
 					isOn = true;
 			}
